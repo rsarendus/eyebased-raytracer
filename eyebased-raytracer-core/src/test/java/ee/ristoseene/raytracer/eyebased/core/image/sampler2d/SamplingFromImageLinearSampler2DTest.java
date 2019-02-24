@@ -1,0 +1,100 @@
+package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
+
+import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
+import ee.ristoseene.raytracer.eyebased.core.vecmath.VecMath;
+import ee.ristoseene.raytracer.eyebased.core.vecmath.Vector4;
+import ee.ristoseene.raytracer.eyebased.core.vecmath.vector4.MutableVector4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class SamplingFromImageLinearSampler2DTest extends SamplingFromImageTest {
+
+    private MutableVector4 rgba;
+
+    @BeforeEach
+    public void setUpFetchingVector() {
+        rgba = new MutableVector4(0.0, 0.0, 0.0, 1.0);
+    }
+
+
+    @Test
+    public void sampleFromCenterOfPixelForClampShouldReturnValueOfThatPixel() {
+        createClampingSampler().sample(rgba, 0.5, 0.5);
+        assertVectorEquals(DEFAULT_SOURCE_PIXEL_1_1, rgba);
+    }
+
+    @Test
+    public void sampleWithinLimitsForClampShouldReturnModulatedValueOfFourNearestPixels() {
+        createClampingSampler().sample(rgba, 0.45, 0.55);
+        assertVectorEquals(lerp(
+                lerp(DEFAULT_SOURCE_PIXEL_0_1, DEFAULT_SOURCE_PIXEL_1_1, 1.0 - 0.05 * 3),
+                lerp(DEFAULT_SOURCE_PIXEL_0_2, DEFAULT_SOURCE_PIXEL_1_2, 1.0 - 0.05 * 3),
+                0.05 * 3
+        ), rgba);
+    }
+
+    @Test
+    public void sampleZeroOrBelowZeroForClampShouldReturnValueOfZeroCoordinates() {
+        createClampingSampler().sample(rgba, 0.0, -0.9);
+        assertVectorEquals(DEFAULT_SOURCE_PIXEL_0_0, rgba);
+    }
+
+    @Test
+    public void sampleMaximumOrAboveMaximumForClampShouldReturnValueOfMaximumCoordinates() {
+        createClampingSampler().sample(rgba, 1.0, 1.9);
+        assertVectorEquals(DEFAULT_SOURCE_PIXEL_2_2, rgba);
+    }
+
+
+    @Test
+    public void sampleFromCenterOfPixelForRepeatShouldReturnValueOfThatPixel() {
+        createRepeatingSampler().sample(rgba, 0.5, 0.5);
+        assertVectorEquals(DEFAULT_SOURCE_PIXEL_1_1, rgba);
+    }
+
+    @Test
+    public void sampleWithinLimitsForRepeatShouldReturnModulatedValueOfFourNearestPixels() {
+        createRepeatingSampler().sample(rgba, 0.45, 0.55);
+        assertVectorEquals(lerp(
+                lerp(DEFAULT_SOURCE_PIXEL_0_1, DEFAULT_SOURCE_PIXEL_1_1, 1.0 - 0.05 * 3),
+                lerp(DEFAULT_SOURCE_PIXEL_0_2, DEFAULT_SOURCE_PIXEL_1_2, 1.0 - 0.05 * 3),
+                0.05 * 3
+        ), rgba);
+    }
+
+    @Test
+    public void sampleAroundZeroForRepeatShouldReturnModulatedValueOfZeroAndWrappedAroundMaximumCoordinates() {
+        createRepeatingSampler().sample(rgba, 0.05, -0.05);
+        assertVectorEquals(lerp(
+                lerp(DEFAULT_SOURCE_PIXEL_2_2, DEFAULT_SOURCE_PIXEL_0_2, 0.5 + 0.05 * 3),
+                lerp(DEFAULT_SOURCE_PIXEL_2_0, DEFAULT_SOURCE_PIXEL_0_0, 0.5 + 0.05 * 3),
+                0.5 - 0.05 * 3
+        ), rgba);
+    }
+
+    @Test
+    public void sampleAroundOneForRepeatShouldReturnModulatedValueOfMaximumAndWrappedAroundZeroCoordinates() {
+        createRepeatingSampler().sample(rgba, 0.95, 1.05);
+        assertVectorEquals(lerp(
+                lerp(DEFAULT_SOURCE_PIXEL_2_2, DEFAULT_SOURCE_PIXEL_0_2, 0.5 - 0.05 * 3),
+                lerp(DEFAULT_SOURCE_PIXEL_2_0, DEFAULT_SOURCE_PIXEL_0_0, 0.5 - 0.05 * 3),
+                0.5 + 0.05 * 3
+        ), rgba);
+    }
+
+
+    private LinearSampler2D createClampingSampler() {
+        return new LinearSampler2D(sourceImage3x3, SamplingWrapMode.CLAMP_TO_EDGE, SamplingWrapMode.CLAMP_TO_EDGE);
+    }
+
+    private LinearSampler2D createRepeatingSampler() {
+        return new LinearSampler2D(sourceImage3x3, SamplingWrapMode.REPEAT, SamplingWrapMode.REPEAT);
+    }
+
+    private Vector4.Accessible lerp(Vector4.Accessible vector1, Vector4.Accessible vector2, double ratio) {
+        MutableVector4 result = new MutableVector4();
+        VecMath.lerp(vector1, vector2, ratio, result);
+        return result;
+    }
+
+}
