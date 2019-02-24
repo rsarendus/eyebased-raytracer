@@ -6,11 +6,11 @@ This is just a hobby project - a re-write of an even older hobby project that I 
 
 Building the project requires at least JDK11.
 
-1. Fetch it from GitHub:
+1. Fetch it from GitHub:<br>
 `git clone https://github.com/rsarendus/eyebased-raytracer.git`
 
-2. Navigate into the project's root directory:
+2. Navigate into the project's root directory:<br>
 `cd eyebased-raytracer`
 
-3. Build:
+3. Build:<br>
 `mvn clean install`
