@@ -2,7 +2,7 @@ package ee.ristoseene.raytracer.eyebased.core.image;
 
 import ee.ristoseene.raytracer.eyebased.core.image.sampler2d.LinearSampler2D;
 import ee.ristoseene.raytracer.eyebased.core.image.sampler2d.NearestSampler2D;
-import ee.ristoseene.raytracer.eyebased.core.vecmath.vector4.MutableVector4;
+import ee.ristoseene.vecmath.vector4.MutableVector4;
 
 public final class PixelTransferUtils {
 
@@ -16,7 +16,7 @@ public final class PixelTransferUtils {
             throw new IllegalArgumentException("Source and destination image dimensions do not match");
         }
 
-        final MutableVector4 rgba = new MutableVector4(0.0, 0.0, 0.0, 1.0);
+        final MutableVector4 rgba = new MutableVector4();
 
         for (int y = 0; y < imageHeight; ++y) {
             for (int x = 0; x < imageWidth; ++x) {
@@ -30,14 +30,17 @@ public final class PixelTransferUtils {
         final int destinationWidth = destination.getWidth();
         final int destinationHeight = destination.getHeight();
 
+        final double inverseWidth = 1.0 / destinationWidth;
+        final double inverseHeight = 1.0 / destinationHeight;
+
         final Sampler2D sourceSampler = resolveMode.createSamplerFor(source);
-        final MutableVector4 rgba = new MutableVector4(0.0, 0.0, 0.0, 1.0);
+        final MutableVector4 rgba = new MutableVector4();
 
         for (int y = 0; y < destinationHeight; ++y) {
-            final double sourceY = (y + 0.5) / destinationHeight;
+            final double sourceY = (y + 0.5) * inverseHeight;
 
             for (int x = 0; x < destinationWidth; ++x) {
-                final double sourceX = (x + 0.5) / destinationWidth;
+                final double sourceX = (x + 0.5) * inverseWidth;
 
                 sourceSampler.sample(rgba, sourceX, sourceY);
                 destination.writePixel(rgba, x, y);

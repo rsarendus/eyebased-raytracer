@@ -1,6 +1,6 @@
 package ee.ristoseene.raytracer.eyebased.core.image;
 
-import ee.ristoseene.raytracer.eyebased.core.vecmath.Vector4;
+import ee.ristoseene.vecmath.Vector4;
 
 public class ArrayBackedImage2D implements Image2D.Readable, Image2D.Writable {
 
@@ -39,12 +39,14 @@ public class ArrayBackedImage2D implements Image2D.Readable, Image2D.Writable {
     }
 
     @Override
-    public void readPixel(Vector4.Mutable destinationRGBA, int x, int y) {
+    public void readPixel(Vector4.Consumer destinationRGBA, int x, int y) {
         final int baseIndex = channels * (width * y + x);
-        if (channels > 0) destinationRGBA.x(backingArray[baseIndex]);
-        if (channels > 1) destinationRGBA.y(backingArray[baseIndex + 1]);
-        if (channels > 2) destinationRGBA.z(backingArray[baseIndex + 2]);
-        if (channels > 3) destinationRGBA.w(backingArray[baseIndex + 3]);
+        destinationRGBA.xyzw(
+                (channels > 0) ? backingArray[baseIndex] : 0.0,
+                (channels > 1) ? backingArray[baseIndex + 1] : 0.0,
+                (channels > 2) ? backingArray[baseIndex + 2] : 0.0,
+                (channels > 3) ? backingArray[baseIndex + 3] : 1.0
+        );
     }
 
     @Override

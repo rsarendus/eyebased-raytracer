@@ -1,6 +1,6 @@
 package ee.ristoseene.raytracer.eyebased.core.image;
 
-import ee.ristoseene.raytracer.eyebased.core.vecmath.Vector4;
+import ee.ristoseene.vecmath.Vector4;
 
 public interface Image2D {
 
@@ -9,7 +9,7 @@ public interface Image2D {
 
     interface Readable extends Image2D {
 
-        void readPixel(Vector4.Mutable destinationRGBA, int x, int y);
+        void readPixel(Vector4.Consumer destinationRGBA, int x, int y);
 
     }
 

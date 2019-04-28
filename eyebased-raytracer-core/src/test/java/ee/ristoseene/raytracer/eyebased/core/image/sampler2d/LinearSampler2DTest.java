@@ -3,7 +3,7 @@ package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
 import ee.ristoseene.raytracer.eyebased.core.image.Image2D;
 import ee.ristoseene.raytracer.eyebased.core.image.ImmutableVector2i;
 import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
-import ee.ristoseene.raytracer.eyebased.core.vecmath.Vector4;
+import ee.ristoseene.vecmath.Vector4;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class LinearSampler2DTest {
     private Image2D.Readable imageMock;
 
     @Mock
-    private Vector4.Mutable rgba;
+    private Vector4.Consumer rgba;
 
     @BeforeEach
     public void setUpImageMock() {

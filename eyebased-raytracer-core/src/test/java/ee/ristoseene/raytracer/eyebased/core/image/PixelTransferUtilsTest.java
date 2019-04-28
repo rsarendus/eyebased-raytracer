@@ -1,7 +1,6 @@
 package ee.ristoseene.raytracer.eyebased.core.image;
 
-import ee.ristoseene.raytracer.eyebased.core.vecmath.Vector4;
-import ee.ristoseene.raytracer.eyebased.core.vecmath.vector4.MutableVector4;
+import ee.ristoseene.vecmath.Vector4;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,13 +45,13 @@ public class PixelTransferUtilsTest {
 
     private void mockPixelReads(Image2D.Readable image) {
         Mockito.doAnswer(invocationOnMock -> {
-                MutableVector4 rgba = invocationOnMock.getArgument(0);
+                Vector4.Consumer rgba = invocationOnMock.getArgument(0);
                 int x = invocationOnMock.getArgument(1);
                 int y = invocationOnMock.getArgument(2);
                 rgba.xyzw(x, y, x + y, x * y);
                 return null;
         }).when(image).readPixel(
-                Mockito.any(MutableVector4.class),
+                Mockito.any(Vector4.Consumer.class),
                 Mockito.anyInt(),
                 Mockito.anyInt()
         );
@@ -64,7 +63,7 @@ public class PixelTransferUtilsTest {
         ArgumentCaptor<Integer> yArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
 
         Mockito.verify(image, Mockito.times(imageWidth * imageHeight))
-                .readPixel(Mockito.any(Vector4.Mutable.class), xArgumentCaptor.capture(), yArgumentCaptor.capture());
+                .readPixel(Mockito.any(Vector4.Consumer.class), xArgumentCaptor.capture(), yArgumentCaptor.capture());
 
         return verifyAndConsolidateCapturedCoordinates(xArgumentCaptor, yArgumentCaptor, imageWidth, imageHeight);
     }
