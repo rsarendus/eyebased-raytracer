@@ -25,8 +25,7 @@ public final class ImmutableVector2i {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ImmutableVector2i that = (ImmutableVector2i) o;
-        return x == that.x &&
-                y == that.y;
+        return x == that.x && y == that.y;
     }
 
     @Override

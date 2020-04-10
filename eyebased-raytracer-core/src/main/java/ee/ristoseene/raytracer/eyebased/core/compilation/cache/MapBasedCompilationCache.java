@@ -11,17 +11,17 @@ public class MapBasedCompilationCache implements CompilationCache {
 
     private final Map<Compilable, CompiledObject> backingMap;
 
-    public MapBasedCompilationCache(Map<Compilable, CompiledObject> backingMap) {
-        this.backingMap = Objects.requireNonNull(backingMap, "Map cannot be null");
+    public MapBasedCompilationCache(final Map<Compilable, CompiledObject> backingMap) {
+        this.backingMap = Objects.requireNonNull(backingMap, "No backing map provided");
     }
 
     @Override
-    public void put(Compilable compilable, CompiledObject compilationResult) {
+    public void put(final Compilable compilable, final CompiledObject compilationResult) {
         backingMap.put(compilable, compilationResult);
     }
 
     @Override
-    public CompiledObject get(Compilable compilable) {
+    public CompiledObject get(final Compilable compilable) {
         return backingMap.get(compilable);
     }
 

@@ -4,34 +4,34 @@ import ee.ristoseene.raytracer.eyebased.core.image.Image2D;
 import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector4;
-import ee.ristoseene.vecmath.vector4.MutableVector4;
+import ee.ristoseene.vecmath.mutable.MutableVector4;
 
 public class LinearSampler2D extends AbstractSampler2D {
 
-    public LinearSampler2D(Image2D.Readable image, SamplingWrapMode wrapModeX, SamplingWrapMode wrapModeY) {
+    public LinearSampler2D(final Image2D.Readable image, final SamplingWrapMode wrapModeX, final SamplingWrapMode wrapModeY) {
         super(image, wrapModeX, wrapModeY);
     }
 
     @Override
-    public void sample(Vector4.Consumer destinationRGBA, double x, double y) {
-        double absoluteX = mapSampleCoordinateToAbsoluteCoordinate(x, imageWidth);
-        double absoluteY = mapSampleCoordinateToAbsoluteCoordinate(y, imageHeight);
+    public void sample(final Vector4.Consumer destinationRGBA, final double x, final double y) {
+        final double absoluteX = mapSampleCoordinateToAbsoluteCoordinate(x, imageWidth);
+        final double absoluteY = mapSampleCoordinateToAbsoluteCoordinate(y, imageHeight);
 
-        long truncatedX = truncateTowardsLower(absoluteX);
-        long truncatedY = truncateTowardsLower(absoluteY);
+        final long truncatedX = truncateTowardsLower(absoluteX);
+        final long truncatedY = truncateTowardsLower(absoluteY);
 
-        double ratioX2 = absoluteX - truncatedX;
-        double ratioY2 = absoluteY - truncatedY;
-        double ratioX1 = 1.0 - ratioX2;
-        double ratioY1 = 1.0 - ratioY2;
+        final double ratioX2 = absoluteX - truncatedX;
+        final double ratioY2 = absoluteY - truncatedY;
+        final double ratioX1 = 1.0 - ratioX2;
+        final double ratioY1 = 1.0 - ratioY2;
 
-        int wrappedX1 = wrapModeX.wrap(truncatedX, imageWidth);
-        int wrappedY1 = wrapModeY.wrap(truncatedY, imageHeight);
-        int wrappedX2 = wrapModeX.wrap(truncatedX + 1L, imageWidth);
-        int wrappedY2 = wrapModeY.wrap(truncatedY + 1L, imageHeight);
+        final int wrappedX1 = wrapModeX.wrap(truncatedX, imageWidth);
+        final int wrappedY1 = wrapModeY.wrap(truncatedY, imageHeight);
+        final int wrappedX2 = wrapModeX.wrap(truncatedX + 1L, imageWidth);
+        final int wrappedY2 = wrapModeY.wrap(truncatedY + 1L, imageHeight);
 
-        MutableVector4 fetcher = new MutableVector4();
-        MutableVector4 accumulator = new MutableVector4(0.0);
+        final MutableVector4 fetcher = new MutableVector4();
+        final MutableVector4 accumulator = new MutableVector4(0.0);
 
         image.readPixel(fetcher, wrappedX1, wrappedY1);
         VecMath.multiplyAdd(accumulator, fetcher, ratioX1 * ratioY1, accumulator);
@@ -48,11 +48,11 @@ public class LinearSampler2D extends AbstractSampler2D {
         accumulator.xyzwTo(destinationRGBA);
     }
 
-    private static double mapSampleCoordinateToAbsoluteCoordinate(double coordinate, int imageSize) {
+    private static double mapSampleCoordinateToAbsoluteCoordinate(final double coordinate, final int imageSize) {
         return coordinate * imageSize - 0.5;
     }
 
-    private static long truncateTowardsLower(double value) {
+    private static long truncateTowardsLower(final double value) {
         return (long) (value + (value < 0.0 ? -1.0 : 0.0));
     }
 

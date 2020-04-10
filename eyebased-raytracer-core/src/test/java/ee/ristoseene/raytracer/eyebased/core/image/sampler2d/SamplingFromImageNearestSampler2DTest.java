@@ -1,7 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
 
 import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
-import ee.ristoseene.vecmath.vector4.MutableVector4;
+import ee.ristoseene.vecmath.mutable.MutableVector4;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

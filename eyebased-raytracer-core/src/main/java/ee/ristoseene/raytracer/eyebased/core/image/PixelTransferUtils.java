@@ -2,13 +2,13 @@ package ee.ristoseene.raytracer.eyebased.core.image;
 
 import ee.ristoseene.raytracer.eyebased.core.image.sampler2d.LinearSampler2D;
 import ee.ristoseene.raytracer.eyebased.core.image.sampler2d.NearestSampler2D;
-import ee.ristoseene.vecmath.vector4.MutableVector4;
+import ee.ristoseene.vecmath.mutable.MutableVector4;
 
 public final class PixelTransferUtils {
 
     private PixelTransferUtils() {}
 
-    public static void copy(Image2D.Readable source, Image2D.Writable destination) {
+    public static void copy(final Image2D.Readable source, final Image2D.Writable destination) {
         final int imageWidth = destination.getWidth();
         final int imageHeight = destination.getHeight();
 
@@ -26,7 +26,7 @@ public final class PixelTransferUtils {
         }
     }
 
-    public static void blit(Image2D.Readable source, Image2D.Writable destination, ResolveMode resolveMode) {
+    public static void blit(final Image2D.Readable source, final Image2D.Writable destination, final ResolveMode resolveMode) {
         final int destinationWidth = destination.getWidth();
         final int destinationHeight = destination.getHeight();
 

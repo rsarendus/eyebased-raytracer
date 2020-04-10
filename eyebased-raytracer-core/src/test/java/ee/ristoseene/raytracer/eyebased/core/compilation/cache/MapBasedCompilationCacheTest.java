@@ -28,7 +28,7 @@ class MapBasedCompilationCacheTest {
     public void putShouldDelegateMethodCallToBackingMap() {
         new MapBasedCompilationCache(backingMap).put(mockCompilableObject, mockCompiledObject);
 
-        Mockito.verifyZeroInteractions(mockCompilableObject, mockCompiledObject);
+        Mockito.verifyNoInteractions(mockCompilableObject, mockCompiledObject);
         Mockito.verify(backingMap, Mockito.times(1)).put(mockCompilableObject, mockCompiledObject);
         Mockito.verifyNoMoreInteractions(backingMap);
     }
@@ -41,7 +41,7 @@ class MapBasedCompilationCacheTest {
 
         Assertions.assertSame(mockCompiledObject, returnedObject);
 
-        Mockito.verifyZeroInteractions(mockCompilableObject, mockCompiledObject);
+        Mockito.verifyNoInteractions(mockCompilableObject, mockCompiledObject);
         Mockito.verify(backingMap, Mockito.times(1)).get(mockCompilableObject);
         Mockito.verifyNoMoreInteractions(backingMap);
     }
@@ -54,7 +54,7 @@ class MapBasedCompilationCacheTest {
         );
 
         Assertions.assertEquals(
-                "Map cannot be null",
+                "No backing map provided",
                 exception.getMessage()
         );
     }

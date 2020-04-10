@@ -2,7 +2,7 @@ package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
 
 import ee.ristoseene.raytracer.eyebased.core.image.ArrayBackedImage2D;
 import ee.ristoseene.vecmath.Vector4;
-import ee.ristoseene.vecmath.vector4.ImmutableVector4;
+import ee.ristoseene.vecmath.immutable.ImmutableVector4;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -1,9 +1,9 @@
 package ee.ristoseene.raytracer.eyebased.core.compilation;
 
+import java.util.Optional;
+
 public interface Compilable {
 
-    CompiledObject compile(CompilationCache compilationCache);
-
-    CompiledObject compile();
+    CompiledObject compile(Optional<CompilationCache> compilationCache);
 
 }

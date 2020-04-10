@@ -89,7 +89,7 @@ public class NearestSampler2DTest {
 
     private void verifyReadFromCoordinates(int x, int y) {
         Mockito.verify(imageMock, Mockito.times(1)).readPixel(rgba, x, y);
-        Mockito.verifyZeroInteractions(rgba);
+        Mockito.verifyNoInteractions(rgba);
     }
 
 }

@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +27,7 @@ public class CompilationUtilsTest {
         Mockito.doReturn(cachedCompiledObject).when(compilationCache).get(mockCompilableObject);
 
         CompiledObject returnedObject = CompilationUtils.getCachedOrCompileAndCache(
-                compilationCache, mockCompilableObject, CompiledObject.class, compilationProducer
+                Optional.of(compilationCache), mockCompilableObject, CompiledObject.class, compilationProducer
         );
 
         Assertions.assertSame(cachedCompiledObject, returnedObject);
@@ -34,7 +35,7 @@ public class CompilationUtilsTest {
         Mockito.verify(compilationCache, Mockito.times(1)).get(mockCompilableObject);
         Mockito.verifyNoMoreInteractions(compilationCache);
 
-        Mockito.verifyZeroInteractions(mockCompilableObject, cachedCompiledObject, compilationProducer);
+        Mockito.verifyNoInteractions(mockCompilableObject, cachedCompiledObject, compilationProducer);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class CompilationUtilsTest {
         Mockito.doReturn(cachedCompiledObject).when(compilationCache).get(mockCompilableObject);
 
         CompiledObject returnedObject = CompilationUtils.getCachedOrCompileAndCache(
-                compilationCache, mockCompilableObject, CompiledObject.class, compilationProducer
+                Optional.of(compilationCache), mockCompilableObject, CompiledObject.class, compilationProducer
         );
 
         Assertions.assertSame(cachedCompiledObject, returnedObject);
@@ -52,7 +53,7 @@ public class CompilationUtilsTest {
         Mockito.verify(compilationCache, Mockito.times(1)).get(mockCompilableObject);
         Mockito.verifyNoMoreInteractions(compilationCache);
 
-        Mockito.verifyZeroInteractions(mockCompilableObject, cachedCompiledObject, compilationProducer);
+        Mockito.verifyNoInteractions(mockCompilableObject, cachedCompiledObject, compilationProducer);
     }
 
     @Test
@@ -62,7 +63,7 @@ public class CompilationUtilsTest {
         Mockito.doReturn(null).when(compilationCache).get(mockCompilableObject);
 
         CompiledObject returnedObject = CompilationUtils.getCachedOrCompileAndCache(
-                compilationCache, mockCompilableObject, CompiledObject.class, compilationProducer
+                Optional.of(compilationCache), mockCompilableObject, CompiledObject.class, compilationProducer
         );
 
         Assertions.assertSame(producedCompiledObject, returnedObject);
@@ -74,7 +75,7 @@ public class CompilationUtilsTest {
         Mockito.verify(compilationProducer, Mockito.times(1)).get();
         Mockito.verifyNoMoreInteractions(compilationProducer);
 
-        Mockito.verifyZeroInteractions(mockCompilableObject, producedCompiledObject);
+        Mockito.verifyNoInteractions(mockCompilableObject, producedCompiledObject);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class CompilationUtilsTest {
         Supplier<SubclassOfCompiledObject> compilationProducer = mockCompilationProducer(producedCompiledObject);
 
         SubclassOfCompiledObject returnedObject = CompilationUtils.getCachedOrCompileAndCache(
-                compilationCache, mockCompilableObject, SubclassOfCompiledObject.class, compilationProducer
+                Optional.of(compilationCache), mockCompilableObject, SubclassOfCompiledObject.class, compilationProducer
         );
 
         Assertions.assertSame(producedCompiledObject, returnedObject);
@@ -98,7 +99,24 @@ public class CompilationUtilsTest {
         Mockito.verify(compilationProducer, Mockito.times(1)).get();
         Mockito.verifyNoMoreInteractions(compilationProducer);
 
-        Mockito.verifyZeroInteractions(mockCompilableObject, cachedCompiledObject, producedCompiledObject);
+        Mockito.verifyNoInteractions(mockCompilableObject, cachedCompiledObject, producedCompiledObject);
+    }
+
+    @Test
+    public void getCachedOrCompileAndCacheShouldFetchNewObjectFromProducerWhenNoCacheProvided() {
+        CompiledObject producedCompiledObject = mockCompiledObject(CompiledObject.class);
+        Supplier<CompiledObject> compilationProducer = mockCompilationProducer(producedCompiledObject);
+
+        CompiledObject returnedObject = CompilationUtils.getCachedOrCompileAndCache(
+                Optional.empty(), mockCompilableObject, CompiledObject.class, compilationProducer
+        );
+
+        Assertions.assertSame(producedCompiledObject, returnedObject);
+
+        Mockito.verify(compilationProducer, Mockito.times(1)).get();
+        Mockito.verifyNoMoreInteractions(compilationProducer);
+
+        Mockito.verifyNoInteractions(compilationCache, mockCompilableObject, producedCompiledObject);
     }
 
 

@@ -1,10 +1,10 @@
 package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
 
+import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector4;
-import ee.ristoseene.vecmath.vector4.ImmutableVector4;
-import ee.ristoseene.vecmath.vector4.MutableVector4;
+import ee.ristoseene.vecmath.mutable.MutableVector4;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -93,7 +93,7 @@ public class SamplingFromImageLinearSampler2DTest extends SamplingFromImageTest 
     }
 
     private static Vector4.Accessible lerp(Vector4.Accessible vector1, Vector4.Accessible vector2, double ratio) {
-        return VecMath.lerp(vector1, vector2, ratio, ImmutableVector4::new);
+        return VecMath.lerp(vector1, vector2, ratio, Factories.FACTORY_CONST_VECTOR4_xyzw);
     }
 
 }

@@ -1,5 +1,6 @@
 package ee.ristoseene.raytracer.eyebased.core.compilation;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public final class CompilationUtils {
@@ -8,19 +9,24 @@ public final class CompilationUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends CompiledObject> T getCachedOrCompileAndCache(
-            CompilationCache compilationCache,
-            Compilable compilableObject,
-            Class<T> compiledObjectType,
-            Supplier<T> compilationProducer
+            final Optional<CompilationCache> compilationCache,
+            final Compilable compilableObject,
+            final Class<T> compiledObjectType,
+            final Supplier<T> compilationResultProducer
     ) {
-        CompiledObject compiledObject = compilationCache.get(compilableObject);
+        if (compilationCache.isPresent()) {
+            final CompiledObject compiledObject = compilationCache.get().get(compilableObject);
 
-        if (compilableObject != null && compiledObjectType.isInstance(compiledObject)) {
-            return (T) compiledObject;
+            if (compiledObjectType.isInstance(compiledObject)) {
+                return (T) compiledObject;
+            }
         }
 
-        T compilationResult = compilationProducer.get();
-        compilationCache.put(compilableObject, compilationResult);
+        final T compilationResult = compilationResultProducer.get();
+
+        if (compilationCache.isPresent()) {
+            compilationCache.get().put(compilableObject, compilationResult);
+        }
 
         return compilationResult;
     }

@@ -13,7 +13,7 @@ public abstract class AbstractSampler2D implements Sampler2D {
     protected final int imageWidth;
     protected final int imageHeight;
 
-    protected AbstractSampler2D(Image2D.Readable image, SamplingWrapMode wrapModeX, SamplingWrapMode wrapModeY) {
+    protected AbstractSampler2D(final Image2D.Readable image, final SamplingWrapMode wrapModeX, final SamplingWrapMode wrapModeY) {
         this.imageWidth = image.getWidth();
         this.imageHeight = image.getHeight();
 

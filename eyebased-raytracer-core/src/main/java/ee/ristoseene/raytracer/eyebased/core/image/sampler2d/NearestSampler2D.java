@@ -6,19 +6,19 @@ import ee.ristoseene.vecmath.Vector4;
 
 public class NearestSampler2D extends AbstractSampler2D {
 
-    public NearestSampler2D(Image2D.Readable image, SamplingWrapMode wrapModeX, SamplingWrapMode wrapModeY) {
+    public NearestSampler2D(final Image2D.Readable image, final SamplingWrapMode wrapModeX, final SamplingWrapMode wrapModeY) {
         super(image, wrapModeX, wrapModeY);
     }
 
     @Override
-    public void sample(Vector4.Consumer destinationRGBA, double x, double y) {
+    public void sample(final Vector4.Consumer destinationRGBA, final double x, final double y) {
         image.readPixel(destinationRGBA,
                 wrapModeX.wrap(mapSampleCoordinateToAbsoluteCoordinate(x, imageWidth), imageWidth),
                 wrapModeY.wrap(mapSampleCoordinateToAbsoluteCoordinate(y, imageHeight), imageHeight)
         );
     }
 
-    private static long mapSampleCoordinateToAbsoluteCoordinate(double coordinate, int imageSize) {
+    private static long mapSampleCoordinateToAbsoluteCoordinate(final double coordinate, final int imageSize) {
         return (long) (coordinate * imageSize + (coordinate < 0.0 ? -1.0 : 0.0));
     }
 
