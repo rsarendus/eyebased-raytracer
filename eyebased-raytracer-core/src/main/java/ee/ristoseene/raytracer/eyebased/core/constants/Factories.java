@@ -2,10 +2,12 @@ package ee.ristoseene.raytracer.eyebased.core.constants;
 
 import ee.ristoseene.vecmath.Matrix3x3;
 import ee.ristoseene.vecmath.Matrix4x4;
+import ee.ristoseene.vecmath.Quaternion;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.Vector4;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix3x3;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix4x4;
+import ee.ristoseene.vecmath.immutable.ImmutableQuaternion;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector4;
 
@@ -24,5 +26,7 @@ public interface Factories {
             new ImmutableMatrix4x4(Xx, Xy, Xz, 0.0, Yx, Yy, Yz, 0.0, Zx, Zy, Zz, 0.0, 0.0, 0.0, 0.0, 1.0);
 
     Matrix4x4.Factory<Matrix4x4.Accessible> FACTORY_CONST_MATRIX4x4_XYZTxyzw = ImmutableMatrix4x4::new;
+
+    Quaternion.Factory<Quaternion.Accessible> FACTORY_CONST_QUATERNION_xyzw = ImmutableQuaternion::new;
 
 }
