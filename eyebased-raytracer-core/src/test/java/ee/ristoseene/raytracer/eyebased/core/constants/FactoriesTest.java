@@ -2,10 +2,12 @@ package ee.ristoseene.raytracer.eyebased.core.constants;
 
 import ee.ristoseene.vecmath.Matrix3x3;
 import ee.ristoseene.vecmath.Matrix4x4;
+import ee.ristoseene.vecmath.Quaternion;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.Vector4;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix3x3;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix4x4;
+import ee.ristoseene.vecmath.immutable.ImmutableQuaternion;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector4;
 import org.junit.jupiter.api.Assertions;
@@ -89,6 +91,13 @@ class FactoriesTest implements Factories {
                 13.13, 14.14, 15.15, 16.16
         ), result, 0.0);
         Assertions.assertFalse(result instanceof Matrix4x4.Mutable);
+    }
+
+    @Test
+    public void constQuaternion_xyzwShouldCreateImmutableQuaternionWithSpecifiedComponents() {
+        Quaternion.Accessible result = FACTORY_CONST_QUATERNION_xyzw.create(1.1, 2.2, 3.3, 4.4);
+        assertEquals(new ImmutableQuaternion(1.1, 2.2, 3.3, 4.4), result, 0.0);
+        Assertions.assertFalse(result instanceof Quaternion.Mutable);
     }
 
 }

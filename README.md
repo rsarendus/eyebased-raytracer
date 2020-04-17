@@ -15,7 +15,7 @@ Building the project requires at least **JDK 11** and [Apache Maven](https://mav
 <br>`cd eyebased-raytracer`
 
 3. Build the project using Maven:
-   * Compile and package as a JAR into the project's `target` directories:
+   * Compile and package as JARs into the project's `target` directories:
    <br>`mvn clean package`
    * Or compile, package and install into your local repository:
    <br>`mvn clean install`
