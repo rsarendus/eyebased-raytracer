@@ -3,10 +3,10 @@ package ee.ristoseene.raytracer.eyebased.core.raytracing.ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.vecmath.Vector3;
 
-public final class DefaultRay implements Ray {
+public class DefaultRay implements Ray {
 
-    protected final Vector3.Accessible origin;
-    protected final Vector3.Accessible direction;
+    private final Vector3.Accessible origin;
+    private final Vector3.Accessible direction;
 
     public DefaultRay(final Ray ray) {
         this(ray.getOrigin(), ray.getDirection());

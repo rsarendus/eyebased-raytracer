@@ -10,7 +10,7 @@
         <version>0.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>eyebased-raytracer-core</artifactId>
+    <artifactId>eyebased-raytracer-projection</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -19,17 +19,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -37,6 +26,19 @@
         <dependency>
             <groupId>ee.ristoseene.vecmath</groupId>
             <artifactId>vecmath</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>eyebased-raytracer-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>eyebased-raytracer-core</artifactId>
+            <version>${project.parent.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
