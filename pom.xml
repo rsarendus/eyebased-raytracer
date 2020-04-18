@@ -20,6 +20,7 @@
     <modules>
         <module>eyebased-raytracer-core</module>
         <module>eyebased-raytracer-projection</module>
+        <module>eyebased-raytracer-rasterization</module>
     </modules>
 
     <build>
