@@ -1,7 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.projection.ray;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.DefaultRay;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.raytracer.eyebased.projection.CompiledRayProducer;
 import ee.ristoseene.raytracer.eyebased.projection.RayDirectionProducer;
 import ee.ristoseene.raytracer.eyebased.projection.RayOriginProducer;
@@ -20,7 +20,7 @@ public final class SimpleRayProducer implements CompiledRayProducer {
 
     @Override
     public Ray produceRay(final double x, final double y) {
-        return new DefaultRay(
+        return new SimpleRay(
                 originProducer.produceOrigin(x, y),
                 directionProducer.produceDirection(x, y)
         );

@@ -6,7 +6,7 @@ import ee.ristoseene.raytracer.eyebased.core.rasterization.RasterToViewMapper;
 import ee.ristoseene.raytracer.eyebased.core.rasterization.SampleProcessor;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayProducer;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.DefaultRay;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;
@@ -102,7 +102,7 @@ public abstract class AbstractPixelProcessorTest {
         Vector3.Accessible origin = new ImmutableVector3(h + v, h - v, v - h);
         Vector3.Accessible direction = new ImmutableVector3(v - h, h + v, h - v);
 
-        return new DefaultRay(origin, direction);
+        return new SimpleRay(origin, direction);
     }
 
 }

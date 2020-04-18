@@ -4,7 +4,7 @@ import ee.ristoseene.raytracer.eyebased.core.helpers.VecMathAssertions;
 import ee.ristoseene.raytracer.eyebased.core.rasterization.PixelProcessor;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.helpers.RayMatcher;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.DefaultRay;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.vecmath.Vector4;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector4;
@@ -18,7 +18,7 @@ public class SingleSamplePixelProcessorTest extends AbstractPixelProcessorTest {
     public void processPixelShouldInvokeSampleProcessingExactlyOnce() {
         Mockito.doReturn(3.7).when(horizontalRasterToViewMapper).map(Mockito.anyDouble());
         Mockito.doReturn(2.9).when(verticalRasterToViewMapper).map(Mockito.anyDouble());
-        Mockito.doReturn(new DefaultRay(new ImmutableVector3(1.1, 2.2, 3.3), new ImmutableVector3(4.4, 5.5, 6.6)))
+        Mockito.doReturn(new SimpleRay(new ImmutableVector3(1.1, 2.2, 3.3), new ImmutableVector3(4.4, 5.5, 6.6)))
                 .when(tracingRayProducer).produceRay(Mockito.anyDouble(), Mockito.anyDouble());
         Mockito.doReturn(new ImmutableVector4(1.4, 2.3, 3.2, 4.1))
                 .when(sampleProcessor).processSample(Mockito.any(Ray.class), Mockito.anyDouble());
