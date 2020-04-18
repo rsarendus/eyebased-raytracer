@@ -1,7 +1,7 @@
-package ee.ristoseene.raytracer.eyebased.core.image;
+package ee.ristoseene.raytracer.eyebased.image;
 
-import ee.ristoseene.raytracer.eyebased.core.image.sampler2d.LinearSampler2D;
-import ee.ristoseene.raytracer.eyebased.core.image.sampler2d.NearestSampler2D;
+import ee.ristoseene.raytracer.eyebased.image.sampler2d.LinearSampler2D;
+import ee.ristoseene.raytracer.eyebased.image.sampler2d.NearestSampler2D;
 import ee.ristoseene.vecmath.mutable.MutableVector4;
 
 public final class PixelTransferUtils {

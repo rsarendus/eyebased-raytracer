@@ -1,6 +1,7 @@
-package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
+package ee.ristoseene.raytracer.eyebased.image.sampler2d;
 
-import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
+import ee.ristoseene.raytracer.eyebased.core.helpers.VecMathAssertions;
+import ee.ristoseene.raytracer.eyebased.image.SamplingWrapMode;
 import ee.ristoseene.vecmath.mutable.MutableVector4;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,50 +19,50 @@ public class SamplingFromImageNearestSampler2DTest extends SamplingFromImageTest
     @Test
     public void sampleWithinLimitsForClampShouldReturnValueOfNearestPixel() {
         createClampingSampler().sample(rgba, 0.499, 0.501);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_1_1, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_1_1, rgba, DELTA);
     }
 
     @Test
     public void sampleZeroOrBelowForClampShouldReturnValueOfZeroCoordinates() {
         createClampingSampler().sample(rgba, 0.0, -0.9);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_0_0, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_0_0, rgba, DELTA);
     }
 
     @Test
     public void sampleMaximumOrAboveForClampShouldReturnValueOfMaximumCoordinates() {
         createClampingSampler().sample(rgba, 1.0, 1.9);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_2_2, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_2_2, rgba, DELTA);
     }
 
 
     @Test
     public void sampleWithinLimitsForRepeatShouldReturnValueOfNearestPixel() {
         createRepeatingSampler().sample(rgba, 0.499, 0.501);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_1_1, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_1_1, rgba, DELTA);
     }
 
     @Test
     public void sampleNearZeroForRepeatShouldReturnValueOfZeroCoordinates() {
         createRepeatingSampler().sample(rgba, 0.002, 0.001);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_0_0, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_0_0, rgba, DELTA);
     }
 
     @Test
     public void sampleBelowZeroForRepeatShouldReturnValueOfWrappedAroundCoordinates() {
         createRepeatingSampler().sample(rgba, -0.334, -0.001);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_1_2, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_1_2, rgba, DELTA);
     }
 
     @Test
     public void sampleNearOneForRepeatShouldReturnValueOfMaximumCoordinates() {
         createRepeatingSampler().sample(rgba, 0.998, 0.999);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_2_2, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_2_2, rgba, DELTA);
     }
 
     @Test
     public void sampleAboveOneForRepeatShouldReturnValueOfWrappedAroundCoordinates() {
         createRepeatingSampler().sample(rgba, 1.001, 1.334);
-        assertVectorEquals(DEFAULT_SOURCE_PIXEL_0_1, rgba);
+        VecMathAssertions.assertEquals(DEFAULT_SOURCE_PIXEL_0_1, rgba, DELTA);
     }
 
 

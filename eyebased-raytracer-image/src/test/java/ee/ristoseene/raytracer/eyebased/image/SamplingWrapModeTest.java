@@ -1,9 +1,10 @@
-package ee.ristoseene.raytracer.eyebased.core.image;
+package ee.ristoseene.raytracer.eyebased.image;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode.*;
+import static ee.ristoseene.raytracer.eyebased.image.SamplingWrapMode.CLAMP_TO_EDGE;
+import static ee.ristoseene.raytracer.eyebased.image.SamplingWrapMode.REPEAT;
 
 public class SamplingWrapModeTest {
 

@@ -1,5 +1,6 @@
-package ee.ristoseene.raytracer.eyebased.core.image;
+package ee.ristoseene.raytracer.eyebased.image.helpers;
 
+import ee.ristoseene.raytracer.eyebased.image.Image2D;
 import ee.ristoseene.vecmath.Vector4;
 
 public class ArrayBackedImage2D implements Image2D.Readable, Image2D.Writable {

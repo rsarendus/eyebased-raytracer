@@ -1,8 +1,8 @@
-package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
+package ee.ristoseene.raytracer.eyebased.image.sampler2d;
 
-import ee.ristoseene.raytracer.eyebased.core.image.Image2D;
-import ee.ristoseene.raytracer.eyebased.core.image.Sampler2D;
-import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
+import ee.ristoseene.raytracer.eyebased.image.Image2D;
+import ee.ristoseene.raytracer.eyebased.image.Sampler2D;
+import ee.ristoseene.raytracer.eyebased.image.SamplingWrapMode;
 
 public abstract class AbstractSampler2D implements Sampler2D {
 
@@ -20,7 +20,7 @@ public abstract class AbstractSampler2D implements Sampler2D {
         if (imageWidth < 1 || imageHeight < 1) {
             throw new IllegalArgumentException(String.format("Unsupported image size %s x %s", imageWidth, imageHeight));
         } else if (wrapModeX == null || wrapModeY == null) {
-            throw new NullPointerException("Wrap mode cannot be null");
+            throw new NullPointerException("Wrap mode not provided");
         }
 
         this.image = image;

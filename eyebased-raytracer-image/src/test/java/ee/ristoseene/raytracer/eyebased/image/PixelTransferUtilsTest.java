@@ -1,5 +1,6 @@
-package ee.ristoseene.raytracer.eyebased.core.image;
+package ee.ristoseene.raytracer.eyebased.image;
 
+import ee.ristoseene.raytracer.eyebased.image.helpers.ImmutableVector2i;
 import ee.ristoseene.vecmath.Vector4;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

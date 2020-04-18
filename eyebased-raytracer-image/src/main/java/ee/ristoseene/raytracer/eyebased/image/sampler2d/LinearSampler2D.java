@@ -1,7 +1,7 @@
-package ee.ristoseene.raytracer.eyebased.core.image.sampler2d;
+package ee.ristoseene.raytracer.eyebased.image.sampler2d;
 
-import ee.ristoseene.raytracer.eyebased.core.image.Image2D;
-import ee.ristoseene.raytracer.eyebased.core.image.SamplingWrapMode;
+import ee.ristoseene.raytracer.eyebased.image.Image2D;
+import ee.ristoseene.raytracer.eyebased.image.SamplingWrapMode;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector4;
 import ee.ristoseene.vecmath.mutable.MutableVector4;

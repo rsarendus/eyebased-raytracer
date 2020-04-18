@@ -1,4 +1,4 @@
-package ee.ristoseene.raytracer.eyebased.core.image;
+package ee.ristoseene.raytracer.eyebased.image;
 
 public enum SamplingWrapMode {
 
