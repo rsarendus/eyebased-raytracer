@@ -1,22 +1,22 @@
 package ee.ristoseene.raytracer.eyebased.rasterization.processors;
 
+import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValueAccumulator;
 import ee.ristoseene.raytracer.eyebased.rasterization.PixelLocation;
 import ee.ristoseene.raytracer.eyebased.rasterization.PixelProcessor;
+import ee.ristoseene.raytracer.eyebased.rasterization.PixelValue;
 import ee.ristoseene.raytracer.eyebased.rasterization.SampleProcessor;
-import ee.ristoseene.vecmath.VecMath;
-import ee.ristoseene.vecmath.Vector4;
-import ee.ristoseene.vecmath.mutable.MutableVector4;
 
-public class UniformGridMultisamplePixelProcessor extends AbstractPixelProcessor implements PixelProcessor {
+public class UniformGridMultisamplingPixelProcessor extends MultisamplingPixelProcessor implements PixelProcessor {
 
     private final int samplesX;
     private final int samplesY;
+    private final int sampleCount;
 
     private final double sampleWidth;
     private final double sampleHeight;
     private final double multiplier;
 
-    public UniformGridMultisamplePixelProcessor(final Configuration configuration, final int samplesX, final int samplesY) {
+    public UniformGridMultisamplingPixelProcessor(final Configuration configuration, final int samplesX, final int samplesY) {
         super(configuration);
 
         if (samplesX < 1 || samplesY < 1) {
@@ -29,12 +29,13 @@ public class UniformGridMultisamplePixelProcessor extends AbstractPixelProcessor
         sampleWidth = 1.0 / samplesX;
         sampleHeight = 1.0 / samplesY;
 
-        multiplier = 1.0 / (samplesX * samplesY);
+        sampleCount = samplesX * samplesY;
+        multiplier = 1.0 / sampleCount;
     }
 
     @Override
-    public Vector4.Accessible processPixel(final PixelLocation pixelLocation, final SampleProcessor sampleProcessor) {
-        final Vector4.AccessibleAndMutable accumulator = new MutableVector4(0.0);
+    public PixelValue processPixel(final PixelLocation pixelLocation, final SampleProcessor sampleProcessor) {
+        final SampleValueAccumulator accumulator = sampleValueAccumulatorFactory.create();
 
         final double pixelX = (double) pixelLocation.getX();
         final double pixelY = (double) pixelLocation.getY();
@@ -45,13 +46,14 @@ public class UniformGridMultisamplePixelProcessor extends AbstractPixelProcessor
             for (int sampleX = 0; sampleX < samplesX; ++sampleX) {
                 final double x = horizontalRasterToViewMapper.map(pixelX + (0.5 + sampleX) * sampleWidth);
 
-                final Vector4.Accessible sampleValue = sampleProcessor.processSample(rayProducer.produceRay(x, y), multiplier);
-
-                VecMath.multiplyAdd(accumulator, sampleValue, multiplier, accumulator);
+                accumulator.accumulate(
+                        sampleProcessor.processSample(rayProducer.produceRay(x, y), multiplier),
+                        multiplier
+                );
             }
         }
 
-        return accumulator;
+        return new PixelValue(pixelLocation, accumulator.getValue(), sampleCount);
     }
 
     public double getSampleCountX() {

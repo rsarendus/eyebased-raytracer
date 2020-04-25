@@ -1,11 +1,11 @@
 package ee.ristoseene.raytracer.eyebased.rasterization;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
-import ee.ristoseene.vecmath.Vector4;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 
 @FunctionalInterface
 public interface SampleProcessor {
 
-    Vector4.Accessible processSample(Ray tracingRay, double sampleWeight);
+    SampleValue processSample(Ray tracingRay, double sampleWeight);
 
 }

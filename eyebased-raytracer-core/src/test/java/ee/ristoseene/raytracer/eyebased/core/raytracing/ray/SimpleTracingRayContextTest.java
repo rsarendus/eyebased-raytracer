@@ -6,6 +6,7 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SimpleTracingRayContextTest {
@@ -19,6 +20,8 @@ public class SimpleTracingRayContextTest {
 
         TracingRayContext tracingRayContext = new SimpleTracingRayContext(originalRay);
 
+        Assertions.assertNotNull(tracingRayContext.getTracingRay());
+        Assertions.assertNotNull(tracingRayContext.getInverseRayDirection());
         VecMathAssertions.assertEquals(originalRay.getOrigin(), tracingRayContext.getTracingRay().getOrigin(), 0.0);
         VecMathAssertions.assertEquals(originalRay.getDirection(), tracingRayContext.getTracingRay().getDirection(), 0.0);
         VecMathAssertions.assertEquals(
