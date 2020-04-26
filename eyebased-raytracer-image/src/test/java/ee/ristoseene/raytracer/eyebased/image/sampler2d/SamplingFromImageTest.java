@@ -27,17 +27,17 @@ abstract class SamplingFromImageTest {
     public void setUpSourceImage() {
         sourceImage3x3 = new ArrayBackedImage2D(3, 3, 4);
 
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_0_0, 0, 0);
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_0_1, 0, 1);
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_0_2, 0, 2);
+        sourceImage3x3.writePixel(0, 0, DEFAULT_SOURCE_PIXEL_0_0);
+        sourceImage3x3.writePixel(0, 1, DEFAULT_SOURCE_PIXEL_0_1);
+        sourceImage3x3.writePixel(0, 2, DEFAULT_SOURCE_PIXEL_0_2);
 
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_1_0, 1, 0);
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_1_1, 1, 1);
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_1_2, 1, 2);
+        sourceImage3x3.writePixel(1, 0, DEFAULT_SOURCE_PIXEL_1_0);
+        sourceImage3x3.writePixel(1, 1, DEFAULT_SOURCE_PIXEL_1_1);
+        sourceImage3x3.writePixel(1, 2, DEFAULT_SOURCE_PIXEL_1_2);
 
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_2_0, 2, 0);
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_2_1, 2, 1);
-        sourceImage3x3.writePixel(DEFAULT_SOURCE_PIXEL_2_2, 2, 2);
+        sourceImage3x3.writePixel(2, 0, DEFAULT_SOURCE_PIXEL_2_0);
+        sourceImage3x3.writePixel(2, 1, DEFAULT_SOURCE_PIXEL_2_1);
+        sourceImage3x3.writePixel(2, 2, DEFAULT_SOURCE_PIXEL_2_2);
     }
 
 }

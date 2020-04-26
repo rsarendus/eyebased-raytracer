@@ -21,7 +21,7 @@ public final class PixelTransferUtils {
         for (int y = 0; y < imageHeight; ++y) {
             for (int x = 0; x < imageWidth; ++x) {
                 source.readPixel(rgba, x, y);
-                destination.writePixel(rgba, x, y);
+                destination.writePixel(x, y, rgba);
             }
         }
     }
@@ -43,7 +43,7 @@ public final class PixelTransferUtils {
                 final double sourceX = (x + 0.5) * inverseWidth;
 
                 sourceSampler.sample(rgba, sourceX, sourceY);
-                destination.writePixel(rgba, x, y);
+                destination.writePixel(x, y, rgba);
             }
         }
     }

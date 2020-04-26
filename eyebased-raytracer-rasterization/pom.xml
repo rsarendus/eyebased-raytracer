@@ -32,6 +32,11 @@
             <artifactId>eyebased-raytracer-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>eyebased-raytracer-image</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

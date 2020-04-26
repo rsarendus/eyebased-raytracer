@@ -74,7 +74,7 @@ public class PixelTransferUtilsTest {
         ArgumentCaptor<Integer> yArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
 
         Mockito.verify(image, Mockito.times(imageWidth * imageHeight))
-                .writePixel(Mockito.any(Vector4.Accessible.class), xArgumentCaptor.capture(), yArgumentCaptor.capture());
+                .writePixel(xArgumentCaptor.capture(), yArgumentCaptor.capture(), Mockito.any(Vector4.Accessible.class));
 
         return verifyAndConsolidateCapturedCoordinates(xArgumentCaptor, yArgumentCaptor, imageWidth, imageHeight);
     }
