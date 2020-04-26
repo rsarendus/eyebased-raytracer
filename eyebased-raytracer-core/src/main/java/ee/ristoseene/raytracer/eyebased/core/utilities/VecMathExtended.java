@@ -153,6 +153,36 @@ public final class VecMathExtended {
         );
     }
 
+    public static <R> R normalize(final double x, final double y, final Vector2.Factory<R> resultFactory) {
+        double length = Math.sqrt(x * x + y * y);
+        double inverseLength = 1.0 / (length > 0.0 ? length : 1.0);
+        return resultFactory.create(
+                x * inverseLength,
+                y * inverseLength
+        );
+    }
+
+    public static <R> R normalize(final double x, final double y, final double z, final Vector3.Factory<R> resultFactory) {
+        double length = Math.sqrt(x * x + y * y + z * z);
+        double inverseLength = 1.0 / (length > 0.0 ? length : 1.0);
+        return resultFactory.create(
+                x * inverseLength,
+                y * inverseLength,
+                z * inverseLength
+        );
+    }
+
+    public static <R> R normalize(final double x, final double y, final double z, final double w, final Vector4.Factory<R> resultFactory) {
+        double length = Math.sqrt(x * x + y * y + z * z + w * w);
+        double inverseLength = 1.0 / (length > 0.0 ? length : 1.0);
+        return resultFactory.create(
+                x * inverseLength,
+                y * inverseLength,
+                z * inverseLength,
+                w * inverseLength
+        );
+    }
+
     public static boolean equal(final Vector2.Accessible vector1, final Vector2.Accessible vector2) {
         if (vector1.x() != vector2.x()) return false;
         if (vector1.y() != vector2.y()) return false;

@@ -45,7 +45,7 @@ public class QuaternionAndScaleAndPositionTransformTest extends AbstractScalingP
     @Test
     public void compileShouldReturnTransformWithEquivalentRotationComponentIfOnlyQuaternionSet() {
         Quaternion.Accessible quaternion = VecMath.toRotation(
-                VecMath.normalize(new ImmutableVector3(1.0, 2.0, 3.0), Factories.FACTORY_CONST_VECTOR3_xyz),
+                Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(1.0, 2.0, 3.0),
                 0.73, Factories.FACTORY_CONST_QUATERNION_xyzw
         );
         QuaternionAndScaleAndPositionTransform transform = createDefaultInstance()
@@ -62,7 +62,7 @@ public class QuaternionAndScaleAndPositionTransformTest extends AbstractScalingP
     @Test
     public void compileShouldReturnMultiplicationResultOfParentAndTransformationMatrixWithCorrectQuaternionAndScaleAndPositionComponents() {
         Quaternion.Accessible quaternion = VecMath.toRotation(
-                VecMath.normalize(new ImmutableVector3(1.0, 2.0, 3.0), Factories.FACTORY_CONST_VECTOR3_xyz),
+                Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(1.0, 2.0, 3.0),
                 0.73, Factories.FACTORY_CONST_QUATERNION_xyzw
         );
         Vector3.Accessible scale = new ImmutableVector3(1.3, -2.2, 3.1);

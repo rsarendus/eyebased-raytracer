@@ -6,7 +6,6 @@ import ee.ristoseene.raytracer.eyebased.projection.RayDirectionProducer;
 import ee.ristoseene.raytracer.eyebased.projection.RayOriginProducer;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
-import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +27,7 @@ public class DirectionallyOffsetRayOriginProducerTest {
     @ParameterizedTest
     @ValueSource(doubles = {-1.0, -0.1, 0.0, 0.1, 1.0, 8.8})
     public void produceOriginShouldReturnDirectionallyOffsetPosition(final double offset) {
-        Vector3.Accessible direction = VecMath.normalize(new ImmutableVector3(1.0, 2.0, 3.0), Factories.FACTORY_CONST_VECTOR3_xyz);
+        Vector3.Accessible direction = Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(1.0, 2.0, 3.0);
         RayDirectionProducer directionResolver = Mockito.mock(RayDirectionProducer.class);
         Mockito.doReturn(direction).when(directionResolver).produceDirection(Mockito.anyDouble(), Mockito.anyDouble());
         RayOriginProducer originProducer = new DirectionallyOffsetRayOriginProducer(directionResolver, offset);

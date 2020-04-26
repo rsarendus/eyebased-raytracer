@@ -5,7 +5,6 @@ import ee.ristoseene.raytracer.eyebased.core.helpers.VecMathAssertions;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.vecmath.VecMath;
-import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +13,8 @@ public class SimpleTracingRayContextTest {
     @Test
     public void tracingRayContextFromRayShouldHaveTheSameRayAndInverseOfItsDirection() {
         Ray originalRay = new SimpleRay(
-                new ImmutableVector3(1.3, -2.2, 3.1),
-                VecMath.normalize(new ImmutableVector3(-3.1, 2.2, -1.3), Factories.FACTORY_CONST_VECTOR3_xyz)
+                Factories.FACTORY_CONST_VECTOR3_xyz.create(1.3, -2.2, 3.1),
+                Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(-3.1, 2.2, -1.3)
         );
 
         TracingRayContext tracingRayContext = new SimpleTracingRayContext(originalRay);

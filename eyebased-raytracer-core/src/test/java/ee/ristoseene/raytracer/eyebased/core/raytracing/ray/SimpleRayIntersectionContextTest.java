@@ -4,8 +4,6 @@ import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.helpers.VecMathAssertions;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
-import ee.ristoseene.vecmath.VecMath;
-import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +12,8 @@ public class SimpleRayIntersectionContextTest {
     @Test
     public void rayIntersectionContextFromRayAndDistanceShouldHaveTheSameRayAndDistanceAndCorrectIntersectionPoint() {
         Ray originalRay = new SimpleRay(
-                new ImmutableVector3(1.3, -2.2, 3.1),
-                VecMath.normalize(new ImmutableVector3(-3.1, 2.2, -1.3), Factories.FACTORY_CONST_VECTOR3_xyz)
+                Factories.FACTORY_CONST_VECTOR3_xyz.create(1.3, -2.2, 3.1),
+                Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(-3.1, 2.2, -1.3)
         );
 
         RayIntersectionContext rayIntersectionContext = new SimpleRayIntersectionContext(originalRay, 7.35);

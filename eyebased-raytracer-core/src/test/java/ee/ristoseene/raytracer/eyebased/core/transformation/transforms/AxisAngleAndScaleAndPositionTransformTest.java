@@ -81,7 +81,7 @@ public class AxisAngleAndScaleAndPositionTransformTest extends AbstractScalingPo
 
     @Test
     public void compileShouldReturnTransformWithEquivalentRotationComponentIfOnlyAxisAndAngleSet() {
-        Vector3.Accessible axis = VecMath.normalize(new ImmutableVector3(1.0, 2.0, 3.0), Factories.FACTORY_CONST_VECTOR3_xyz);
+        Vector3.Accessible axis = Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(1.0, 2.0, 3.0);
         AxisAngleAndScaleAndPositionTransform transform = createDefaultInstance()
                 .withAxisAngle(axis, 0.73);
 
@@ -95,7 +95,7 @@ public class AxisAngleAndScaleAndPositionTransformTest extends AbstractScalingPo
 
     @Test
     public void compileShouldReturnMultiplicationResultOfParentAndTransformationMatrixWithCorrectQuaternionAndScaleAndPositionComponents() {
-        Vector3.Accessible axis = VecMath.normalize(new ImmutableVector3(1.0, 2.0, 3.0), Factories.FACTORY_CONST_VECTOR3_xyz);
+        Vector3.Accessible axis = Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(1.0, 2.0, 3.0);
         Vector3.Accessible scale = new ImmutableVector3(1.3, -2.2, 3.1);
         Vector3.Accessible position = new ImmutableVector3(-3.1, 2.2, -1.3);
         Matrix3x3.Accessible rotation = VecMath.toRotation(axis, 0.73, Factories.FACTORY_CONST_MATRIX3x3_XYZxyz);
