@@ -15,15 +15,17 @@ import ee.ristoseene.vecmath.immutable.ImmutableVector4;
 public interface Factories {
 
     Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_xyz = ImmutableVector3::new;
-    Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_NORMALIZED_xyz = (x, y, z) -> VecMathExtended
-            .normalize(x, y, z, FACTORY_CONST_VECTOR3_xyz);
-
-    Vector3.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyz0 = (x, y, z) -> new ImmutableVector4(x, y, z, 0.0);
-    Vector3.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyz1 = (x, y, z) -> new ImmutableVector4(x, y, z, 1.0);
+    Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_NEGATED_xyz = (x, y, z) -> FACTORY_CONST_VECTOR3_xyz.create(-x, -y, -z);
+    Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_NORMALIZED_xyz = (x, y, z) -> VecMathExtended.normalize(x, y, z, FACTORY_CONST_VECTOR3_xyz);
+    Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_NORMALIZED_NEGATED_xyz = (x, y, z) -> FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(-x, -y, -z);
 
     Vector4.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyzw = ImmutableVector4::new;
-    Vector4.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_NORMALIZED_xyzw = (x, y, z, w) -> VecMathExtended
-            .normalize(x, y, z, w, FACTORY_CONST_VECTOR4_xyzw);
+    Vector4.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_NEGATED_xyzw = (x, y, z, w) -> FACTORY_CONST_VECTOR4_xyzw.create(-x, -y, -z, -w);
+    Vector4.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_NORMALIZED_xyzw = (x, y, z, w) -> VecMathExtended.normalize(x, y, z, w, FACTORY_CONST_VECTOR4_xyzw);
+    Vector4.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_NORMALIZED_NEGATED_xyzw = (x, y, z, w) -> FACTORY_CONST_VECTOR4_NORMALIZED_xyzw.create(-x, -y, -z, -w);
+
+    Vector3.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyz0 = (x, y, z) -> FACTORY_CONST_VECTOR4_xyzw.create(x, y, z, 0.0);
+    Vector3.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyz1 = (x, y, z) -> FACTORY_CONST_VECTOR4_xyzw.create(x, y, z, 1.0);
 
     Matrix3x3.Factory<Matrix3x3.Accessible> FACTORY_CONST_MATRIX3x3_XYZxyz = ImmutableMatrix3x3::new;
 

@@ -4,11 +4,13 @@ import ee.ristoseene.vecmath.Vector3;
 import org.mockito.ArgumentMatcher;
 import org.mockito.internal.matchers.EqualsWithDelta;
 
-public class Vector3Matcher implements ArgumentMatcher<Vector3.Accessible> {
+import java.util.Objects;
+
+public class Vector3Matcher<V extends Vector3.Accessible> implements ArgumentMatcher<V> {
 
     private final EqualsWithDelta x, y, z;
 
-    public Vector3Matcher(final Vector3.Accessible vector, final double delta) {
+    public Vector3Matcher(final V vector, final double delta) {
         this(vector.x(), vector.y(), vector.z(), delta);
     }
 
@@ -17,13 +19,13 @@ public class Vector3Matcher implements ArgumentMatcher<Vector3.Accessible> {
     }
 
     public Vector3Matcher(final EqualsWithDelta x, final EqualsWithDelta y, final EqualsWithDelta z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.x = Objects.requireNonNull(x);
+        this.y = Objects.requireNonNull(y);
+        this.z = Objects.requireNonNull(z);
     }
 
     @Override
-    public boolean matches(final Vector3.Accessible vector) {
+    public boolean matches(final V vector) {
         return vector != null
                 && x.matches(vector.x())
                 && y.matches(vector.y())

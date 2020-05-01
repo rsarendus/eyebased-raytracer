@@ -8,17 +8,17 @@ import java.util.Objects;
 
 public class RayMatcher implements ArgumentMatcher<Ray> {
 
-    private final Vector3Matcher origin, direction;
+    private final Vector3Matcher<Vector3.Accessible> origin, direction;
 
     public RayMatcher(final Ray ray, final double delta) {
         this(ray.getOrigin(), ray.getDirection(), delta);
     }
 
     public RayMatcher(final Vector3.Accessible origin, final Vector3.Accessible direction, final double delta) {
-        this(new Vector3Matcher(origin, delta), new Vector3Matcher(direction, delta));
+        this(new Vector3Matcher<>(origin, delta), new Vector3Matcher<>(direction, delta));
     }
 
-    public RayMatcher(final Vector3Matcher origin, final Vector3Matcher direction) {
+    public RayMatcher(final Vector3Matcher<Vector3.Accessible> origin, final Vector3Matcher<Vector3.Accessible> direction) {
         this.origin = Objects.requireNonNull(origin);
         this.direction = Objects.requireNonNull(direction);
     }

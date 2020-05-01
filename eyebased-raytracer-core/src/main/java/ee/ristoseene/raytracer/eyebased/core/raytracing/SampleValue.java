@@ -19,8 +19,8 @@ public interface SampleValue {
         return Double.NaN;
     }
 
-    default <T> T getAttributeValue(final Attribute<T> attribute) {
-        return attribute.getDefaultValue();
+    default <T> T getAttributeValue(final TypedAttribute<T> key) {
+        return key.getDefaultValue();
     }
 
     SampleValue multiplied(double red, double green, double blue, double alpha);
@@ -39,13 +39,6 @@ public interface SampleValue {
 
     default SampleValue multiplied(final double alpha) {
         return multiplied(1.0, 1.0, 1.0, alpha);
-    }
-
-    interface Attribute<T> {
-
-        Class<T> getValueType();
-        T getDefaultValue();
-
     }
 
 }

@@ -1,21 +1,22 @@
 package ee.ristoseene.raytracer.eyebased.core.raytracing;
 
+import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
 import ee.ristoseene.vecmath.Vector3;
 
 public interface GeometryContext {
 
-    Vector3.Accessible getPosition();
-    Vector3.Accessible getSurfaceNormal();
+    GeometryContext NO_OP_INSTANCE = new GeometryContext() {};
 
-    default <T> T getAttributeValue(final Attribute<T> attribute) {
-        return attribute.getDefaultValue();
+    default Vector3.Accessible getPosition() {
+        return Vectors.VECTOR3_NaN_NaN_NaN;
     }
 
-    interface Attribute<T> {
+    default Vector3.Accessible getSurfaceNormal() {
+        return Vectors.VECTOR3_ZERO_ZERO_ZERO;
+    }
 
-        Class<T> getValueType();
-        T getDefaultValue();
-
+    default <T> T getAttributeValue(final TypedAttribute<T> key) {
+        return key.getDefaultValue();
     }
 
 }

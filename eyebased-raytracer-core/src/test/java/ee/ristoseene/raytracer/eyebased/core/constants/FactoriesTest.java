@@ -3,6 +3,7 @@ package ee.ristoseene.raytracer.eyebased.core.constants;
 import ee.ristoseene.vecmath.Matrix3x3;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.Quaternion;
+import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.Vector4;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix3x3;
@@ -25,6 +26,55 @@ class FactoriesTest implements Factories {
     }
 
     @Test
+    public void constVector3xyzNegatedShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector3.Accessible result = FACTORY_CONST_VECTOR3_NEGATED_xyz.create(1.1, 2.2, 3.3);
+        assertEquals(new ImmutableVector3(-1.1, -2.2, -3.3), result, 0.0);
+        Assertions.assertFalse(result instanceof Vector3.Mutable);
+    }
+
+    @Test
+    public void constVector3xyzNormalizedShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector3.Accessible result = FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(1.1, 2.2, 3.3);
+        assertEquals(VecMath.normalize(new ImmutableVector3(1.1, 2.2, 3.3), ImmutableVector3::new), result, 0.000001);
+        Assertions.assertFalse(result instanceof Vector3.Mutable);
+    }
+
+    @Test
+    public void constVector3xyzNormalizedNegatedShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector3.Accessible result = FACTORY_CONST_VECTOR3_NORMALIZED_NEGATED_xyz.create(1.1, 2.2, 3.3);
+        assertEquals(VecMath.normalize(new ImmutableVector3(-1.1, -2.2, -3.3), ImmutableVector3::new), result, 0.000001);
+        Assertions.assertFalse(result instanceof Vector3.Mutable);
+    }
+
+    @Test
+    public void constVector4xyzwShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector4.Accessible result = FACTORY_CONST_VECTOR4_xyzw.create(1.1, 2.2, 3.3, 4.4);
+        assertEquals(new ImmutableVector4(1.1, 2.2, 3.3, 4.4), result, 0.0);
+        Assertions.assertFalse(result instanceof Vector4.Mutable);
+    }
+
+    @Test
+    public void constVector4xyzwNegatedShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector4.Accessible result = FACTORY_CONST_VECTOR4_NEGATED_xyzw.create(1.1, 2.2, 3.3, 4.4);
+        assertEquals(new ImmutableVector4(-1.1, -2.2, -3.3, -4.4), result, 0.0);
+        Assertions.assertFalse(result instanceof Vector4.Mutable);
+    }
+
+    @Test
+    public void constVector4xyzwNormalizedShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector4.Accessible result = FACTORY_CONST_VECTOR4_NORMALIZED_xyzw.create(1.1, 2.2, 3.3, 4.4);
+        assertEquals(VecMath.normalize(new ImmutableVector4(1.1, 2.2, 3.3, 4.4), ImmutableVector4::new), result, 0.000001);
+        Assertions.assertFalse(result instanceof Vector4.Mutable);
+    }
+
+    @Test
+    public void constVector4xyzwNormalizedNegatedShouldCreateImmutableVectorWithSpecifiedComponents() {
+        Vector4.Accessible result = FACTORY_CONST_VECTOR4_NORMALIZED_NEGATED_xyzw.create(1.1, 2.2, 3.3, 4.4);
+        assertEquals(VecMath.normalize(new ImmutableVector4(-1.1, -2.2, -3.3, -4.4), ImmutableVector4::new), result, 0.000001);
+        Assertions.assertFalse(result instanceof Vector4.Mutable);
+    }
+
+    @Test
     public void constVector4xyz0ShouldCreateImmutableVectorWithSpecifiedComponentsAndZeroAsLastComponent() {
         Vector4.Accessible result = FACTORY_CONST_VECTOR4_xyz0.create(1.1, 2.2, 3.3);
         assertEquals(new ImmutableVector4(1.1, 2.2, 3.3, 0.0), result, 0.0);
@@ -35,13 +85,6 @@ class FactoriesTest implements Factories {
     public void constVector4xyz0ShouldCreateImmutableVectorWithSpecifiedComponentsAndOneAsLastComponent() {
         Vector4.Accessible result = FACTORY_CONST_VECTOR4_xyz1.create(1.1, 2.2, 3.3);
         assertEquals(new ImmutableVector4(1.1, 2.2, 3.3, 1.0), result, 0.0);
-        Assertions.assertFalse(result instanceof Vector4.Mutable);
-    }
-
-    @Test
-    public void constVector4xyzwShouldCreateImmutableVectorWithSpecifiedComponents() {
-        Vector4.Accessible result = FACTORY_CONST_VECTOR4_xyzw.create(1.1, 2.2, 3.3, 4.4);
-        assertEquals(new ImmutableVector4(1.1, 2.2, 3.3, 4.4), result, 0.0);
         Assertions.assertFalse(result instanceof Vector4.Mutable);
     }
 

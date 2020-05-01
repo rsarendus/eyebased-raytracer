@@ -5,15 +5,8 @@ public interface ShadingContext {
     GeometryContext getGeometryContext();
     RayIntersectionContext getRayIntersectionContext();
 
-    default <T> T getAttributeValue(final Attribute<T> attribute) {
-        return attribute.getDefaultValue();
-    }
-
-    interface Attribute<T> {
-
-        Class<T> getValueType();
-        T getDefaultValue();
-
+    default <T> T getAttributeValue(final TypedAttribute<T> key) {
+        return key.getDefaultValue();
     }
 
 }

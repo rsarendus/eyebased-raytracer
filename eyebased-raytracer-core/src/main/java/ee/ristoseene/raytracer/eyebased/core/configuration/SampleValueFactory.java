@@ -2,6 +2,7 @@ package ee.ristoseene.raytracer.eyebased.core.configuration;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.vecmath.Vector3;
 
 @FunctionalInterface
@@ -23,7 +24,7 @@ public interface SampleValueFactory {
 
     SampleValueFactory NO_OP_INSTANCE = (context, r, g, b, a) -> SampleValue.NO_OP_INSTANCE;
 
-    ShadingContext.Attribute<SampleValueFactory> KEY = new ShadingContext.Attribute<>() {
+    TypedAttribute<SampleValueFactory> KEY = new TypedAttribute<>() {
 
         @Override
         public Class<SampleValueFactory> getValueType() {
