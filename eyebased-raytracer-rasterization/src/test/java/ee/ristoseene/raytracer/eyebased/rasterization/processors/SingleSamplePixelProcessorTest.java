@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
 
-public class SingleSamplePixelProcessorTest extends BaselinePixelProcessorTest {
+public class SingleSamplePixelProcessorTest extends AbstractPixelProcessorTest {
 
     @Test
     public void processPixelShouldInvokeSampleProcessingExactlyOnce() {

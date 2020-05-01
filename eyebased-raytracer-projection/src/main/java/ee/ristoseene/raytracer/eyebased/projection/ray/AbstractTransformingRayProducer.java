@@ -10,11 +10,11 @@ import ee.ristoseene.vecmath.Vector3;
 
 import java.util.Objects;
 
-public abstract class TransformingRayProducer implements CompiledRayProducer {
+public abstract class AbstractTransformingRayProducer implements CompiledRayProducer {
 
     protected final CompiledTransform transformer;
 
-    protected TransformingRayProducer(final CompiledTransform transformer) {
+    protected AbstractTransformingRayProducer(final CompiledTransform transformer) {
         this.transformer = Objects.requireNonNull(transformer, "Ray transformer not provided");
     }
 

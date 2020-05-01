@@ -6,7 +6,7 @@ import ee.ristoseene.raytracer.eyebased.rasterization.PixelProcessor;
 import ee.ristoseene.raytracer.eyebased.rasterization.PixelValue;
 import ee.ristoseene.raytracer.eyebased.rasterization.SampleProcessor;
 
-public class UniformGridMultisamplingPixelProcessor extends MultisamplingPixelProcessor implements PixelProcessor {
+public class UniformGridMultisamplingPixelProcessor extends AbstractMultisamplingPixelProcessor implements PixelProcessor {
 
     private final int samplesX;
     private final int samplesY;

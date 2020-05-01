@@ -5,7 +5,7 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.vecmath.Vector3;
 
-public class UntraceableAABB extends MinimumMaximumAABB implements AABB {
+public class UntraceableAABB extends AbstractBoundedAABB implements AABB {
 
     public UntraceableAABB(final Vector3.Accessible p0, final Vector3.Accessible p1) {
         super(p0, p1);

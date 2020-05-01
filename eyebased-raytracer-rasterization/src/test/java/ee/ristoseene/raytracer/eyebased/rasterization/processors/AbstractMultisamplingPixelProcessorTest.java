@@ -8,14 +8,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public abstract class MultisamplingPixelProcessorTest extends BaselinePixelProcessorTest {
+public abstract class AbstractMultisamplingPixelProcessorTest extends AbstractPixelProcessorTest {
 
     @Mock
     protected SampleValueAccumulatorFactory sampleValueAccumulatorFactory;
 
     @Test
     public void pixelProcessorShouldNotAllowMissingSampleValueAccumulatorFactory() {
-        MultisamplingPixelProcessor.Configuration configuration = createDefaultConfiguration()
+        AbstractMultisamplingPixelProcessor.Configuration configuration = createDefaultConfiguration()
                 .withSampleValueAccumulatorFactory(null);
 
         NullPointerException exception = Assertions.assertThrows(
@@ -26,20 +26,20 @@ public abstract class MultisamplingPixelProcessorTest extends BaselinePixelProce
         Assertions.assertEquals("Sample value accumulator factory not provided", exception.getMessage());
     }
 
-    protected abstract MultisamplingPixelProcessor createValidPixelProcessorWithConfiguration(
-            MultisamplingPixelProcessor.Configuration configuration
+    protected abstract AbstractMultisamplingPixelProcessor createValidPixelProcessorWithConfiguration(
+            AbstractMultisamplingPixelProcessor.Configuration configuration
     );
 
     @Override
-    protected BaselinePixelProcessor createValidPixelProcessorWithConfiguration(
-            BaselinePixelProcessor.Configuration configuration
+    protected AbstractPixelProcessor createValidPixelProcessorWithConfiguration(
+            AbstractPixelProcessor.Configuration configuration
     ) {
-        return createValidPixelProcessorWithConfiguration((MultisamplingPixelProcessor.Configuration) configuration);
+        return createValidPixelProcessorWithConfiguration((AbstractMultisamplingPixelProcessor.Configuration) configuration);
     }
 
     @Override
-    protected MultisamplingPixelProcessor.Configuration createDefaultConfiguration() {
-        return MultisamplingPixelProcessor.configuration()
+    protected AbstractMultisamplingPixelProcessor.Configuration createDefaultConfiguration() {
+        return AbstractMultisamplingPixelProcessor.configuration()
                 .withSampleValueAccumulatorFactory(sampleValueAccumulatorFactory)
                 .withConfiguration(super.createDefaultConfiguration());
     }

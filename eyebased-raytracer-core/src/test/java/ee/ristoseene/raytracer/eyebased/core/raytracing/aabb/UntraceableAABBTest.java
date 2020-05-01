@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class UntraceableAABBTest extends MinimumMaximumAABBTest {
+public class UntraceableAABBTest extends AbstractBoundedAABBTest {
 
     @Override
     protected UntraceableAABB createInstance(final Vector3.Accessible p0, final Vector3.Accessible p1) {

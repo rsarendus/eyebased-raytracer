@@ -144,7 +144,7 @@ public class DefaultTransformableEyeTest extends TransformableTest {
 
         TracingRayProducer compilationResult = transformableEye.compile(Optional.empty());
 
-        Assertions.assertTrue(compilationResult instanceof TransformingRayProducer);
+        Assertions.assertTrue(compilationResult instanceof AbstractTransformingRayProducer);
     }
 
 }

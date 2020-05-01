@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class DefaultTransformingRayProducerTest extends TransformingRayProducerTest {
+public class DefaultTransformingRayProducerTest extends AbstractTransformingRayProducerTest {
 
     @Mock
     private RayOriginProducer rayOriginProducer;

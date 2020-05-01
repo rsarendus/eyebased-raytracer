@@ -6,13 +6,13 @@ import ee.ristoseene.raytracer.eyebased.rasterization.RasterToViewMapper;
 
 import java.util.Objects;
 
-public abstract class BaselinePixelProcessor implements PixelProcessor {
+public abstract class AbstractPixelProcessor implements PixelProcessor {
 
     protected final RasterToViewMapper horizontalRasterToViewMapper;
     protected final RasterToViewMapper verticalRasterToViewMapper;
     protected final TracingRayProducer rayProducer;
 
-    protected BaselinePixelProcessor(final Configuration configuration) {
+    protected AbstractPixelProcessor(final Configuration configuration) {
         horizontalRasterToViewMapper = Objects.requireNonNull(
                 configuration.getHorizontalRasterToViewMapper(),
                 "Horizontal raster to view mapper not provided"

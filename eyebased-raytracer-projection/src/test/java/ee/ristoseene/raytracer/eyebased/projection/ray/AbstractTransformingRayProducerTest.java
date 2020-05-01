@@ -5,7 +5,7 @@ import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public abstract class TransformingRayProducerTest {
+public abstract class AbstractTransformingRayProducerTest {
 
     protected abstract TracingRayProducer createRayProducerWithTransformer(CompiledTransform transformer);
 

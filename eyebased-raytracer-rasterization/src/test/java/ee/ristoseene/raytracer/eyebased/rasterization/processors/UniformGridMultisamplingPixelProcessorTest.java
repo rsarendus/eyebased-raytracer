@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
 
-public class UniformGridMultisamplingPixelProcessorTest extends MultisamplingPixelProcessorTest {
+public class UniformGridMultisamplingPixelProcessorTest extends AbstractMultisamplingPixelProcessorTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-10, -5, -2, -1, 0})

@@ -5,7 +5,7 @@ import ee.ristoseene.raytracer.eyebased.rasterization.PixelProcessor;
 import ee.ristoseene.raytracer.eyebased.rasterization.PixelValue;
 import ee.ristoseene.raytracer.eyebased.rasterization.SampleProcessor;
 
-public class SingleSamplePixelProcessor extends BaselinePixelProcessor implements PixelProcessor {
+public class SingleSamplePixelProcessor extends AbstractPixelProcessor implements PixelProcessor {
 
     public SingleSamplePixelProcessor(final Configuration configuration) {
         super(configuration);

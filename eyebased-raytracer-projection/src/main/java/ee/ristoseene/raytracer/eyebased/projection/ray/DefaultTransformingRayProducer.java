@@ -7,7 +7,7 @@ import ee.ristoseene.raytracer.eyebased.projection.RayOriginProducer;
 
 import java.util.Objects;
 
-public final class DefaultTransformingRayProducer extends TransformingRayProducer {
+public final class DefaultTransformingRayProducer extends AbstractTransformingRayProducer {
 
     private final RayOriginProducer originProducer;
     private final RayDirectionProducer directionProducer;

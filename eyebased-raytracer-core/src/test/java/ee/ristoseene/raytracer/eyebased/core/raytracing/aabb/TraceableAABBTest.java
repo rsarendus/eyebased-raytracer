@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public class TraceableAABBTest extends MinimumMaximumAABBTest {
+public class TraceableAABBTest extends AbstractBoundedAABBTest {
 
     @Override
     protected TraceableAABB createInstance(final Vector3.Accessible p0, final Vector3.Accessible p1) {

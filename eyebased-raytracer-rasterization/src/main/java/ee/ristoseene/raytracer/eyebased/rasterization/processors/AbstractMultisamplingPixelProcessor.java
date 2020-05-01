@@ -7,11 +7,11 @@ import ee.ristoseene.raytracer.eyebased.rasterization.RasterToViewMapper;
 
 import java.util.Objects;
 
-public abstract class MultisamplingPixelProcessor extends BaselinePixelProcessor implements PixelProcessor {
+public abstract class AbstractMultisamplingPixelProcessor extends AbstractPixelProcessor implements PixelProcessor {
 
     protected final SampleValueAccumulatorFactory sampleValueAccumulatorFactory;
 
-    protected MultisamplingPixelProcessor(final Configuration configuration) {
+    protected AbstractMultisamplingPixelProcessor(final Configuration configuration) {
         super(configuration);
 
         sampleValueAccumulatorFactory = Objects.requireNonNull(
@@ -20,7 +20,7 @@ public abstract class MultisamplingPixelProcessor extends BaselinePixelProcessor
         );
     }
 
-    public static class Configuration extends BaselinePixelProcessor.Configuration {
+    public static class Configuration extends AbstractPixelProcessor.Configuration {
 
         private SampleValueAccumulatorFactory sampleValueAccumulatorFactory;
 
@@ -38,7 +38,7 @@ public abstract class MultisamplingPixelProcessor extends BaselinePixelProcessor
         }
 
         @Override
-        public Configuration withConfiguration(final BaselinePixelProcessor.Configuration configuration) {
+        public Configuration withConfiguration(final AbstractPixelProcessor.Configuration configuration) {
             if (configuration instanceof Configuration) {
                 final Configuration multisamplingConfiguration = (Configuration) configuration;
                 setSampleValueAccumulatorFactory(multisamplingConfiguration.getSampleValueAccumulatorFactory());

@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-public abstract class MinimumMaximumAABBTest {
+public abstract class AbstractBoundedAABBTest {
 
     protected static final Vector3.Accessible MINIMUMS_FOR_TESTING = new ImmutableVector3(-1.1, -2.2, -3.3);
     protected static final Vector3.Accessible MAXIMUMS_FOR_TESTING = new ImmutableVector3(+4.4, +5.5, +6.6);
 
-    protected abstract MinimumMaximumAABB createInstance(Vector3.Accessible p0, Vector3.Accessible p1);
+    protected abstract AbstractBoundedAABB createInstance(Vector3.Accessible p0, Vector3.Accessible p1);
 
     @Test
     public void getMinimumXShouldReturnTheMinimumX() {

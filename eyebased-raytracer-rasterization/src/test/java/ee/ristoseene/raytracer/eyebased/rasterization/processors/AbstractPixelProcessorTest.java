@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public abstract class BaselinePixelProcessorTest {
+public abstract class AbstractPixelProcessorTest {
 
     protected static final double DELTA = 0.000001;
 
@@ -36,7 +36,7 @@ public abstract class BaselinePixelProcessorTest {
 
     @Test
     public void pixelProcessorShouldNotAllowMissingHorizontalRasterToViewMapper() {
-        BaselinePixelProcessor.Configuration configuration = createDefaultConfiguration()
+        AbstractPixelProcessor.Configuration configuration = createDefaultConfiguration()
                 .withHorizontalPixelToViewMapper(null);
 
         NullPointerException exception = Assertions.assertThrows(
@@ -49,7 +49,7 @@ public abstract class BaselinePixelProcessorTest {
 
     @Test
     public void pixelProcessorShouldNotAllowMissingVerticalRasterToViewMapper() {
-        BaselinePixelProcessor.Configuration configuration = createDefaultConfiguration()
+        AbstractPixelProcessor.Configuration configuration = createDefaultConfiguration()
                 .withVerticalPixelToViewMapper(null);
 
         NullPointerException exception = Assertions.assertThrows(
@@ -62,7 +62,7 @@ public abstract class BaselinePixelProcessorTest {
 
     @Test
     public void pixelProcessorShouldNotAllowMissingTracingRayProducer() {
-        BaselinePixelProcessor.Configuration configuration = createDefaultConfiguration()
+        AbstractPixelProcessor.Configuration configuration = createDefaultConfiguration()
                 .withRayProducer(null);
 
         NullPointerException exception = Assertions.assertThrows(
@@ -73,12 +73,12 @@ public abstract class BaselinePixelProcessorTest {
         Assertions.assertEquals("Ray producer not provided", exception.getMessage());
     }
 
-    protected abstract BaselinePixelProcessor createValidPixelProcessorWithConfiguration(
-            BaselinePixelProcessor.Configuration configuration
+    protected abstract AbstractPixelProcessor createValidPixelProcessorWithConfiguration(
+            AbstractPixelProcessor.Configuration configuration
     );
 
-    protected BaselinePixelProcessor.Configuration createDefaultConfiguration() {
-        return BaselinePixelProcessor.configuration()
+    protected AbstractPixelProcessor.Configuration createDefaultConfiguration() {
+        return AbstractPixelProcessor.configuration()
                 .withHorizontalPixelToViewMapper(horizontalRasterToViewMapper)
                 .withVerticalPixelToViewMapper(verticalRasterToViewMapper)
                 .withRayProducer(tracingRayProducer);
