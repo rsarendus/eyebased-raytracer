@@ -1,29 +1,21 @@
 package ee.ristoseene.raytracer.eyebased.rasterization;
 
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
-public final class RasterSpliterator implements Spliterator<PixelLocation> {
+public final class RasterSpliterator<T> implements Spliterator<T> {
 
     private static final int CHARACTERISTICS = DISTINCT | IMMUTABLE | NONNULL;
 
-    private final int pixelsPerScanLine;
-    private final long totalPixelCount;
+    private final AtomicLong currentIndex = new AtomicLong(0L);
+    private final AtomicLong currentDivision = new AtomicLong(1L);
 
-    private final AtomicLong currentIndex;
-    private final AtomicLong currentDivision;
+    private final BlockResolver<T> rasterBlockResolver;
 
-    public RasterSpliterator(final int width, final int height) {
-        if (width < 1 || height < 1) {
-            throw new IllegalArgumentException("Invalid size: " + width + " x " + height);
-        }
-
-        this.pixelsPerScanLine = width;
-        this.totalPixelCount = (long) width * (long) height;
-
-        this.currentIndex = new AtomicLong(0L);
-        this.currentDivision = new AtomicLong(1L);
+    public RasterSpliterator(final BlockResolver<T> rasterBlockResolver) {
+        this.rasterBlockResolver = Objects.requireNonNull(rasterBlockResolver, "Raster block resolver not provided");
     }
 
     @Override
@@ -33,18 +25,15 @@ public final class RasterSpliterator implements Spliterator<PixelLocation> {
 
     @Override
     public long estimateSize() {
-        return Math.max(totalPixelCount - currentIndex.get(), 0L) / currentDivision.get();
+        return Math.max(rasterBlockResolver.blockCount() - currentIndex.get(), 0L) / currentDivision.get();
     }
 
     @Override
-    public boolean tryAdvance(final Consumer<? super PixelLocation> consumer) {
+    public boolean tryAdvance(final Consumer<? super T> consumer) {
         final long index = currentIndex.getAndIncrement();
 
-        if (index < totalPixelCount) {
-            consumer.accept(new PixelLocation(
-                    (int) (index % pixelsPerScanLine),
-                    (int) (index / pixelsPerScanLine)
-            ));
+        if (index < rasterBlockResolver.blockCount()) {
+            consumer.accept(rasterBlockResolver.resolveBlock(index));
             return true;
         }
 
@@ -52,8 +41,13 @@ public final class RasterSpliterator implements Spliterator<PixelLocation> {
     }
 
     @Override
-    public Spliterator<PixelLocation> trySplit() {
-        return (currentDivision.incrementAndGet() > totalPixelCount) ? null : this;
+    public Spliterator<T> trySplit() {
+        return (currentDivision.incrementAndGet() > rasterBlockResolver.blockCount()) ? null : this;
+    }
+
+    public interface BlockResolver<T> {
+        T resolveBlock(long blockIndex);
+        long blockCount();
     }
 
 }

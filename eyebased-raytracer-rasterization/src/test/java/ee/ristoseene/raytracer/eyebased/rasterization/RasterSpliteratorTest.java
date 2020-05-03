@@ -1,86 +1,86 @@
 package ee.ristoseene.raytracer.eyebased.rasterization;
 
-import ee.ristoseene.raytracer.eyebased.rasterization.helpers.PixelLocationMatcher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
+import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class RasterSpliteratorTest {
 
-    @ParameterizedTest
-    @ValueSource(ints = {-10, -5, -2, -1, 0})
-    public void spliteratorShouldNotAllowWidthLessThanOne(int width) {
-        IllegalArgumentException exception = Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> new RasterSpliterator(width, 1)
+    @Test
+    public void rasterSpliteratorShouldNotAllowMissingRasterBlockResolver() {
+        NullPointerException exception = Assertions.assertThrows(
+                NullPointerException.class,
+                () -> new RasterSpliterator<>(null)
         );
-        Assertions.assertEquals("Invalid size: " + width + " x 1", exception.getMessage());
-    }
 
-    @ParameterizedTest
-    @ValueSource(ints = {-10, -5, -2, -1, 0})
-    public void spliteratorShouldNotAllowHeightLessThanOne(int height) {
-        IllegalArgumentException exception = Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> new RasterSpliterator(1, height)
-        );
-        Assertions.assertEquals("Invalid size: 1 x " + height, exception.getMessage());
+        Assertions.assertEquals("Raster block resolver not provided", exception.getMessage());
     }
 
     @Test
-    public void spliteratorShouldAllowWidthAndHeightAsOne() {
-        Consumer<PixelLocation> pixelLocationConsumer = createPixelLocationConsumerMock();
-
-        RasterSpliterator spliterator = new RasterSpliterator(1, 1);
-
-        Assertions.assertTrue(spliterator.tryAdvance(pixelLocationConsumer));
-        Assertions.assertFalse(spliterator.tryAdvance(pixelLocationConsumer));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(0, 0)));
-        Mockito.verifyNoMoreInteractions(pixelLocationConsumer);
+    public void rasterSpliteratorShouldAdvertiseDistinctAndImmutableAndNonNullCharacteristics() {
+        Assertions.assertEquals(
+                Spliterator.DISTINCT | Spliterator.IMMUTABLE | Spliterator.NONNULL,
+                new RasterSpliterator<>(createRasterBlockResolverMock()).characteristics()
+        );
     }
 
     @Test
     public void tryAdvanceShouldProducePixelLocationForEachPixelInRaster() {
-        Consumer<PixelLocation> pixelLocationConsumer = createPixelLocationConsumerMock();
+        Consumer<Object> rasterBlockConsumer = createRasterBlockConsumerMock();
+        RasterSpliterator.BlockResolver<Object> rasterBlockResolver = createRasterBlockResolverMock();
+        RasterSpliterator<Object> rasterSpliterator = new RasterSpliterator<>(rasterBlockResolver);
+        Mockito.doReturn(3L).when(rasterBlockResolver).blockCount();
 
-        RasterSpliterator spliterator = new RasterSpliterator(3, 2);
+        Object object0 = Mockito.mock(Object.class);
+        Mockito.doReturn(object0).when(rasterBlockResolver).resolveBlock(0L);
+        Object object1 = Mockito.mock(Object.class);
+        Mockito.doReturn(object1).when(rasterBlockResolver).resolveBlock(1L);
+        Object object2 = Mockito.mock(Object.class);
+        Mockito.doReturn(object2).when(rasterBlockResolver).resolveBlock(2L);
 
-        for (int i = 6; i > 0; --i) {
-            Assertions.assertEquals(i, spliterator.estimateSize());
-            Assertions.assertTrue(spliterator.tryAdvance(pixelLocationConsumer));
+        for (int i = 3; i > 0; --i) {
+            Assertions.assertEquals(i, rasterSpliterator.estimateSize());
+            Assertions.assertTrue(rasterSpliterator.tryAdvance(rasterBlockConsumer));
         }
 
-        Assertions.assertEquals(0, spliterator.estimateSize());
-        Assertions.assertFalse(spliterator.tryAdvance(pixelLocationConsumer));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(0, 0)));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(0, 1)));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(1, 0)));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(1, 1)));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(2, 0)));
-        Mockito.verify(pixelLocationConsumer, Mockito.times(1)).accept(Mockito.argThat(new PixelLocationMatcher(2, 1)));
-        Mockito.verifyNoMoreInteractions(pixelLocationConsumer);
+        Assertions.assertEquals(0, rasterSpliterator.estimateSize());
+        Assertions.assertFalse(rasterSpliterator.tryAdvance(rasterBlockConsumer));
+        Mockito.verify(rasterBlockResolver, Mockito.times(8)).blockCount();
+        Mockito.verify(rasterBlockResolver, Mockito.times(1)).resolveBlock(0L);
+        Mockito.verify(rasterBlockResolver, Mockito.times(1)).resolveBlock(1L);
+        Mockito.verify(rasterBlockResolver, Mockito.times(1)).resolveBlock(2L);
+        Mockito.verify(rasterBlockConsumer, Mockito.times(1)).accept(object0);
+        Mockito.verify(rasterBlockConsumer, Mockito.times(1)).accept(object1);
+        Mockito.verify(rasterBlockConsumer, Mockito.times(1)).accept(object2);
+        Mockito.verifyNoMoreInteractions(rasterBlockResolver, rasterBlockConsumer);
     }
 
     @Test
-    public void trySplitShouldSplitItselfToAsManySpliteratorsAsThereArePixelsInRaster() {
-        RasterSpliterator spliterator = new RasterSpliterator(3, 2);
+    public void trySplitShouldSplitItselfToAsManySpliteratorsAsThereAreBlocksAdvertised() {
+        RasterSpliterator.BlockResolver<Object> rasterBlockResolver = createRasterBlockResolverMock();
+        RasterSpliterator<Object> rasterSpliterator = new RasterSpliterator<>(rasterBlockResolver);
+        Mockito.doReturn(7L).when(rasterBlockResolver).blockCount();
 
-        for (int i = 1; i < 6; ++i) {
-            Assertions.assertEquals(6 / i, spliterator.estimateSize());
-            Assertions.assertSame(spliterator, spliterator.trySplit());
+        for (int i = 1; i < 7; ++i) {
+            Assertions.assertEquals(7 / i, rasterSpliterator.estimateSize());
+            Assertions.assertSame(rasterSpliterator, rasterSpliterator.trySplit());
         }
 
-        Assertions.assertEquals(1, spliterator.estimateSize());
-        Assertions.assertNull(spliterator.trySplit());
+        Assertions.assertEquals(1, rasterSpliterator.estimateSize());
+        Assertions.assertNull(rasterSpliterator.trySplit());
     }
 
     @SuppressWarnings("unchecked")
-    private static Consumer<PixelLocation> createPixelLocationConsumerMock() {
-        return (Consumer<PixelLocation>) Mockito.mock(Consumer.class);
+    private static RasterSpliterator.BlockResolver<Object> createRasterBlockResolverMock() {
+        return (RasterSpliterator.BlockResolver<Object>) Mockito.mock(RasterSpliterator.BlockResolver.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Consumer<Object> createRasterBlockConsumerMock() {
+        return (Consumer<Object>) Mockito.mock(Consumer.class);
     }
 
 }
