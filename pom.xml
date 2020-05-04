@@ -23,6 +23,7 @@
         <module>eyebased-raytracer-projection</module>
         <module>eyebased-raytracer-rasterization</module>
         <module>eyebased-raytracer-geometry</module>
+        <module>eyebased-raytracer-shading</module>
     </modules>
 
     <build>
