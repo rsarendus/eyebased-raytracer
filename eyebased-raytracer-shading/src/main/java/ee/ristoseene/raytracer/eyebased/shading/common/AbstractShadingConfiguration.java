@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
-public abstract class AbstractShadingConfiguration implements ShadingConfiguration {
+public abstract class AbstractShadingConfiguration implements ShadingConfiguration, Cloneable {
 
     @Override
     public ShadingPipeline compile(final Optional<CompilationCache> compilationCache) {
@@ -40,6 +40,15 @@ public abstract class AbstractShadingConfiguration implements ShadingConfigurati
             return test.test(((ConstantDoubleValueProvider) valueProvider).getStaticDoubleValue());
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public AbstractShadingConfiguration clone() {
+        try {
+            return (AbstractShadingConfiguration) super.clone();
+        } catch (CloneNotSupportedException exception) {
+            throw new IllegalStateException(exception);
         }
     }
 

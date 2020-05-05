@@ -41,6 +41,11 @@ public class QuaternionAndScaleAndPositionTransform extends AbstractScalingPosit
     }
 
     @Override
+    public QuaternionAndScaleAndPositionTransform clone() {
+        return (QuaternionAndScaleAndPositionTransform) super.clone();
+    }
+
+    @Override
     protected CompiledTransform createCompiledTransform(final CompiledTransform parent) {
         if (quaternion == null && scale == null && position == null) {
             return parent;

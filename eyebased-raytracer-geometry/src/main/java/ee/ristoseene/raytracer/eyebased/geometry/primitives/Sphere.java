@@ -49,6 +49,11 @@ public class Sphere extends AbstractClosedSurface {
     }
 
     @Override
+    public Sphere clone() {
+        return (Sphere) super.clone();
+    }
+
+    @Override
     protected AbstractShadeableRayTraceableSphere createCompiledGeometry(final Optional<CompilationCache> compilationCache) {
         final AbstractShadeableRayTraceableSphere.Configuration configuration = createConfiguration(compilationCache);
 

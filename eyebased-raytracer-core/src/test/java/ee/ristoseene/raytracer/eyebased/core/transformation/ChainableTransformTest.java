@@ -61,4 +61,16 @@ public abstract class ChainableTransformTest extends TransformableTest {
         VecMathAssertions.assertEquals(parentCompilationResult, compilationResult, 0.000001);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        ChainableTransform originalTransform = (ChainableTransform) original;
+
+        ChainableTransform clonedTransform = super.cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+
+        return (T) clonedTransform;
+    }
+
 }

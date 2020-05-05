@@ -64,6 +64,11 @@ public class DefaultTransformableEye extends Transformable implements Compilable
         );
     }
 
+    @Override
+    public DefaultTransformableEye clone() {
+        return (DefaultTransformableEye) super.clone();
+    }
+
     private CompiledRayProducer createDefaultRayProducer(final Optional<CompilationCache> compilationCache) {
         final CompiledTransform parentTransform = getCompiledParentTransform(compilationCache);
         final RayOriginProducer originProducer = (rayOriginProducer == null)

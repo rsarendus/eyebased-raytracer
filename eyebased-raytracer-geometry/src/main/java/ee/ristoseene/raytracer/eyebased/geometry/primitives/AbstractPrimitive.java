@@ -37,6 +37,11 @@ public abstract class AbstractPrimitive extends AbstractGeometry {
     }
 
     @Override
+    public AbstractPrimitive clone() {
+        return (AbstractPrimitive) super.clone();
+    }
+
+    @Override
     protected AbstractRayTraceablePrimitive.Configuration createConfiguration(Optional<CompilationCache> compilationCache) {
         return new AbstractRayTraceablePrimitive.Configuration()
                 .withConfiguration(super.createConfiguration(compilationCache))

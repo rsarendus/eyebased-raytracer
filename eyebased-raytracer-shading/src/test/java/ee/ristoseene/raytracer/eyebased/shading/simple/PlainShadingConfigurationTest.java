@@ -170,4 +170,19 @@ public class PlainShadingConfigurationTest extends AbstractShadingConfigurationT
         Assertions.assertTrue(compilationResult instanceof DynamicColorShadingPipeline);
     }
 
+    @Test
+    public void cloneShouldCreateValidCopyOfItself() {
+        CompilableValueProvider<Vector3.Accessible> color = createCompilableValueProviderMock();
+        CompilableDoubleValueProvider alpha = Mockito.mock(CompilableDoubleValueProvider.class);
+        PlainShadingConfiguration originalShadingConfiguration = createDefaultInstance()
+                .withColor(color)
+                .withAlpha(alpha);
+
+        PlainShadingConfiguration clonedShadingConfiguration = super.cloneShouldCreateValidCopyOfItself(originalShadingConfiguration);
+
+        Assertions.assertNotSame(originalShadingConfiguration, clonedShadingConfiguration);
+        Assertions.assertSame(color, clonedShadingConfiguration.getColor());
+        Assertions.assertSame(alpha, clonedShadingConfiguration.getAlpha());
+    }
+
 }

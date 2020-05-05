@@ -13,6 +13,11 @@ public abstract class ChainableTransform extends Transformable implements Compil
     }
 
     @Override
+    public ChainableTransform clone() {
+        return (ChainableTransform) super.clone();
+    }
+
+    @Override
     public CompiledTransform compile(final Optional<CompilationCache> compilationCache) {
         return CompilationUtils.getCachedOrCompileAndCache(
                 compilationCache,

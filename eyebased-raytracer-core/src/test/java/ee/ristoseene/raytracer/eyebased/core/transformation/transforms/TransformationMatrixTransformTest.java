@@ -69,4 +69,16 @@ public class TransformationMatrixTransformTest extends ChainableTransformTest {
         );
     }
 
+    @Test
+    public void cloneShouldReturnValidCopyOfItself() {
+        Matrix4x4.Accessible transformationMatrix = Mockito.mock(Matrix4x4.Accessible.class);
+        TransformationMatrixTransform originalTransform = createDefaultInstance()
+                .withTransformationMatrix(transformationMatrix);
+
+        TransformationMatrixTransform clonedTransform = cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+        Assertions.assertSame(transformationMatrix, clonedTransform.getTransformationMatrix());
+    }
+
 }

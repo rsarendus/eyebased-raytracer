@@ -64,6 +64,11 @@ public class AxisAngleAndScaleAndPositionTransform extends AbstractScalingPositi
     }
 
     @Override
+    public AxisAngleAndScaleAndPositionTransform clone() {
+        return (AxisAngleAndScaleAndPositionTransform) super.clone();
+    }
+
+    @Override
     protected CompiledTransform createCompiledTransform(final CompiledTransform parent) {
         if (axis == null && scale == null && position == null) {
             return parent;

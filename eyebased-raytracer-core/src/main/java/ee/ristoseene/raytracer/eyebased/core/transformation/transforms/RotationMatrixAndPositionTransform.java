@@ -35,6 +35,11 @@ public class RotationMatrixAndPositionTransform extends AbstractPositionTransfor
     }
 
     @Override
+    public RotationMatrixAndPositionTransform clone() {
+        return (RotationMatrixAndPositionTransform) super.clone();
+    }
+
+    @Override
     protected CompiledTransform createCompiledTransform(final CompiledTransform parent) {
         if (rotationMatrix == null && position == null) {
             return parent;

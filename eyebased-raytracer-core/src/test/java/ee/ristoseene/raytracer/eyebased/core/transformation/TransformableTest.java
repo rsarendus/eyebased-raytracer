@@ -27,6 +27,20 @@ public abstract class TransformableTest {
         Assertions.assertSame(parentTransform, transformable.getParentTransform());
     }
 
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        Transformable originalTransformable = (Transformable) original;
+        CompilableTransform parentTransform = Mockito.mock(CompilableTransform.class);
+        originalTransformable.setParentTransform(parentTransform);
+
+        Transformable clonedTransformable = originalTransformable.clone();
+
+        Assertions.assertNotSame(originalTransformable, clonedTransformable);
+        Assertions.assertSame(parentTransform, clonedTransformable.getParentTransform());
+
+        return (T) clonedTransformable;
+    }
+
     protected static CompilableTransform createMockCompilableTransform(final CompiledTransform compilationResult) {
         CompilableTransform compilableTransform = Mockito.mock(CompilableTransform.class);
         Mockito.doReturn(compilationResult).when(compilableTransform).compile(Mockito.any());

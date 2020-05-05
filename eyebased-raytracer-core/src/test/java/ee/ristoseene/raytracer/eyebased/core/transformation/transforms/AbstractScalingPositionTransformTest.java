@@ -49,4 +49,19 @@ public abstract class AbstractScalingPositionTransformTest extends AbstractPosit
         );
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        AbstractScalingPositionTransform originalTransform = (AbstractScalingPositionTransform) original;
+        Vector3.Accessible scale = Mockito.mock(Vector3.Accessible.class);
+        originalTransform.setScale(scale);
+
+        AbstractScalingPositionTransform clonedTransform = super.cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+        Assertions.assertSame(scale, clonedTransform.getScale());
+
+        return (T) clonedTransform;
+    }
+
 }

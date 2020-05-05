@@ -90,4 +90,16 @@ public class QuaternionAndScaleAndPositionTransformTest extends AbstractScalingP
         );
     }
 
+    @Test
+    public void cloneShouldReturnValidCopyOfItself() {
+        Quaternion.Accessible quaternion = Mockito.mock(Quaternion.Accessible.class);
+        QuaternionAndScaleAndPositionTransform originalTransform = createDefaultInstance()
+                .withQuaternion(quaternion);
+
+        QuaternionAndScaleAndPositionTransform clonedTransform = super.cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+        Assertions.assertSame(quaternion, clonedTransform.getQuaternion());
+    }
+
 }

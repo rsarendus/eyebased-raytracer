@@ -50,6 +50,11 @@ public class PlainShadingConfiguration extends AbstractShadingConfiguration {
     }
 
     @Override
+    public PlainShadingConfiguration clone() {
+        return (PlainShadingConfiguration) super.clone();
+    }
+
+    @Override
     protected ShadingPipeline createCompiledPipeline(Optional<CompilationCache> compilationCache) {
         final ValueProvider<Vector3.Accessible> colorProvider = (color == null)
                 ? VectorProviders.PROVIDER_VECTOR3_ZERO_ZERO_ZERO

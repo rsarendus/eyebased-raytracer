@@ -147,4 +147,19 @@ public class DefaultTransformableEyeTest extends TransformableTest {
         Assertions.assertTrue(compilationResult instanceof AbstractTransformingRayProducer);
     }
 
+    @Test
+    public void cloneShouldReturnValidCopyOfItself() {
+        RayOriginProducer rayOriginProducer = Mockito.mock(RayOriginProducer.class);
+        RayDirectionProducer rayDirectionProducer = Mockito.mock(RayDirectionProducer.class);
+        DefaultTransformableEye originalTransformableEye = createDefaultInstance()
+                .withRayDirectionProducer(rayDirectionProducer)
+                .withRayOriginProducer(rayOriginProducer);
+
+        DefaultTransformableEye clonedTransformableEye = cloneShouldCreateValidCopyOfItself(originalTransformableEye);
+
+        Assertions.assertNotSame(originalTransformableEye, clonedTransformableEye);
+        Assertions.assertSame(rayDirectionProducer, clonedTransformableEye.getRayDirectionProducer());
+        Assertions.assertSame(rayOriginProducer, clonedTransformableEye.getRayOriginProducer());
+    }
+
 }

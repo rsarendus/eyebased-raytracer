@@ -76,4 +76,14 @@ public class SphereTest extends AbstractClosedSurfaceTest {
         Assertions.assertTrue(compilationResult instanceof OutwardFacingShadeableRayTraceableSphere);
     }
 
+    @Test
+    public void cloneShouldReturnValidCopyOfItself() {
+        Sphere originalSphere = createDefaultInstance().withDiameter(1.234);
+
+        Sphere clonedSphere = super.cloneShouldCreateValidCopyOfItself(originalSphere);
+
+        Assertions.assertNotSame(originalSphere, clonedSphere);
+        Assertions.assertEquals(1.234, clonedSphere.getDiameter());
+    }
+
 }

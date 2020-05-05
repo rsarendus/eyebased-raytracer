@@ -43,4 +43,15 @@ public abstract class AbstractShadingConfigurationTest {
         Assertions.assertSame(cachedPipeline, compilationResult);
     }
 
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        AbstractShadingConfiguration originalShadingConfiguration = (AbstractShadingConfiguration) original;
+
+        AbstractShadingConfiguration clonedShadingConfiguration = originalShadingConfiguration.clone();
+
+        Assertions.assertNotSame(originalShadingConfiguration, clonedShadingConfiguration);
+
+        return (T) clonedShadingConfiguration;
+    }
+
 }

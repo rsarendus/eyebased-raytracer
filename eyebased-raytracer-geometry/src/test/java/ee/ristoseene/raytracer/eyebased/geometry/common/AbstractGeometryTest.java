@@ -61,4 +61,19 @@ public abstract class AbstractGeometryTest extends TransformableTest {
         Assertions.assertSame(cachedGeometry, compilationResult);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        AbstractGeometry originalGeometry = (AbstractGeometry) original;
+        ShadingConfiguration shadingConfiguration = Mockito.mock(ShadingConfiguration.class);
+        originalGeometry.setShadingConfiguration(shadingConfiguration);
+
+        AbstractGeometry clonedGeometry = super.cloneShouldCreateValidCopyOfItself(originalGeometry);
+
+        Assertions.assertNotSame(originalGeometry, clonedGeometry);
+        Assertions.assertSame(shadingConfiguration, clonedGeometry.getShadingConfiguration());
+
+        return (T) clonedGeometry;
+    }
+
 }

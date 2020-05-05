@@ -30,6 +30,11 @@ public class TransformationMatrixTransform extends ChainableTransform {
     }
 
     @Override
+    public TransformationMatrixTransform clone() {
+        return (TransformationMatrixTransform) super.clone();
+    }
+
+    @Override
     protected CompiledTransform createCompiledTransform(final CompiledTransform parent) {
         if (transformationMatrix != null) {
             return new CompiledTransform(VecMath.multiply(parent, transformationMatrix, Factories.FACTORY_CONST_MATRIX4x4_XYZTxyzw));

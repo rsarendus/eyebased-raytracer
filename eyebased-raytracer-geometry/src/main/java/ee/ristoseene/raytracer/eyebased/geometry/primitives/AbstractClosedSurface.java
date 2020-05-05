@@ -40,6 +40,11 @@ public abstract class AbstractClosedSurface extends AbstractPrimitive {
         return (AbstractClosedSurface) super.withGeometryContextFactory(geometryContextFactory);
     }
 
+    @Override
+    public AbstractClosedSurface clone() {
+        return (AbstractClosedSurface) super.clone();
+    }
+
     protected Facing getFacingOrDefault(final Facing defaultFacing) {
         return (facing != null) ? facing : defaultFacing;
     }

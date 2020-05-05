@@ -121,4 +121,17 @@ public class AxisAngleAndScaleAndPositionTransformTest extends AbstractScalingPo
         );
     }
 
+    @Test
+    public void cloneShouldReturnValidCopyOfItself() {
+        Vector3.Accessible axis = Mockito.mock(Vector3.Accessible.class);
+        AxisAngleAndScaleAndPositionTransform originalTransform = createDefaultInstance()
+                .withAxisAngle(axis, 1.234);
+
+        AxisAngleAndScaleAndPositionTransform clonedTransform = super.cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+        Assertions.assertSame(axis, clonedTransform.getAxis());
+        Assertions.assertEquals(1.234, clonedTransform.getAngle());
+    }
+
 }

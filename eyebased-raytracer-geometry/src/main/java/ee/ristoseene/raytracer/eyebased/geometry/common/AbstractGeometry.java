@@ -35,6 +35,11 @@ public abstract class AbstractGeometry extends Transformable implements Compilab
     }
 
     @Override
+    public AbstractGeometry clone() {
+        return (AbstractGeometry) super.clone();
+    }
+
+    @Override
     public CompiledGeometry compile(final Optional<CompilationCache> compilationCache) {
         return CompilationUtils.getCachedOrCompileAndCache(
                 compilationCache,

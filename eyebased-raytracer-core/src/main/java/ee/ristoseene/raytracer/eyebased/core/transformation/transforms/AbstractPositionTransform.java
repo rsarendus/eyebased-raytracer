@@ -26,4 +26,9 @@ public abstract class AbstractPositionTransform extends ChainableTransform {
         return (AbstractPositionTransform) super.withParentTransform(parentTransform);
     }
 
+    @Override
+    public AbstractPositionTransform clone() {
+        return (AbstractPositionTransform) super.clone();
+    }
+
 }

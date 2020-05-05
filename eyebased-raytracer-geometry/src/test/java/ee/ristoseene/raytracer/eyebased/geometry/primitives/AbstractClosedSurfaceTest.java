@@ -28,4 +28,18 @@ public abstract class AbstractClosedSurfaceTest extends AbstractPrimitiveTest {
         Assertions.assertSame(facing, closedSurfacePrimitive.getFacing());
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        AbstractClosedSurface originalClosedSurface = (AbstractClosedSurface) original;
+        originalClosedSurface.setFacing(AbstractClosedSurface.Facing.DOUBLE_SIDED);
+
+        AbstractClosedSurface clonedClosedSurface = super.cloneShouldCreateValidCopyOfItself(originalClosedSurface);
+
+        Assertions.assertNotSame(originalClosedSurface, clonedClosedSurface);
+        Assertions.assertSame(AbstractClosedSurface.Facing.DOUBLE_SIDED, clonedClosedSurface.getFacing());
+
+        return (T) clonedClosedSurface;
+    }
+
 }

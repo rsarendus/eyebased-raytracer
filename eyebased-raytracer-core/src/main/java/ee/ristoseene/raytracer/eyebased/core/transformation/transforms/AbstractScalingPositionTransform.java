@@ -30,4 +30,9 @@ public abstract class AbstractScalingPositionTransform extends AbstractPositionT
         return (AbstractScalingPositionTransform) super.withParentTransform(parentTransform);
     }
 
+    @Override
+    public AbstractScalingPositionTransform clone() {
+        return (AbstractScalingPositionTransform) super.clone();
+    }
+
 }

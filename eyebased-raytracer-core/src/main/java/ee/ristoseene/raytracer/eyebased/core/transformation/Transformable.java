@@ -4,7 +4,7 @@ import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 
 import java.util.Optional;
 
-public abstract class Transformable {
+public abstract class Transformable implements Cloneable {
 
     private CompilableTransform parentTransform;
 
@@ -26,6 +26,15 @@ public abstract class Transformable {
             return parentTransform.compile(compilationCache);
         } else {
             return CompiledTransform.IDENTITY_TRANSFORM;
+        }
+    }
+
+    @Override
+    public Transformable clone() {
+        try {
+            return (Transformable) super.clone();
+        } catch (CloneNotSupportedException exception) {
+            throw new IllegalStateException(exception);
         }
     }
 

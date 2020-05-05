@@ -83,4 +83,16 @@ public class RotationMatrixAndPositionTransformTest extends AbstractPositionTran
         );
     }
 
+    @Test
+    public void cloneShouldReturnValidCopyOfItself() {
+        Matrix3x3.Accessible rotationMatrix = Mockito.mock(Matrix3x3.Accessible.class);
+        RotationMatrixAndPositionTransform originalTransform = createDefaultInstance()
+                .withRotationMatrix(rotationMatrix);
+
+        RotationMatrixAndPositionTransform clonedTransform = super.cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+        Assertions.assertSame(rotationMatrix, clonedTransform.getRotationMatrix());
+    }
+
 }

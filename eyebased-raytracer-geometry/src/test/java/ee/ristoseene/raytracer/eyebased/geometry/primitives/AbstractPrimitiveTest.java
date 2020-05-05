@@ -30,4 +30,19 @@ public abstract class AbstractPrimitiveTest extends AbstractGeometryTest {
         Assertions.assertSame(factory, primitive.getGeometryContextFactory());
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        AbstractPrimitive originalPrimitive = (AbstractPrimitive) original;
+        RaySurfaceIntersectionGeometryContextFactory factory = Mockito.mock(RaySurfaceIntersectionGeometryContextFactory.class);
+        originalPrimitive.setGeometryContextFactory(factory);
+
+        AbstractPrimitive clonedPrimitive = super.cloneShouldCreateValidCopyOfItself(originalPrimitive);
+
+        Assertions.assertNotSame(originalPrimitive, clonedPrimitive);
+        Assertions.assertSame(factory, clonedPrimitive.getGeometryContextFactory());
+
+        return (T) clonedPrimitive;
+    }
+
 }

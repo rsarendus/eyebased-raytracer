@@ -52,4 +52,19 @@ public abstract class AbstractPositionTransformTest extends ChainableTransformTe
         ), compilationResult, 0.000001);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
+        AbstractPositionTransform originalTransform = (AbstractPositionTransform) original;
+        Vector3.Accessible position = Mockito.mock(Vector3.Accessible.class);
+        originalTransform.setPosition(position);
+
+        AbstractPositionTransform clonedTransform = super.cloneShouldCreateValidCopyOfItself(originalTransform);
+
+        Assertions.assertNotSame(originalTransform, clonedTransform);
+        Assertions.assertSame(position, clonedTransform.getPosition());
+
+        return (T) clonedTransform;
+    }
+
 }
