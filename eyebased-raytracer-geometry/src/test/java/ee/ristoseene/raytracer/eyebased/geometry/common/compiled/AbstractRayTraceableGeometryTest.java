@@ -1,13 +1,18 @@
 package ee.ristoseene.raytracer.eyebased.geometry.common.compiled;
 
+import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
+import ee.ristoseene.raytracer.eyebased.geometry.CompiledGeometry;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix4x4;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public abstract class AbstractRayTraceableGeometryTest {
@@ -49,6 +54,17 @@ public abstract class AbstractRayTraceableGeometryTest {
         );
 
         Assertions.assertEquals("Shading pipeline not provided", exception.getMessage());
+    }
+
+    @Test
+    public void rayTraceableGeometryShouldCompileToItself() {
+        AbstractRayTraceableGeometry rayTraceableGeometry = createInstanceWithConfiguration(createDefaultConfiguration());
+        CompilationCache compilationCache = Mockito.mock(CompilationCache.class);
+
+        CompiledGeometry compilationResult = rayTraceableGeometry.compile(Optional.of(compilationCache));
+
+        Assertions.assertSame(rayTraceableGeometry, compilationResult);
+        Mockito.verifyNoInteractions(compilationCache);
     }
 
     @Test
