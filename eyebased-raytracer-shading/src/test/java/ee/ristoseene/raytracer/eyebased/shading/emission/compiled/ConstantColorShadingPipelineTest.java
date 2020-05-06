@@ -1,4 +1,4 @@
-package ee.ristoseene.raytracer.eyebased.shading.simple.compiled;
+package ee.ristoseene.raytracer.eyebased.shading.emission.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.configuration.SampleValueFactory;
@@ -20,20 +20,10 @@ import java.util.Optional;
 public class ConstantColorShadingPipelineTest {
 
     @Test
-    public void shadingPipelineShouldNotAllowMissingColorForOneArgumentConstructor() {
+    public void shadingPipelineShouldNotAllowMissingColor() {
         NullPointerException exception = Assertions.assertThrows(
                 NullPointerException.class,
                 () -> new ConstantColorShadingPipeline(null)
-        );
-
-        Assertions.assertEquals("Color not provided", exception.getMessage());
-    }
-
-    @Test
-    public void shadingPipelineShouldNotAllowMissingColorForTwoArgumentConstructor() {
-        NullPointerException exception = Assertions.assertThrows(
-                NullPointerException.class,
-                () -> new ConstantColorShadingPipeline(null, 1.0)
         );
 
         Assertions.assertEquals("Color not provided", exception.getMessage());
@@ -54,7 +44,7 @@ public class ConstantColorShadingPipelineTest {
     public void shadeShouldReturnSampleValueWithTheAssignedColor() {
         SampleValue sampleValue = Mockito.mock(SampleValue.class);
         SampleValueFactory sampleValueFactory = Mockito.mock(SampleValueFactory.class);
-        Mockito.doReturn(sampleValue).when(sampleValueFactory).create(Mockito.any(), Mockito.any(Vector3.Accessible.class), Mockito.anyDouble());
+        Mockito.doReturn(sampleValue).when(sampleValueFactory).create(Mockito.any(), Mockito.any(Vector3.Accessible.class));
 
         ShadingContext shadingContext = ShadingTestingUtilities.createShadingContextMock(Map.of(
                 SampleValueFactory.KEY, sampleValueFactory
@@ -62,13 +52,13 @@ public class ConstantColorShadingPipelineTest {
 
         BounceContext bounceContext = Mockito.mock(BounceContext.class);
         Vector3.Accessible color = new ImmutableVector3(1.1, 2.2, 3.3);
-        ShadingPipeline shadingPipeline = new ConstantColorShadingPipeline(color, 4.4);
+        ShadingPipeline shadingPipeline = new ConstantColorShadingPipeline(color);
 
         SampleValue shadingResult = shadingPipeline.shade(shadingContext, bounceContext);
 
         Assertions.assertSame(sampleValue, shadingResult);
         Mockito.verify(shadingContext, Mockito.times(1)).getAttributeValue(SampleValueFactory.KEY);
-        Mockito.verify(sampleValueFactory, Mockito.times(1)).create(shadingContext, color, 4.4);
+        Mockito.verify(sampleValueFactory, Mockito.times(1)).create(shadingContext, color);
         Mockito.verifyNoMoreInteractions(shadingContext, sampleValueFactory, sampleValue);
     }
 
