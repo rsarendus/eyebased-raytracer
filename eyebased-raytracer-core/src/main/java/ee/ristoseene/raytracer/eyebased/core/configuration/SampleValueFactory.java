@@ -14,6 +14,10 @@ public interface SampleValueFactory {
         return create(shadingContext, rgb.x(), rgb.y(), rgb.z(), alpha);
     }
 
+    default SampleValue create(final ShadingContext shadingContext, final double red, final double green, final double blue) {
+        return create(shadingContext, red, green, blue, 1.0);
+    }
+
     default SampleValue create(final ShadingContext shadingContext, final Vector3.Accessible rgb) {
         return create(shadingContext, rgb.x(), rgb.y(), rgb.z(), 1.0);
     }

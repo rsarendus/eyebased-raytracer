@@ -74,6 +74,13 @@ public interface ShadingTestingUtilities {
     }
 
     @SuppressWarnings("unchecked")
+    static ShadingContext createShadingContextMock(GeometryContext geometryContext, RayIntersectionContext rayIntersectionContext, Map<TypedAttribute, Object> attributesMap) {
+        ShadingContext shadingContext = createShadingContextMock(geometryContext, rayIntersectionContext, false);
+        mockShadingContextAttributes(shadingContext, attributesMap);
+        return shadingContext;
+    }
+
+    @SuppressWarnings("unchecked")
     static ShadingContext createShadingContextMock(Map<TypedAttribute, Object> attributesMap) {
         ShadingContext shadingContext = createShadingContextMock(null, null, false);
         mockShadingContextAttributes(shadingContext, attributesMap);

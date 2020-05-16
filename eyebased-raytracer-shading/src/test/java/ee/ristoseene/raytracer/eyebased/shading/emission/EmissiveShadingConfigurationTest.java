@@ -74,4 +74,16 @@ public class EmissiveShadingConfigurationTest extends AbstractShadingConfigurati
         Assertions.assertTrue(compilationResult instanceof DynamicColorShadingPipeline);
     }
 
+    @Test
+    public void cloneShouldCreateValidCopyOfItself() {
+        CompilableValueProvider<Vector3.Accessible> color = createCompilableValueProviderMock();
+        EmissiveShadingConfiguration originalShadingConfiguration = createDefaultInstance()
+                .withColor(color);
+
+        EmissiveShadingConfiguration clonedShadingConfiguration = super.cloneShouldCreateValidCopyOfItself(originalShadingConfiguration);
+
+        Assertions.assertNotSame(originalShadingConfiguration, clonedShadingConfiguration);
+        Assertions.assertSame(color, clonedShadingConfiguration.getColor());
+    }
+
 }
