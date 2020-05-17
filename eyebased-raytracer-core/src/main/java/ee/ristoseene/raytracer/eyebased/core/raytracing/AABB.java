@@ -14,10 +14,10 @@ public interface AABB {
     double getMinimumZ();
     double getMaximumZ();
 
-    boolean intersects(Ray ray);
+    boolean intersects(Ray ray, DepthTest depthTest);
 
-    default boolean intersects(final TracingRayContext tracingRayContext) {
-        return intersects(tracingRayContext.getTracingRay());
+    default boolean intersects(final TracingRayContext tracingRayContext, final DepthTest depthTest) {
+        return intersects(tracingRayContext.getTracingRay(), depthTest);
     }
 
     default boolean isInBounds(final Vector3.Accessible position) {

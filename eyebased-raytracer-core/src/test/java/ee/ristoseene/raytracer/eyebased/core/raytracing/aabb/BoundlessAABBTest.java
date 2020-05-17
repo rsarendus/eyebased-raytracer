@@ -1,6 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.core.raytracing.aabb;
 
 import ee.ristoseene.raytracer.eyebased.core.helpers.VecMathAssertions;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.DepthTest;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.vecmath.Vector3;
@@ -45,21 +46,23 @@ public class BoundlessAABBTest {
     @Test
     public void intersectsShouldReturnFalseAndNotInteractWithRay() {
         Ray ray = Mockito.mock(Ray.class);
+        DepthTest depthTest = Mockito.mock(DepthTest.class);
 
-        boolean result = INSTANCE.intersects(ray);
+        boolean result = INSTANCE.intersects(ray, depthTest);
 
         Assertions.assertEquals(false, result);
-        Mockito.verifyNoInteractions(ray);
+        Mockito.verifyNoInteractions(ray, depthTest);
     }
 
     @Test
     public void intersectsShouldReturnFalseAndNotInteractWithTracingRayContext() {
         TracingRayContext tracingRayContext = Mockito.mock(TracingRayContext.class);
+        DepthTest depthTest = Mockito.mock(DepthTest.class);
 
-        boolean result = INSTANCE.intersects(tracingRayContext);
+        boolean result = INSTANCE.intersects(tracingRayContext, depthTest);
 
         Assertions.assertEquals(false, result);
-        Mockito.verifyNoInteractions(tracingRayContext);
+        Mockito.verifyNoInteractions(tracingRayContext, depthTest);
     }
 
     @Test

@@ -2,6 +2,7 @@ package ee.ristoseene.raytracer.eyebased.core.raytracing.aabb;
 
 import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.DepthTest;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.vecmath.Vector3;
@@ -20,22 +21,24 @@ public class UntraceableAABBTest extends AbstractBoundedAABBTest {
     public void intersectsShouldReturnFalseAndNotInteractWithRay() {
         AABB aabb = createInstance(Vectors.VECTOR3_minusONE_minusONE_minusONE, Vectors.VECTOR3_plusONE_plusONE_plusONE);
         Ray ray = Mockito.mock(Ray.class);
+        DepthTest depthTest = Mockito.mock(DepthTest.class);
 
-        boolean result = aabb.intersects(ray);
+        boolean result = aabb.intersects(ray, depthTest);
 
         Assertions.assertEquals(false, result);
-        Mockito.verifyNoInteractions(ray);
+        Mockito.verifyNoInteractions(ray, depthTest);
     }
 
     @Test
     public void intersectsShouldReturnFalseAndNotInteractWithTracingRayContext() {
         AABB aabb = createInstance(Vectors.VECTOR3_minusONE_minusONE_minusONE, Vectors.VECTOR3_plusONE_plusONE_plusONE);
         TracingRayContext tracingRayContext = Mockito.mock(TracingRayContext.class);
+        DepthTest depthTest = Mockito.mock(DepthTest.class);
 
-        boolean result = aabb.intersects(tracingRayContext);
+        boolean result = aabb.intersects(tracingRayContext, depthTest);
 
         Assertions.assertEquals(false, result);
-        Mockito.verifyNoInteractions(tracingRayContext);
+        Mockito.verifyNoInteractions(tracingRayContext, depthTest);
     }
 
 }
