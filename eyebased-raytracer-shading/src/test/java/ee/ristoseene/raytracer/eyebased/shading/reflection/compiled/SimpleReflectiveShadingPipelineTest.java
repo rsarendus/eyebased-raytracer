@@ -25,11 +25,11 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
-public class SharpReflectiveShadingPipelineTest extends AbstractColorMultiplyingBounceShadingPipelineTest {
+public class SimpleReflectiveShadingPipelineTest extends AbstractColorMultiplyingBounceShadingPipelineTest {
 
     @Override
-    protected SharpReflectiveShadingPipeline createInstanceWithColorMultiplier(final ValueProvider<Vector3.Accessible> colorMultiplierProvider) {
-        return new SharpReflectiveShadingPipeline(colorMultiplierProvider);
+    protected SimpleReflectiveShadingPipeline createInstanceWithColorMultiplier(final ValueProvider<Vector3.Accessible> colorMultiplierProvider) {
+        return new SimpleReflectiveShadingPipeline(colorMultiplierProvider);
     }
 
     @Test

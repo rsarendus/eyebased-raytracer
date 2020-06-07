@@ -8,8 +8,8 @@ import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueP
 import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.BlurryReflectiveShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.SharpReflectiveShadingPipeline;
+import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.RoughSurfaceReflectiveShadingPipeline;
+import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.SimpleReflectiveShadingPipeline;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;
@@ -29,59 +29,59 @@ public class ReflectiveShadingConfigurationTest extends AbstractShadingConfigura
 
     @Test
     public void setReflectionColorShouldSetTheReflectionColor() {
-        CompilableValueProvider<Vector3.Accessible> color = createCompilableValueProviderMock();
+        CompilableValueProvider<Vector3.Accessible> reflectionColor = createCompilableValueProviderMock();
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance();
 
-        shadingConfiguration.setReflectionColor(color);
+        shadingConfiguration.setReflectionColor(reflectionColor);
 
-        Assertions.assertSame(color, shadingConfiguration.getReflectionColor());
+        Assertions.assertSame(reflectionColor, shadingConfiguration.getReflectionColor());
     }
 
     @Test
     public void withReflectionColorShouldSetTheReflectionColorAndReturnItself() {
-        CompilableValueProvider<Vector3.Accessible> color = createCompilableValueProviderMock();
+        CompilableValueProvider<Vector3.Accessible> reflectionColor = createCompilableValueProviderMock();
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance();
 
-        Assertions.assertSame(shadingConfiguration, shadingConfiguration.withReflectionColor(color));
-        Assertions.assertSame(color, shadingConfiguration.getReflectionColor());
+        Assertions.assertSame(shadingConfiguration, shadingConfiguration.withReflectionColor(reflectionColor));
+        Assertions.assertSame(reflectionColor, shadingConfiguration.getReflectionColor());
     }
 
     @Test
-    public void setReflectionBlurrinessShouldSetTheReflectionBlurriness() {
-        CompilableDoubleValueProvider blurriness = Mockito.mock(CompilableDoubleValueProvider.class);
+    public void setSurfaceRoughnessShouldSetTheSurfaceRoughness() {
+        CompilableDoubleValueProvider surfaceRoughness = Mockito.mock(CompilableDoubleValueProvider.class);
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance();
 
-        shadingConfiguration.setReflectionBlurriness(blurriness);
+        shadingConfiguration.setSurfaceRoughness(surfaceRoughness);
 
-        Assertions.assertSame(blurriness, shadingConfiguration.getReflectionBlurriness());
+        Assertions.assertSame(surfaceRoughness, shadingConfiguration.getSurfaceRoughness());
     }
 
     @Test
-    public void withReflectionBlurrinessShouldSetTheReflectionBlurrinessAndReturnItself() {
-        CompilableDoubleValueProvider blurriness = Mockito.mock(CompilableDoubleValueProvider.class);
+    public void withSurfaceRoughnessShouldSetTheSurfaceRoughnessAndReturnItself() {
+        CompilableDoubleValueProvider surfaceRoughness = Mockito.mock(CompilableDoubleValueProvider.class);
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance();
 
-        Assertions.assertSame(shadingConfiguration, shadingConfiguration.withReflectionBlurriness(blurriness));
-        Assertions.assertSame(blurriness, shadingConfiguration.getReflectionBlurriness());
+        Assertions.assertSame(shadingConfiguration, shadingConfiguration.withSurfaceRoughness(surfaceRoughness));
+        Assertions.assertSame(surfaceRoughness, shadingConfiguration.getSurfaceRoughness());
     }
 
     @Test
-    public void setBlurSamplerShouldSetTheBlurSampler() {
-        AdjustableHemisphericalSampler blurSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
+    public void setRoughnessSamplerShouldSetTheRoughnessSampler() {
+        AdjustableHemisphericalSampler roughnessSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance();
 
-        shadingConfiguration.setBlurSampler(blurSampler);
+        shadingConfiguration.setRoughnessSampler(roughnessSampler);
 
-        Assertions.assertSame(blurSampler, shadingConfiguration.getBlurSampler());
+        Assertions.assertSame(roughnessSampler, shadingConfiguration.getRoughnessSampler());
     }
 
     @Test
-    public void withBlurSamplerShouldSetTheBlurSamplerAndReturnItself() {
-        AdjustableHemisphericalSampler blurSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
+    public void withRoughnessSamplerShouldSetTheRoughnessSamplerAndReturnItself() {
+        AdjustableHemisphericalSampler roughnessSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance();
 
-        Assertions.assertSame(shadingConfiguration, shadingConfiguration.withBlurSampler(blurSampler));
-        Assertions.assertSame(blurSampler, shadingConfiguration.getBlurSampler());
+        Assertions.assertSame(shadingConfiguration, shadingConfiguration.withRoughnessSampler(roughnessSampler));
+        Assertions.assertSame(roughnessSampler, shadingConfiguration.getRoughnessSampler());
     }
 
     @Test
@@ -96,63 +96,63 @@ public class ReflectiveShadingConfigurationTest extends AbstractShadingConfigura
     }
 
     @Test
-    public void compileForUnsetReflectionBlurrinessShouldReturnSharpReflectivePipeline() {
+    public void compileForUnsetSurfaceRoughnessShouldReturnSimpleReflectivePipeline() {
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance()
                 .withReflectionColor(new ConstantValueProvider<>(new ImmutableVector3(1.1, 2.2, 3.3)));
 
         ShadingPipeline compilationResult = shadingConfiguration.compile(Optional.empty());
 
-        Assertions.assertTrue(compilationResult instanceof SharpReflectiveShadingPipeline);
+        Assertions.assertTrue(compilationResult instanceof SimpleReflectiveShadingPipeline);
     }
 
     @Test
-    public void compileForZeroReflectionBlurrinessShouldReturnSharpReflectivePipeline() {
+    public void compileForZeroSurfaceRoughnessShouldReturnSimpleReflectivePipeline() {
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance()
                 .withReflectionColor(new ConstantValueProvider<>(new ImmutableVector3(1.1, 2.2, 3.3)))
-                .withReflectionBlurriness(new ConstantDoubleValueProvider(0.0));
+                .withSurfaceRoughness(new ConstantDoubleValueProvider(0.0));
 
         ShadingPipeline compilationResult = shadingConfiguration.compile(Optional.empty());
 
-        Assertions.assertTrue(compilationResult instanceof SharpReflectiveShadingPipeline);
+        Assertions.assertTrue(compilationResult instanceof SimpleReflectiveShadingPipeline);
     }
 
     @Test
-    public void compileForUnsetColorAndNonZeroBlurrinessShouldReturnBlurryReflectiveShadingPipeline() {
+    public void compileForUnsetColorAndNonZeroRoughnessShouldReturnRoughSurfaceReflectiveShadingPipeline() {
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance()
-                .withReflectionBlurriness(new ConstantDoubleValueProvider(3.7));
+                .withSurfaceRoughness(new ConstantDoubleValueProvider(3.7));
 
         ShadingPipeline compilationResult = shadingConfiguration.compile(Optional.empty());
 
-        Assertions.assertTrue(compilationResult instanceof BlurryReflectiveShadingPipeline);
+        Assertions.assertTrue(compilationResult instanceof RoughSurfaceReflectiveShadingPipeline);
     }
 
     @Test
-    public void compileForNonBlackColorAndNonZeroBlurrinessShouldReturnBlurryReflectiveShadingPipeline() {
+    public void compileForNonBlackColorAndNonZeroRoughnessShouldReturnRoughSurfaceReflectiveShadingPipeline() {
         ReflectiveShadingConfiguration shadingConfiguration = createDefaultInstance()
                 .withReflectionColor(new ConstantValueProvider<>(new ImmutableVector3(1.1, 2.2, 3.3)))
-                .withReflectionBlurriness(new ConstantDoubleValueProvider(3.7));
+                .withSurfaceRoughness(new ConstantDoubleValueProvider(3.7));
 
         ShadingPipeline compilationResult = shadingConfiguration.compile(Optional.empty());
 
-        Assertions.assertTrue(compilationResult instanceof BlurryReflectiveShadingPipeline);
+        Assertions.assertTrue(compilationResult instanceof RoughSurfaceReflectiveShadingPipeline);
     }
 
     @Test
     public void cloneShouldCreateValidCopyOfItself() {
         CompilableValueProvider<Vector3.Accessible> reflectionColor = createCompilableValueProviderMock();
-        CompilableDoubleValueProvider reflectionBlurriness = Mockito.mock(CompilableDoubleValueProvider.class);
-        AdjustableHemisphericalSampler blurSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
+        CompilableDoubleValueProvider surfaceRoughness = Mockito.mock(CompilableDoubleValueProvider.class);
+        AdjustableHemisphericalSampler roughnessSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
         ReflectiveShadingConfiguration originalShadingConfiguration = createDefaultInstance()
                 .withReflectionColor(reflectionColor)
-                .withReflectionBlurriness(reflectionBlurriness)
-                .withBlurSampler(blurSampler);
+                .withSurfaceRoughness(surfaceRoughness)
+                .withRoughnessSampler(roughnessSampler);
 
         ReflectiveShadingConfiguration clonedShadingConfiguration = cloneShouldCreateValidCopyOfItself(originalShadingConfiguration);
 
         Assertions.assertNotSame(originalShadingConfiguration, clonedShadingConfiguration);
         Assertions.assertSame(reflectionColor, clonedShadingConfiguration.getReflectionColor());
-        Assertions.assertSame(reflectionBlurriness, clonedShadingConfiguration.getReflectionBlurriness());
-        Assertions.assertSame(blurSampler, clonedShadingConfiguration.getBlurSampler());
+        Assertions.assertSame(surfaceRoughness, clonedShadingConfiguration.getSurfaceRoughness());
+        Assertions.assertSame(roughnessSampler, clonedShadingConfiguration.getRoughnessSampler());
     }
 
 }

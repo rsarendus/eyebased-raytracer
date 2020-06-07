@@ -34,41 +34,41 @@ import java.util.Objects;
  * @see ShadingContext#getAttributeValue(TypedAttribute)
  * @see AbstractColorMultiplyingBounceShadingPipeline
  */
-public class BlurryReflectiveShadingPipeline extends AbstractColorMultiplyingBounceShadingPipeline {
+public class RoughSurfaceReflectiveShadingPipeline extends AbstractColorMultiplyingBounceShadingPipeline {
 
-    private final DoubleValueProvider reflectionBlurriness;
-    private final AdjustableHemisphericalSampler blurSampler;
+    private final DoubleValueProvider surfaceRoughness;
+    private final AdjustableHemisphericalSampler roughnessSampler;
 
-    public BlurryReflectiveShadingPipeline(
+    public RoughSurfaceReflectiveShadingPipeline(
             final ValueProvider<Vector3.Accessible> reflectionColor,
-            final DoubleValueProvider reflectionBlurriness,
-            final AdjustableHemisphericalSampler blurSampler
+            final DoubleValueProvider surfaceRoughness,
+            final AdjustableHemisphericalSampler roughnessSampler
     ) {
         super(reflectionColor);
-        this.reflectionBlurriness = Objects.requireNonNull(reflectionBlurriness, "Reflection blurriness not provided");
-        this.blurSampler = Objects.requireNonNull(blurSampler, "Blur sampler not provided");
+        this.surfaceRoughness = Objects.requireNonNull(surfaceRoughness, "Surface roughness not provided");
+        this.roughnessSampler = Objects.requireNonNull(roughnessSampler, "Roughness sampler not provided");
     }
 
     @Override
     protected SampleValue shadeBouncing(final ShadingContext shadingContext, final BounceContext bounceContext) {
-        final double blurrinessMultiplier = reflectionBlurriness.getDoubleValue(shadingContext);
+        final double roughnessMultiplier = surfaceRoughness.getDoubleValue(shadingContext);
         return shadingContext.getAttributeValue(BounceSamplingProcessor.KEY).processBounceSampling(
-                new ReflectiveBounceSampler(blurSampler, blurrinessMultiplier),
-                shadingContext, bounceContext, blurrinessMultiplier
+                new ReflectiveBounceSampler(roughnessSampler, roughnessMultiplier),
+                shadingContext, bounceContext, roughnessMultiplier
         );
     }
 
     private static final class ReflectiveBounceSampler implements BounceSamplingProcessor.BounceSampler {
 
-        private final AdjustableHemisphericalSampler blurSampler;
-        private final double blurrinessMultiplier;
+        private final AdjustableHemisphericalSampler roughnessSampler;
+        private final double roughnessMultiplier;
 
         ReflectiveBounceSampler(
-                final AdjustableHemisphericalSampler blurSampler,
-                final double blurrinessMultiplier
+                final AdjustableHemisphericalSampler roughnessSampler,
+                final double roughnessMultiplier
         ) {
-            this.blurSampler = blurSampler;
-            this.blurrinessMultiplier = blurrinessMultiplier;
+            this.roughnessSampler = roughnessSampler;
+            this.roughnessMultiplier = roughnessMultiplier;
         }
 
         @Override
@@ -84,7 +84,7 @@ public class BlurryReflectiveShadingPipeline extends AbstractColorMultiplyingBou
             final Vector3.Accessible bounceOrigin = rayIntersectionContext.getRayIntersectionPoint();
             final Vector3.Accessible bounceDirection = VecMath.reflect(
                     rayIntersectionContext.getIntersectingRay().getDirection(),
-                    blurSampler.sample(shadingContext.getGeometryContext().getSurfaceNormal(), blurrinessMultiplier),
+                    roughnessSampler.sample(shadingContext.getGeometryContext().getSurfaceNormal(), roughnessMultiplier),
                     Factories.FACTORY_CONST_VECTOR3_xyz
             );
             return new SimpleRay(bounceOrigin, bounceDirection);

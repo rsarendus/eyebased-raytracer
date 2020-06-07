@@ -29,37 +29,37 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
-public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyingBounceShadingPipelineTest {
+public class RoughSurfaceReflectiveShadingPipelineTest extends AbstractColorMultiplyingBounceShadingPipelineTest {
 
     @Override
-    protected BlurryReflectiveShadingPipeline createInstanceWithColorMultiplier(final ValueProvider<Vector3.Accessible> colorMultiplierProvider) {
-        return new BlurryReflectiveShadingPipeline(colorMultiplierProvider, Mockito.mock(DoubleValueProvider.class), Mockito.mock(AdjustableHemisphericalSampler.class));
+    protected RoughSurfaceReflectiveShadingPipeline createInstanceWithColorMultiplier(final ValueProvider<Vector3.Accessible> colorMultiplierProvider) {
+        return new RoughSurfaceReflectiveShadingPipeline(colorMultiplierProvider, Mockito.mock(DoubleValueProvider.class), Mockito.mock(AdjustableHemisphericalSampler.class));
     }
 
     @Test
-    public void shadingPipelineShouldNotAllowMissingReflectionBlurriness() {
+    public void shadingPipelineShouldNotAllowMissingSurfaceRoughness() {
         ValueProvider<Vector3.Accessible> reflectionColor = ShadingTestingUtilities.createValueProviderMock();
-        AdjustableHemisphericalSampler blurSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
+        AdjustableHemisphericalSampler roughnessSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
 
         NullPointerException exception = Assertions.assertThrows(
                 NullPointerException.class,
-                () -> new BlurryReflectiveShadingPipeline(reflectionColor, null, blurSampler)
+                () -> new RoughSurfaceReflectiveShadingPipeline(reflectionColor, null, roughnessSampler)
         );
 
-        Assertions.assertEquals("Reflection blurriness not provided", exception.getMessage());
+        Assertions.assertEquals("Surface roughness not provided", exception.getMessage());
     }
 
     @Test
-    public void shadingPipelineShouldNotAllowMissingBlurSampler() {
+    public void shadingPipelineShouldNotAllowMissingRoughnessSampler() {
         ValueProvider<Vector3.Accessible> reflectionColor = ShadingTestingUtilities.createValueProviderMock();
-        DoubleValueProvider reflectionBlurriness = Mockito.mock(DoubleValueProvider.class);
+        DoubleValueProvider surfaceRoughness = Mockito.mock(DoubleValueProvider.class);
 
         NullPointerException exception = Assertions.assertThrows(
                 NullPointerException.class,
-                () -> new BlurryReflectiveShadingPipeline(reflectionColor, reflectionBlurriness, null)
+                () -> new RoughSurfaceReflectiveShadingPipeline(reflectionColor, surfaceRoughness, null)
         );
 
-        Assertions.assertEquals("Blur sampler not provided", exception.getMessage());
+        Assertions.assertEquals("Roughness sampler not provided", exception.getMessage());
     }
 
     @Test
@@ -68,9 +68,9 @@ public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyin
         ValueProvider<Vector3.Accessible> reflectionColorProvider = ShadingTestingUtilities.createValueProviderMock();
         Mockito.doReturn(reflectionColor).when(reflectionColorProvider).getValue(Mockito.any(ShadingContext.class));
 
-        DoubleValueProvider reflectionBlurriness = Mockito.mock(DoubleValueProvider.class);
-        Mockito.doReturn(7.35).when(reflectionBlurriness).getDoubleValue(Mockito.any(ShadingContext.class));
-        AdjustableHemisphericalSampler blurSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
+        DoubleValueProvider surfaceRoughnessProvider = Mockito.mock(DoubleValueProvider.class);
+        Mockito.doReturn(7.35).when(surfaceRoughnessProvider).getDoubleValue(Mockito.any(ShadingContext.class));
+        AdjustableHemisphericalSampler roughnessSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
 
         BounceShadingFilter bounceShadingFilter = Mockito.mock(BounceShadingFilter.class);
         Mockito.doReturn(true).when(bounceShadingFilter).test(Mockito.any(BounceContext.class), Mockito.any(Vector3.Accessible.class));
@@ -89,7 +89,7 @@ public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyin
         ));
 
         BounceContext bounceContext = Mockito.mock(BounceContext.class);
-        ShadingPipeline shadingPipeline = new BlurryReflectiveShadingPipeline(reflectionColorProvider, reflectionBlurriness, blurSampler);
+        ShadingPipeline shadingPipeline = new RoughSurfaceReflectiveShadingPipeline(reflectionColorProvider, surfaceRoughnessProvider, roughnessSampler);
 
         SampleValue shadingResult = shadingPipeline.shade(shadingContext, bounceContext);
 
@@ -97,13 +97,13 @@ public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyin
         Mockito.verify(reflectionColorProvider, Mockito.times(1)).getValue(shadingContext);
         Mockito.verify(shadingContext, Mockito.times(1)).getAttributeValue(BounceShadingFilter.KEY);
         Mockito.verify(bounceShadingFilter, Mockito.times(1)).test(bounceContext, reflectionColor);
-        Mockito.verify(reflectionBlurriness, Mockito.times(1)).getDoubleValue(shadingContext);
+        Mockito.verify(surfaceRoughnessProvider, Mockito.times(1)).getDoubleValue(shadingContext);
         Mockito.verify(shadingContext, Mockito.times(1)).getAttributeValue(BounceSamplingProcessor.KEY);
         Mockito.verify(bounceSamplingProcessor, Mockito.times(1)).processBounceSampling(Mockito
                 .any(BounceSamplingProcessor.BounceSampler.class), Mockito.same(shadingContext), Mockito.same(bounceContext), Mockito.eq(7.35));
         Mockito.verify(shadingContext, Mockito.times(1)).getAttributeValue(BounceSampleResolver.KEY);
         Mockito.verify(bounceSampleResolver, Mockito.times(1)).resolveBounceSample(shadingContext, shadedSampleValue, reflectionColor);
-        Mockito.verifyNoMoreInteractions(reflectionColorProvider, reflectionBlurriness, blurSampler, shadingContext,
+        Mockito.verifyNoMoreInteractions(reflectionColorProvider, surfaceRoughnessProvider, roughnessSampler, shadingContext,
                 bounceShadingFilter, bounceSamplingProcessor, bounceSampleResolver, bounceContext);
     }
 
@@ -118,14 +118,14 @@ public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyin
         Vector3.Accessible intersectionPoint = new ImmutableVector3(1.1, 2.2, 3.3);
         Ray intersectingRay = new SimpleRay(new ImmutableVector3(4.4, 5.5, 6.6), Factories
                 .FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(7.7, 8.8, 9.9));
-        Vector3.Accessible blurSampledNormal = Factories
+        Vector3.Accessible roughSampledNormal = Factories
                 .FACTORY_CONST_VECTOR3_NORMALIZED_xyz.create(9.3, 6.2, 3.1);
         Ray expectedBouncingRay = new SimpleRay(intersectionPoint, VecMath
-                .reflect(intersectingRay.getDirection(), blurSampledNormal, Factories.FACTORY_CONST_VECTOR3_xyz));
+                .reflect(intersectingRay.getDirection(), roughSampledNormal, Factories.FACTORY_CONST_VECTOR3_xyz));
 
-        AdjustableHemisphericalSampler blurSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
-        Mockito.doReturn(blurSampledNormal).when(blurSampler).sample(Mockito.any(Vector3.Accessible.class), Mockito.anyDouble());
-        BounceSamplingProcessor.BounceSampler bounceSampler = getPipelineBounceSampler(3.75, blurSampler);
+        AdjustableHemisphericalSampler roughnessSampler = Mockito.mock(AdjustableHemisphericalSampler.class);
+        Mockito.doReturn(roughSampledNormal).when(roughnessSampler).sample(Mockito.any(Vector3.Accessible.class), Mockito.anyDouble());
+        BounceSamplingProcessor.BounceSampler bounceSampler = getPipelineBounceSampler(3.75, roughnessSampler);
 
         GeometryContext geometryContext = Mockito.mock(GeometryContext.class);
         Mockito.doReturn(surfaceNormal).when(geometryContext).getSurfaceNormal();
@@ -150,17 +150,17 @@ public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyin
         Mockito.verify(rayIntersectionContext, Mockito.times(1)).getIntersectingRay();
         Mockito.verify(shadingContext, Mockito.times(1)).getGeometryContext();
         Mockito.verify(geometryContext, Mockito.times(1)).getSurfaceNormal();
-        Mockito.verify(blurSampler, Mockito.times(1)).sample(surfaceNormal, 3.75);
-        Mockito.verifyNoMoreInteractions(shadingContext, bouncingRayProcessor, rayIntersectionContext, geometryContext, blurSampler);
+        Mockito.verify(roughnessSampler, Mockito.times(1)).sample(surfaceNormal, 3.75);
+        Mockito.verifyNoMoreInteractions(shadingContext, bouncingRayProcessor, rayIntersectionContext, geometryContext, roughnessSampler);
     }
 
-    private static BounceSamplingProcessor.BounceSampler getPipelineBounceSampler(double reflectionBlurriness, AdjustableHemisphericalSampler blurSampler) {
+    private static BounceSamplingProcessor.BounceSampler getPipelineBounceSampler(double surfaceRoughness, AdjustableHemisphericalSampler roughnessSampler) {
         Vector3.Accessible reflectionColor = Mockito.mock(Vector3.Accessible.class);
         ValueProvider<Vector3.Accessible> reflectionColorProvider = ShadingTestingUtilities.createValueProviderMock();
         Mockito.doReturn(reflectionColor).when(reflectionColorProvider).getValue(Mockito.any(ShadingContext.class));
 
-        DoubleValueProvider reflectionBlurrinessProvider = Mockito.mock(DoubleValueProvider.class);
-        Mockito.doReturn(reflectionBlurriness).when(reflectionBlurrinessProvider).getDoubleValue(Mockito.any(ShadingContext.class));
+        DoubleValueProvider surfaceRoughnessProvider = Mockito.mock(DoubleValueProvider.class);
+        Mockito.doReturn(surfaceRoughness).when(surfaceRoughnessProvider).getDoubleValue(Mockito.any(ShadingContext.class));
 
         BounceShadingFilter bounceShadingFilter = Mockito.mock(BounceShadingFilter.class);
         Mockito.doReturn(true).when(bounceShadingFilter).test(Mockito.any(BounceContext.class), Mockito.any(Vector3.Accessible.class));
@@ -174,7 +174,7 @@ public class BlurryReflectiveShadingPipelineTest extends AbstractColorMultiplyin
                 BounceSamplingProcessor.KEY, bounceSamplingProcessor
         ));
 
-        ShadingPipeline shadingPipeline = new BlurryReflectiveShadingPipeline(reflectionColorProvider, reflectionBlurrinessProvider, blurSampler);
+        ShadingPipeline shadingPipeline = new RoughSurfaceReflectiveShadingPipeline(reflectionColorProvider, surfaceRoughnessProvider, roughnessSampler);
         shadingPipeline.shade(shadingContext, Mockito.mock(BounceContext.class));
 
         ArgumentCaptor<BounceSamplingProcessor.BounceSampler> bounceSamplerCaptor = ArgumentCaptor.forClass(BounceSamplingProcessor.BounceSampler.class);

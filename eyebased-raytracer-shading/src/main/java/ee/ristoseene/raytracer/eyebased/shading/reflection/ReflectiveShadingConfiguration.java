@@ -14,8 +14,8 @@ import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.providers.constant.VectorProviders;
-import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.BlurryReflectiveShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.SharpReflectiveShadingPipeline;
+import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.RoughSurfaceReflectiveShadingPipeline;
+import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.SimpleReflectiveShadingPipeline;
 import ee.ristoseene.vecmath.Vector3;
 
 import java.util.Optional;
@@ -23,8 +23,8 @@ import java.util.Optional;
 public class ReflectiveShadingConfiguration extends AbstractShadingConfiguration {
 
     private CompilableValueProvider<Vector3.Accessible> reflectionColor;
-    private CompilableDoubleValueProvider reflectionBlurriness;
-    private AdjustableHemisphericalSampler blurSampler;
+    private CompilableDoubleValueProvider surfaceRoughness;
+    private AdjustableHemisphericalSampler roughnessSampler;
 
     public CompilableValueProvider<Vector3.Accessible> getReflectionColor() {
         return reflectionColor;
@@ -39,29 +39,29 @@ public class ReflectiveShadingConfiguration extends AbstractShadingConfiguration
         return this;
     }
 
-    public CompilableDoubleValueProvider getReflectionBlurriness() {
-        return reflectionBlurriness;
+    public CompilableDoubleValueProvider getSurfaceRoughness() {
+        return surfaceRoughness;
     }
 
-    public void setReflectionBlurriness(final CompilableDoubleValueProvider reflectionBlurriness) {
-        this.reflectionBlurriness = reflectionBlurriness;
+    public void setSurfaceRoughness(final CompilableDoubleValueProvider surfaceRoughness) {
+        this.surfaceRoughness = surfaceRoughness;
     }
 
-    public ReflectiveShadingConfiguration withReflectionBlurriness(final CompilableDoubleValueProvider reflectionBlurriness) {
-        setReflectionBlurriness(reflectionBlurriness);
+    public ReflectiveShadingConfiguration withSurfaceRoughness(final CompilableDoubleValueProvider surfaceRoughness) {
+        setSurfaceRoughness(surfaceRoughness);
         return this;
     }
 
-    public AdjustableHemisphericalSampler getBlurSampler() {
-        return blurSampler;
+    public AdjustableHemisphericalSampler getRoughnessSampler() {
+        return roughnessSampler;
     }
 
-    public void setBlurSampler(final AdjustableHemisphericalSampler blurSampler) {
-        this.blurSampler = blurSampler;
+    public void setRoughnessSampler(final AdjustableHemisphericalSampler roughnessSampler) {
+        this.roughnessSampler = roughnessSampler;
     }
 
-    public ReflectiveShadingConfiguration withBlurSampler(final AdjustableHemisphericalSampler blurSampler) {
-        setBlurSampler(blurSampler);
+    public ReflectiveShadingConfiguration withRoughnessSampler(final AdjustableHemisphericalSampler roughnessSampler) {
+        setRoughnessSampler(roughnessSampler);
         return this;
     }
 
@@ -80,19 +80,19 @@ public class ReflectiveShadingConfiguration extends AbstractShadingConfiguration
             return ConstantColorShadingPipeline.BLACK_INSTANCE;
         }
 
-        final DoubleValueProvider reflectionBlurrinessProvider = (reflectionBlurriness != null)
-                ? reflectionBlurriness.compile(compilationCache)
+        final DoubleValueProvider surfaceRoughnessProvider = (surfaceRoughness != null)
+                ? surfaceRoughness.compile(compilationCache)
                 : ConstantDoubleValueProvider.ZERO_INSTANCE;
 
-        if (isConstantValue(reflectionBlurrinessProvider, blurriness -> blurriness == 0.0)) {
-            return new SharpReflectiveShadingPipeline(reflectionColorProvider);
+        if (isConstantValue(surfaceRoughnessProvider, roughness -> roughness == 0.0)) {
+            return new SimpleReflectiveShadingPipeline(reflectionColorProvider);
         }
 
-        final AdjustableHemisphericalSampler hemisphericalSampler = (blurSampler == null)
-                ? new CosineWeightedAdjustableHemisphericalSampler()
-                : blurSampler;
+        final AdjustableHemisphericalSampler sampler = (roughnessSampler == null)
+                ? CosineWeightedAdjustableHemisphericalSampler.INSTANCE
+                : roughnessSampler;
 
-        return new BlurryReflectiveShadingPipeline(reflectionColorProvider, reflectionBlurrinessProvider, hemisphericalSampler);
+        return new RoughSurfaceReflectiveShadingPipeline(reflectionColorProvider, surfaceRoughnessProvider, sampler);
     }
 
 }

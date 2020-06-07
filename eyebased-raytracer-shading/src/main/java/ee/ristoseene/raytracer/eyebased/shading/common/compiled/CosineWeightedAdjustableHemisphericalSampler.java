@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CosineWeightedAdjustableHemisphericalSampler implements AdjustableHemisphericalSampler {
 
+    public static final CosineWeightedAdjustableHemisphericalSampler INSTANCE = new CosineWeightedAdjustableHemisphericalSampler();
+
     @Override
     public Vector3.Accessible sample(final Vector3.Accessible direction, final double extent) {
         final ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -22,5 +24,7 @@ public class CosineWeightedAdjustableHemisphericalSampler implements AdjustableH
                 Factories.FACTORY_CONST_VECTOR3_xyz
         );
     }
+
+    protected CosineWeightedAdjustableHemisphericalSampler() {}
 
 }

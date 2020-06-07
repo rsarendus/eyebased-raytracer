@@ -24,9 +24,9 @@ import ee.ristoseene.vecmath.Vector3;
  * @see ShadingContext#getAttributeValue(TypedAttribute)
  * @see AbstractColorMultiplyingBounceShadingPipeline
  */
-public class SharpReflectiveShadingPipeline extends AbstractColorMultiplyingBounceShadingPipeline {
+public class SimpleReflectiveShadingPipeline extends AbstractColorMultiplyingBounceShadingPipeline {
 
-    public SharpReflectiveShadingPipeline(final ValueProvider<Vector3.Accessible> reflectionColor) {
+    public SimpleReflectiveShadingPipeline(final ValueProvider<Vector3.Accessible> reflectionColor) {
         super(reflectionColor);
     }
 
