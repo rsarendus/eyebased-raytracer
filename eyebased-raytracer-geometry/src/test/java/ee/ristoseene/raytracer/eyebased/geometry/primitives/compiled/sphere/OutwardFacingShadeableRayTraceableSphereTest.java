@@ -22,7 +22,7 @@ public class OutwardFacingShadeableRayTraceableSphereTest extends AbstractShadea
     @ParameterizedTest
     @EnumSource(Axis.class)
     public void testTracingFromOutsideTheSphere(final Axis tracingDirection) {
-        AbstractShadeableRayTraceableSphere sphere = createInstance(createDefaultConfiguration(), 2.0);
+        OutwardFacingShadeableRayTraceableSphere sphere = createInstance(createDefaultConfiguration(), 2.0);
         Ray tracingRay = new SimpleRay(VecMath.multiply(tracingDirection, -2.0, Factories.FACTORY_CONST_VECTOR3_xyz), tracingDirection);
 
         TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(sphere, tracingRay);
@@ -34,7 +34,7 @@ public class OutwardFacingShadeableRayTraceableSphereTest extends AbstractShadea
     @ParameterizedTest
     @EnumSource(Axis.class)
     public void testTracingFromInsideTheSphere(final Axis tracingDirection) {
-        AbstractShadeableRayTraceableSphere sphere = createInstance(createDefaultConfiguration(), 2.0);
+        OutwardFacingShadeableRayTraceableSphere sphere = createInstance(createDefaultConfiguration(), 2.0);
         Ray tracingRay = new SimpleRay(Vectors.VECTOR3_ZERO_ZERO_ZERO, tracingDirection);
 
         TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(sphere, tracingRay);

@@ -89,6 +89,19 @@ class FactoriesTest implements Factories {
     }
 
     @Test
+    public void constMatrix3x3DxyzShouldCreateImmutableMatrixWithSpecifiedDiagonal() {
+        Matrix3x3.Accessible result = FACTORY_CONST_MATRIX3x3_Dxyz.create(
+                1.1, 2.2, 3.3
+        );
+        assertEquals(new ImmutableMatrix3x3(
+                1.1, 0.0, 0.0,
+                0.0, 2.2, 0.0,
+                0.0, 0.0, 3.3
+        ), result, 0.0);
+        Assertions.assertFalse(result instanceof Matrix3x3.Mutable);
+    }
+
+    @Test
     public void constMatrix3x3XYZxyzShouldCreateImmutableMatrixWithSpecifiedElements() {
         Matrix3x3.Accessible result = FACTORY_CONST_MATRIX3x3_XYZxyz.create(
                 1.1, 2.2, 3.3,
@@ -104,6 +117,20 @@ class FactoriesTest implements Factories {
     }
 
     @Test
+    public void constMatrix4x4DxyzIdentityShouldCreateImmutableMatrixWithDiagonal3AndExtendItByIdentity() {
+        Matrix4x4.Accessible result = FACTORY_CONST_MATRIX4x4_Dxyz_IDENTITY.create(
+                1.1, 2.2, 3.3
+        );
+        assertEquals(new ImmutableMatrix4x4(
+                1.1, 0.0, 0.0, 0.0,
+                0.0, 2.2, 0.0, 0.0,
+                0.0, 0.0, 3.3, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        ), result, 0.0);
+        Assertions.assertFalse(result instanceof Matrix4x4.Mutable);
+    }
+
+    @Test
     public void constMatrix4x4XYZxyzIdentityShouldCreateImmutableMatrixWithSpecified3x3ElementsAndExtendItByIdentity() {
         Matrix4x4.Accessible result = FACTORY_CONST_MATRIX4x4_XYZxyz_IDENTITY.create(
                 1.1, 2.2, 3.3,
@@ -115,6 +142,20 @@ class FactoriesTest implements Factories {
                 4.4, 5.5, 6.6, 0.0,
                 7.7, 8.8, 9.9, 0.0,
                 0.0, 0.0, 0.0, 1.0
+        ), result, 0.0);
+        Assertions.assertFalse(result instanceof Matrix4x4.Mutable);
+    }
+
+    @Test
+    public void constMatrix4x4DxyzwShouldCreateImmutableMatrixWithSpecifiedDiagonal() {
+        Matrix4x4.Accessible result = FACTORY_CONST_MATRIX4x4_Dxyzw.create(
+                1.1, 2.2, 3.3, 4.4
+        );
+        assertEquals(new ImmutableMatrix4x4(
+                1.1, 0.0, 0.0, 0.0,
+                0.0, 2.2, 0.0, 0.0,
+                0.0, 0.0, 3.3, 0.0,
+                0.0, 0.0, 0.0, 4.4
         ), result, 0.0);
         Assertions.assertFalse(result instanceof Matrix4x4.Mutable);
     }

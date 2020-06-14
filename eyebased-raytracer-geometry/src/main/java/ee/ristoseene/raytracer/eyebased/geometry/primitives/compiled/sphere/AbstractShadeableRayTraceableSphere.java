@@ -1,16 +1,14 @@
 package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.sphere;
 
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.aabb.TraceableAABB;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.AbstractShadeableRayTraceablePrimitive;
+import ee.ristoseene.raytracer.eyebased.geometry.primitives.utilities.AABBFactory;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
-import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import ee.ristoseene.vecmath.mutable.MutableMatrix4x4;
 
 public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadeableRayTraceablePrimitive {
@@ -18,7 +16,7 @@ public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadea
     protected final Matrix4x4.Accessible intersectionPointToNormalTransform;
 
     protected AbstractShadeableRayTraceableSphere(final Configuration configuration, final double diameter) {
-        super(configuration, diameter * 0.5, AbstractShadeableRayTraceableSphere::calculateUnitSphereAABB);
+        super(configuration, diameter * 0.5, AABBFactory::createUnitSphereAABB);
 
         final Matrix4x4.AccessibleAndMutable normalMatrix = new MutableMatrix4x4(1.0, 1.0, 1.0, 1.0);
         normalMatrix.XYZxyz(globalToUnitLocalSpaceTransform.const$xyzXYZ());
@@ -57,18 +55,6 @@ public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadea
         final double negBDiv2A = b * negativeInverseA2;
 
         processRayInteraction(tracedState, negSqrtDDiv2A, negBDiv2A);
-    }
-
-    private static AABB calculateUnitSphereAABB(final Matrix4x4.Accessible transform) {
-        final Vector3.Accessible extent = new ImmutableVector3(
-                VecMath.length(transform.const$xXYZ()),
-                VecMath.length(transform.const$yXYZ()),
-                VecMath.length(transform.const$zXYZ())
-        );
-        return new TraceableAABB(
-                VecMath.subtract(transform.const$Txyz(), extent, Factories.FACTORY_CONST_VECTOR3_xyz),
-                VecMath.add(transform.const$Txyz(), extent, Factories.FACTORY_CONST_VECTOR3_xyz)
-        );
     }
 
 }

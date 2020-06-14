@@ -27,11 +27,14 @@ public interface Factories {
     Vector3.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyz0 = (x, y, z) -> FACTORY_CONST_VECTOR4_xyzw.create(x, y, z, 0.0);
     Vector3.Factory<Vector4.Accessible> FACTORY_CONST_VECTOR4_xyz1 = (x, y, z) -> FACTORY_CONST_VECTOR4_xyzw.create(x, y, z, 1.0);
 
+    Vector3.Factory<Matrix3x3.Accessible> FACTORY_CONST_MATRIX3x3_Dxyz = ImmutableMatrix3x3::new;
     Matrix3x3.Factory<Matrix3x3.Accessible> FACTORY_CONST_MATRIX3x3_XYZxyz = ImmutableMatrix3x3::new;
 
+    Vector3.Factory<Matrix4x4.Accessible> FACTORY_CONST_MATRIX4x4_Dxyz_IDENTITY = (Xx, Yy, Zz) -> new ImmutableMatrix4x4(Xx, Yy, Zz, 1.0);
     Matrix3x3.Factory<Matrix4x4.Accessible> FACTORY_CONST_MATRIX4x4_XYZxyz_IDENTITY = (Xx, Xy, Xz, Yx, Yy, Yz, Zx, Zy, Zz) ->
             new ImmutableMatrix4x4(Xx, Xy, Xz, 0.0, Yx, Yy, Yz, 0.0, Zx, Zy, Zz, 0.0, 0.0, 0.0, 0.0, 1.0);
 
+    Vector4.Factory<Matrix4x4.Accessible> FACTORY_CONST_MATRIX4x4_Dxyzw = ImmutableMatrix4x4::new;
     Matrix4x4.Factory<Matrix4x4.Accessible> FACTORY_CONST_MATRIX4x4_XYZTxyzw = ImmutableMatrix4x4::new;
 
     Quaternion.Factory<Quaternion.Accessible> FACTORY_CONST_QUATERNION_xyzw = ImmutableQuaternion::new;
