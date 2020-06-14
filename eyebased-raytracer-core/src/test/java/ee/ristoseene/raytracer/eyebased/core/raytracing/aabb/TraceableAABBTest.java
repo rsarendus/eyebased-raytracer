@@ -27,8 +27,8 @@ public class TraceableAABBTest extends AbstractBoundedAABBTest {
     protected static final double DELTA = 0.000001;
 
     @Override
-    protected TraceableAABB createInstance(final Vector3.Accessible p0, final Vector3.Accessible p1) {
-        return new TraceableAABB(p0, p1);
+    protected TraceableAABB createInstance(final Vector3.Accessible minimum, final Vector3.Accessible maximum) {
+        return new TraceableAABB(minimum, maximum);
     }
 
     @ParameterizedTest

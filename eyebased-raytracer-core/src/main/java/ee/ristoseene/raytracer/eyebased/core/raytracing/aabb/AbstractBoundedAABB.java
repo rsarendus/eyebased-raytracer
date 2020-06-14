@@ -1,18 +1,18 @@
 package ee.ristoseene.raytracer.eyebased.core.raytracing.aabb;
 
-import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
-import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
+
+import java.util.Objects;
 
 public abstract class AbstractBoundedAABB implements AABB {
 
     protected final Vector3.Accessible minimum;
     protected final Vector3.Accessible maximum;
 
-    protected AbstractBoundedAABB(final Vector3.Accessible p0, final Vector3.Accessible p1) {
-        minimum = VecMath.min(p0, p1, Factories.FACTORY_CONST_VECTOR3_xyz);
-        maximum = VecMath.max(p0, p1, Factories.FACTORY_CONST_VECTOR3_xyz);
+    protected AbstractBoundedAABB(final Vector3.Accessible minimum, final Vector3.Accessible maximum) {
+        this.minimum = Objects.requireNonNull(minimum, "Minimum bounds not provided");
+        this.maximum = Objects.requireNonNull(maximum, "Maximum bounds not provided");
     }
 
     @Override

@@ -13,8 +13,8 @@ import org.mockito.Mockito;
 public class UntraceableAABBTest extends AbstractBoundedAABBTest {
 
     @Override
-    protected UntraceableAABB createInstance(final Vector3.Accessible p0, final Vector3.Accessible p1) {
-        return new UntraceableAABB(p0, p1);
+    protected UntraceableAABB createInstance(final Vector3.Accessible minimum, final Vector3.Accessible maximum) {
+        return new UntraceableAABB(minimum, maximum);
     }
 
     @Test

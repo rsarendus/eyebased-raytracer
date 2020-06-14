@@ -9,8 +9,8 @@ import ee.ristoseene.vecmath.Vector3;
 
 public class TraceableAABB extends AbstractBoundedAABB implements AABB {
 
-    public TraceableAABB(final Vector3.Accessible p0, final Vector3.Accessible p1) {
-        super(p0, p1);
+    public TraceableAABB(final Vector3.Accessible minimum, final Vector3.Accessible maximum) {
+        super(minimum, maximum);
     }
 
     @Override

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
@@ -22,7 +21,7 @@ public abstract class AbstractBoundedAABBTest {
     protected static final Vector3.Accessible MINIMUMS_FOR_TESTING = new ImmutableVector3(-1.1, -2.2, -3.3);
     protected static final Vector3.Accessible MAXIMUMS_FOR_TESTING = new ImmutableVector3(+4.4, +5.5, +6.6);
 
-    protected abstract AbstractBoundedAABB createInstance(Vector3.Accessible p0, Vector3.Accessible p1);
+    protected abstract AbstractBoundedAABB createInstance(Vector3.Accessible minimum, Vector3.Accessible maximum);
 
     @Test
     public void getMinimumXShouldReturnTheMinimumX() {
@@ -133,37 +132,6 @@ public abstract class AbstractBoundedAABBTest {
                 new ImmutableVector3(0.0, MAXIMUMS_FOR_TESTING.y() + 0.000001, 0.0),
                 new ImmutableVector3(0.0, 0.0, MAXIMUMS_FOR_TESTING.z() + 0.000001)
         ).map(VerboseVecMath::verbose);
-    }
-
-    @ParameterizedTest
-    @MethodSource("mixedMinimumsAndMaximums")
-    public void minimumsAndMaximumsShouldBeCorrectRegardlessOfTheirOrderDuringTheConstructionOfAABB(final List<Vector3.Accessible> p0p1) {
-        AABB aabb = createInstance(p0p1.get(0), p0p1.get(1));
-
-        VecMathAssertions.assertEquals(VecMath.min(p0p1.get(0), p0p1.get(1), Factories.FACTORY_CONST_VECTOR3_xyz), aabb.getMinimum(), 0.0);
-        VecMathAssertions.assertEquals(VecMath.max(p0p1.get(0), p0p1.get(1), Factories.FACTORY_CONST_VECTOR3_xyz), aabb.getMaximum(), 0.0);
-        Assertions.assertEquals(VecMath.min(p0p1.get(0).x(), p0p1.get(1).x()), aabb.getMinimumX());
-        Assertions.assertEquals(VecMath.max(p0p1.get(0).x(), p0p1.get(1).x()), aabb.getMaximumX());
-        Assertions.assertEquals(VecMath.min(p0p1.get(0).y(), p0p1.get(1).y()), aabb.getMinimumY());
-        Assertions.assertEquals(VecMath.max(p0p1.get(0).y(), p0p1.get(1).y()), aabb.getMaximumY());
-        Assertions.assertEquals(VecMath.min(p0p1.get(0).z(), p0p1.get(1).z()), aabb.getMinimumZ());
-        Assertions.assertEquals(VecMath.max(p0p1.get(0).z(), p0p1.get(1).z()), aabb.getMaximumZ());
-    }
-
-    protected static Stream<List<Vector3.Accessible>> mixedMinimumsAndMaximums() {
-        final Vector3.Accessible min = MINIMUMS_FOR_TESTING;
-        final Vector3.Accessible max = MAXIMUMS_FOR_TESTING;
-        return Stream.of(
-                List.of(MINIMUMS_FOR_TESTING, MAXIMUMS_FOR_TESTING),
-                List.of(new ImmutableVector3(max.x(), min.y(), min.z()), new ImmutableVector3(min.x(), max.y(), max.z())),
-                List.of(new ImmutableVector3(min.x(), max.y(), min.z()), new ImmutableVector3(max.x(), min.y(), max.z())),
-                List.of(new ImmutableVector3(min.x(), min.y(), max.z()), new ImmutableVector3(max.x(), max.y(), min.z())),
-                List.of(new ImmutableVector3(max.x(), max.y(), min.z()), new ImmutableVector3(min.x(), min.y(), max.z())),
-                List.of(new ImmutableVector3(max.x(), min.y(), max.z()), new ImmutableVector3(min.x(), max.y(), min.z())),
-                List.of(new ImmutableVector3(min.x(), max.y(), max.z()), new ImmutableVector3(max.x(), min.y(), min.z())),
-                List.of(MAXIMUMS_FOR_TESTING, MINIMUMS_FOR_TESTING)
-        )
-                .map(l -> List.of(VerboseVecMath.verbose(l.get(0)), VerboseVecMath.verbose(l.get(1))));
     }
 
 }
