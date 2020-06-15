@@ -1,7 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.sphere;
 
 import ee.ristoseene.raytracer.eyebased.core.Axis;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.raytracer.eyebased.geometry.helpers.TracingOrientation;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.AbstractShadeableRayTraceablePrimitiveTest;
@@ -38,13 +38,13 @@ public abstract class AbstractShadeableRayTraceableSphereTest extends AbstractSh
                 double horizontalPosition = 2.0 * x / (TEST_SAMPLE_COUNT_X - 1) - 1.0;
                 Vector3.Accessible tracingOrigin = tracingOrientation.getTracingOrigin(horizontalPosition, verticalPosition);
 
-                TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(sphere, new SimpleRay(tracingOrigin, tracingOrientation.getTracingDirection()));
+                RayTracedState rayTracedState = rayTracePrimitiveAndReturnRayTracedStateMock(sphere, new SimpleRay(tracingOrigin, tracingOrientation.getTracingDirection()));
 
                 if (VecMath.length(new ImmutableVector2(horizontalPosition, verticalPosition)) < 1.0) {
-                    Mockito.verify(tracedState, Mockito.atLeastOnce()).registerRayInteraction(Mockito.anyDouble(), Mockito.same(sphere));
-                    Mockito.verifyNoMoreInteractions(tracedState);
+                    Mockito.verify(rayTracedState, Mockito.atLeastOnce()).registerRayInteraction(Mockito.anyDouble(), Mockito.same(sphere));
+                    Mockito.verifyNoMoreInteractions(rayTracedState);
                 } else {
-                    Mockito.verifyNoInteractions(tracedState);
+                    Mockito.verifyNoInteractions(rayTracedState);
                 }
             }
         }

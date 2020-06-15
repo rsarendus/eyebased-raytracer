@@ -2,7 +2,7 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.sphere;
 
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.AbstractShadeableRayTraceablePrimitive;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.utilities.AABBFactory;
@@ -29,17 +29,17 @@ public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadea
     }
 
     /**
-     * This method is called by {@link AbstractShadeableRayTraceableSphere#interactWith(TracingRayContext, TracedState)}
+     * This method is called by {@link AbstractShadeableRayTraceableSphere#interactWith(TracingRayContext, RayTracedState)}
      * if and only if the discriminant (b * b - 4 * a * c) is greater than zero.
      *
-     * @param tracedState an instance of {@link TracedState}
+     * @param rayTracedState an instance of {@link RayTracedState}
      * @param negSqrtDDiv2A -sqrt(b * b - 4 * a * c) / (2 * a)
      * @param negBDiv2A -b / (2 * a)
      */
-    protected abstract void processRayInteraction(final TracedState tracedState, final double negSqrtDDiv2A, final double negBDiv2A);
+    protected abstract void processRayInteraction(final RayTracedState rayTracedState, final double negSqrtDDiv2A, final double negBDiv2A);
 
     @Override
-    public void interactWith(final TracingRayContext tracingRayContext, final TracedState tracedState) {
+    public void interactWith(final TracingRayContext tracingRayContext, final RayTracedState rayTracedState) {
         final Vector3.Accessible localRayOrigin = localizeRayOrigin(tracingRayContext.getTracingRay());
         final Vector3.Accessible localRayDirection = localizeRayDirection(tracingRayContext.getTracingRay());
 
@@ -54,7 +54,7 @@ public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadea
         final double negSqrtDDiv2A = Math.sqrt(discriminant) * negativeInverseA2;
         final double negBDiv2A = b * negativeInverseA2;
 
-        processRayInteraction(tracedState, negSqrtDDiv2A, negBDiv2A);
+        processRayInteraction(rayTracedState, negSqrtDDiv2A, negBDiv2A);
     }
 
 }

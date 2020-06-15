@@ -1,7 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.Axis;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.raytracer.eyebased.geometry.helpers.TracingOrientation;
 import ee.ristoseene.vecmath.VecMath;
@@ -38,9 +38,9 @@ public abstract class AbstractShadeableRayTraceableFlatSurfaceTest extends Abstr
                 double horizontalPosition = 2.0 * x / (TEST_SAMPLE_COUNT_X - 1) - 1.0;
                 Vector3.Accessible tracingOrigin = tracingConfiguration.getTracingOrigin(horizontalPosition, verticalPosition);
 
-                TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(flatSurface, new SimpleRay(tracingOrigin, tracingConfiguration.getTracingDirection()));
+                RayTracedState rayTracedState = rayTracePrimitiveAndReturnRayTracedStateMock(flatSurface, new SimpleRay(tracingOrigin, tracingConfiguration.getTracingDirection()));
 
-                Mockito.verifyNoInteractions(tracedState);
+                Mockito.verifyNoInteractions(rayTracedState);
             }
         }
     }

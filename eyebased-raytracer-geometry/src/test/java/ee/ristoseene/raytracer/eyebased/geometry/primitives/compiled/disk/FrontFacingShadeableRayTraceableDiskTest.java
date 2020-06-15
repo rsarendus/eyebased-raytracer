@@ -3,7 +3,7 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.disk;
 import ee.ristoseene.raytracer.eyebased.core.Axis;
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.vecmath.VecMath;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,10 +27,10 @@ public class FrontFacingShadeableRayTraceableDiskTest extends AbstractShadeableR
         FrontFacingShadeableRayTraceableDisk disk = createInstance(createDefaultConfiguration(), normalAxis, 2.0);
         Ray tracingRay = new SimpleRay(VecMath.multiply(tracingDirection, -2.0, Factories.FACTORY_CONST_VECTOR3_xyz), tracingDirection);
 
-        TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(disk, tracingRay);
+        RayTracedState rayTracedState = rayTracePrimitiveAndReturnRayTracedStateMock(disk, tracingRay);
 
-        Mockito.verify(tracedState, Mockito.times(1)).registerRayInteraction(AdditionalMatchers.eq(2.0, 0.000001), Mockito.same(disk));
-        Mockito.verifyNoMoreInteractions(tracedState);
+        Mockito.verify(rayTracedState, Mockito.times(1)).registerRayInteraction(AdditionalMatchers.eq(2.0, 0.000001), Mockito.same(disk));
+        Mockito.verifyNoMoreInteractions(rayTracedState);
     }
 
     @ParameterizedTest
@@ -39,9 +39,9 @@ public class FrontFacingShadeableRayTraceableDiskTest extends AbstractShadeableR
         FrontFacingShadeableRayTraceableDisk disk = createInstance(createDefaultConfiguration(), tracingDirection, 2.0);
         Ray tracingRay = new SimpleRay(VecMath.multiply(tracingDirection, -2.0, Factories.FACTORY_CONST_VECTOR3_xyz), tracingDirection);
 
-        TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(disk, tracingRay);
+        RayTracedState rayTracedState = rayTracePrimitiveAndReturnRayTracedStateMock(disk, tracingRay);
 
-        Mockito.verifyNoInteractions(tracedState);
+        Mockito.verifyNoInteractions(rayTracedState);
     }
 
 }

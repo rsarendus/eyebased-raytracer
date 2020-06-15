@@ -2,11 +2,15 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.Axis;
 import ee.ristoseene.raytracer.eyebased.core.helpers.Matrix4x4Matcher;
+import ee.ristoseene.raytracer.eyebased.core.helpers.TestTypedAttribute;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.GeometryContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTraceable;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.Shadeable;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingProcessor;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRayIntersectionContext;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
@@ -45,6 +49,35 @@ public abstract class AbstractShadeableRayTraceablePrimitiveTest extends Abstrac
         Mockito.verify(geometryContextFactory, Mockito.times(1)).create(Mockito.same(rayIntersectionContext),
                 Mockito.any(Vector3.Accessible.class), Mockito.argThat(new Matrix4x4Matcher<>(transform, 0.0)));
         Mockito.verify(shadingProcessor, Mockito.times(1)).processShading(geometryContext, rayIntersectionContext, shadingPipeline);
+    }
+
+    @Test
+    public void getAttributeValueShouldReturnItselfAsShadeableWhenKeyIsShadeableKey() {
+        AbstractShadeableRayTraceablePrimitive shadeableRayTraceablePrimitive = createInstanceWithConfiguration(createDefaultConfiguration());
+
+        Shadeable resultingShadeable = shadeableRayTraceablePrimitive.getAttributeValue(Shadeable.KEY);
+
+        Assertions.assertSame(shadeableRayTraceablePrimitive, resultingShadeable);
+    }
+
+    @Test
+    public void getAttributeValueShouldReturnDefaultValueWhenKeyIsUnrelatedToShadeableRayTraceablePrimitive() {
+        AbstractShadeableRayTraceablePrimitive shadeableRayTraceablePrimitive = createInstanceWithConfiguration(createDefaultConfiguration());
+        TypedAttribute<String> unrelatedKey = new TestTypedAttribute<>(String.class, "Default value");
+
+        String resultingString = shadeableRayTraceablePrimitive.getAttributeValue(unrelatedKey);
+
+        Assertions.assertNotSame(shadeableRayTraceablePrimitive, resultingString);
+        Assertions.assertEquals("Default value", resultingString);
+    }
+
+    @Test
+    public void getSourceRayTraceableShouldReturnItselfAsRayTraceable() {
+        AbstractShadeableRayTraceablePrimitive shadeableRayTraceablePrimitive = createInstanceWithConfiguration(createDefaultConfiguration());
+
+        RayTraceable resultingRayTraceable = shadeableRayTraceablePrimitive.getSourceRayTraceable();
+
+        Assertions.assertSame(shadeableRayTraceablePrimitive, resultingRayTraceable);
     }
 
 }

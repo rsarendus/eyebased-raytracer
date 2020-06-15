@@ -4,7 +4,7 @@ import ee.ristoseene.raytracer.eyebased.core.compilation.CompiledObject;
 
 public interface RayTraceable extends CompiledObject {
 
-    void interactWith(TracingRayContext tracingRayContext, TracedState tracedState);
+    void interactWith(TracingRayContext tracingRayContext, RayTracedState rayTracedState);
 
     AABB getAABB();
 

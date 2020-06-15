@@ -3,7 +3,7 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled;
 import ee.ristoseene.raytracer.eyebased.core.Axis;
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.vecmath.Matrix3x3;
 import ee.ristoseene.vecmath.Matrix4x4;
@@ -42,7 +42,7 @@ public abstract class AbstractShadeableRayTraceableFlatSurface extends AbstractS
     protected abstract boolean isIntersectionPointInBounds(double x, double y, double z);
 
     @Override
-    public void interactWith(final TracingRayContext tracingRayContext, final TracedState tracedState) {
+    public void interactWith(final TracingRayContext tracingRayContext, final RayTracedState rayTracedState) {
         final Vector3.Accessible localRayOrigin = localizeRayOrigin(tracingRayContext.getTracingRay());
         final Vector3.Accessible localRayDirection = localizeRayDirection(tracingRayContext.getTracingRay());
 
@@ -57,7 +57,7 @@ public abstract class AbstractShadeableRayTraceableFlatSurface extends AbstractS
                 localRayDirection.y() * distance + localRayOrigin.y(),
                 localRayDirection.z() * distance + localRayOrigin.z()
         )) {
-            tracedState.registerRayInteraction(distance, this);
+            rayTracedState.registerRayInteraction(distance, this);
         }
     }
 

@@ -1,7 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.disk;
 
 import ee.ristoseene.raytracer.eyebased.core.Axis;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.raytracer.eyebased.geometry.helpers.TracingOrientation;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.AbstractShadeableRayTraceableFlatSurfaceTest;
@@ -32,13 +32,13 @@ public abstract class AbstractShadeableRayTraceableDiskTest extends AbstractShad
                 double horizontalPosition = 2.0 * x / (TEST_SAMPLE_COUNT_X - 1) - 1.0;
                 Vector3.Accessible tracingOrigin = tracingOrientation.getTracingOrigin(horizontalPosition, verticalPosition);
 
-                TracedState tracedState = tracePrimitiveAndReturnTracedStateMock(disk, new SimpleRay(tracingOrigin, tracingOrientation.getTracingDirection()));
+                RayTracedState rayTracedState = rayTracePrimitiveAndReturnRayTracedStateMock(disk, new SimpleRay(tracingOrigin, tracingOrientation.getTracingDirection()));
 
                 if (VecMath.length(new ImmutableVector2(horizontalPosition, verticalPosition)) < 1.0) {
-                    Mockito.verify(tracedState, Mockito.atLeastOnce()).registerRayInteraction(Mockito.anyDouble(), Mockito.same(disk));
-                    Mockito.verifyNoMoreInteractions(tracedState);
+                    Mockito.verify(rayTracedState, Mockito.atLeastOnce()).registerRayInteraction(Mockito.anyDouble(), Mockito.same(disk));
+                    Mockito.verifyNoMoreInteractions(rayTracedState);
                 } else {
-                    Mockito.verifyNoInteractions(tracedState);
+                    Mockito.verifyNoInteractions(rayTracedState);
                 }
             }
         }

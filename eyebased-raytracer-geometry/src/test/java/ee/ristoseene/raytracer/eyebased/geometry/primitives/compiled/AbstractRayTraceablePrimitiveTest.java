@@ -1,7 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TracedState;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleTracingRayContext;
 import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.AbstractRayTraceableGeometry;
@@ -40,13 +40,13 @@ public abstract class AbstractRayTraceablePrimitiveTest extends AbstractRayTrace
         Assertions.assertSame(geometryContextFactory, rayTraceablePrimitive.getGeometryContextFactory());
     }
 
-    protected TracedState tracePrimitiveAndReturnTracedStateMock(final AbstractRayTraceablePrimitive primitiveToTrace, final Ray tracingRay) {
+    protected RayTracedState rayTracePrimitiveAndReturnRayTracedStateMock(final AbstractRayTraceablePrimitive primitiveToRayTrace, final Ray tracingRay) {
         TracingRayContext tracingRayContext = new SimpleTracingRayContext(tracingRay);
-        TracedState tracedState = Mockito.mock(TracedState.class);
+        RayTracedState rayTracedState = Mockito.mock(RayTracedState.class);
 
-        primitiveToTrace.interactWith(tracingRayContext, tracedState);
+        primitiveToRayTrace.interactWith(tracingRayContext, rayTracedState);
 
-        return tracedState;
+        return rayTracedState;
     }
 
     protected abstract AbstractRayTraceablePrimitive createInstanceWithConfiguration(AbstractRayTraceablePrimitive.Configuration configuration);
