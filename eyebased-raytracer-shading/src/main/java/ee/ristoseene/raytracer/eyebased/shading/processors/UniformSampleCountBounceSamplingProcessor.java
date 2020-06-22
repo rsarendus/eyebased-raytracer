@@ -5,10 +5,20 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.BounceContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValueAccumulator;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BounceSamplingProcessor;
 
 import java.util.Objects;
 
+/**
+ * Instances of this class rely on {@link SampleValueAccumulatorFactory} for creating accumulators for combining
+ * bounce sampling results.
+ *
+ * @see SampleValueAccumulatorFactory
+ * @see SampleValueAccumulatorFactory#KEY
+ *
+ * @see ShadingContext#getAttributeValue(TypedAttribute)
+ */
 public class UniformSampleCountBounceSamplingProcessor implements BounceSamplingProcessor {
 
     @FunctionalInterface
