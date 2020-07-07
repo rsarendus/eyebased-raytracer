@@ -26,6 +26,15 @@
         <module>eyebased-raytracer-shading</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>demo</id>
+            <modules>
+                <module>eyebased-raytracer-demo</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>

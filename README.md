@@ -20,3 +20,17 @@ Building the project requires at least **JDK 11** and [Apache Maven](https://mav
    * Or compile, package and install into your local repository:
    <br>`mvn clean install`
    * Or for more options read about [Maven Build Lifecycle](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+
+### Demo
+
+In order to be able to run the demo desktop application, the project has to be built using the `demo` profile:
+
+```
+mvn clean package -Pdemo
+```
+
+After that, the demo desktop application could be run:
+
+```
+java -jar eyebased-raytracer-demo/target/eyebased-raytracer-demo-0.0.0-SNAPSHOT-jar-with-dependencies.jar
+```
