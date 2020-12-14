@@ -2,15 +2,14 @@ package ee.ristoseene.raytracer.eyebased.shading.reflection;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.utilities.VecMathExtended;
 import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.common.HemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.common.compiled.CosineWeightedHemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.VectorProviders;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.DiffusiveShadingPipeline;
 import ee.ristoseene.vecmath.Vector3;
 
@@ -71,7 +70,7 @@ public class DiffusiveShadingConfiguration extends AbstractShadingConfiguration 
     @Override
     protected ShadingPipeline createCompiledPipeline(final Optional<CompilationCache> compilationCache) {
         final ValueProvider<Vector3.Accessible> diffuseColorProvider = (diffuseColor == null)
-                ? VectorProviders.PROVIDER_VECTOR3_ONE_ONE_ONE
+                ? PROVIDER_VECTOR3_ONE_ONE_ONE
                 : diffuseColor.compile(compilationCache);
 
         if (isConstantValue(diffuseColorProvider, rgb -> VecMathExtended.equal(rgb, Vectors.VECTOR3_ZERO_ZERO_ZERO)) || intensityCompensationMultiplier == 0.0) {

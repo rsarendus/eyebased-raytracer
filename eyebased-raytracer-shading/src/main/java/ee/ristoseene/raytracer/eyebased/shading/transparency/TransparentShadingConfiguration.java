@@ -2,6 +2,11 @@ package ee.ristoseene.raytracer.eyebased.shading.transparency;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.utilities.VecMathExtended;
@@ -9,12 +14,6 @@ import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfigurat
 import ee.ristoseene.raytracer.eyebased.shading.common.AdjustableHemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.common.compiled.CosineWeightedAdjustableHemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.VectorProviders;
 import ee.ristoseene.raytracer.eyebased.shading.transparency.compiled.RoughSurfaceRefractiveShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.transparency.compiled.SimpleRefractiveShadingPipeline;
 import ee.ristoseene.vecmath.Vector3;
@@ -102,7 +101,7 @@ public class TransparentShadingConfiguration extends AbstractShadingConfiguratio
     @Override
     protected ShadingPipeline createCompiledPipeline(Optional<CompilationCache> compilationCache) {
         final ValueProvider<Vector3.Accessible> transparencyColorProvider = (transparencyColor == null)
-                ? VectorProviders.PROVIDER_VECTOR3_ONE_ONE_ONE
+                ? PROVIDER_VECTOR3_ONE_ONE_ONE
                 : transparencyColor.compile(compilationCache);
 
         final boolean isConstantBlack = isConstantValue(transparencyColorProvider, rgb -> VecMathExtended.equal(rgb, Vectors.VECTOR3_ZERO_ZERO_ZERO));

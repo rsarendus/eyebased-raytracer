@@ -1,10 +1,10 @@
-package ee.ristoseene.raytracer.eyebased.shading.providers.constant;
+package ee.ristoseene.raytracer.eyebased.core.providers.constant;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.StaticDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.StaticDoubleValueProvider;
 
 import java.util.Optional;
 

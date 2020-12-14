@@ -1,6 +1,9 @@
 package ee.ristoseene.raytracer.eyebased.shading.aggregation;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.aggregation.compiled.ConstantMultiplierShadingPipeline;
@@ -9,9 +12,6 @@ import ee.ristoseene.raytracer.eyebased.shading.aggregation.compiled.DynamicMult
 import ee.ristoseene.raytracer.eyebased.shading.aggregation.compiled.DynamicRatioMixingShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
 
 import java.util.Objects;
 import java.util.Optional;

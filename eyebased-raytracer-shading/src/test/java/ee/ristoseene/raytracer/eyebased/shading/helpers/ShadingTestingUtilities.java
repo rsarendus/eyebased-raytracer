@@ -1,13 +1,13 @@
 package ee.ristoseene.raytracer.eyebased.shading.helpers;
 
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.GeometryContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
 import org.mockito.Mockito;
 
 import java.util.Map;

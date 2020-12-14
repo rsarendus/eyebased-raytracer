@@ -1,6 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.shading.reflection.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.BounceContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
@@ -10,7 +11,6 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
 import ee.ristoseene.raytracer.eyebased.shading.common.compiled.AbstractColorMultiplyingBounceShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BouncingRayProcessor;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
 

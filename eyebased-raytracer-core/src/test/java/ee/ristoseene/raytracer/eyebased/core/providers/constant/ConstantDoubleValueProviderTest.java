@@ -1,8 +1,8 @@
-package ee.ristoseene.raytracer.eyebased.shading.providers.constant;
+package ee.ristoseene.raytracer.eyebased.core.providers.constant;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

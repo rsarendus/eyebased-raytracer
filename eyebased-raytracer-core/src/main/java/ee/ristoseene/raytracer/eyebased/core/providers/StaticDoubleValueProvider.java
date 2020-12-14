@@ -1,4 +1,4 @@
-package ee.ristoseene.raytracer.eyebased.shading.providers;
+package ee.ristoseene.raytracer.eyebased.core.providers;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
 

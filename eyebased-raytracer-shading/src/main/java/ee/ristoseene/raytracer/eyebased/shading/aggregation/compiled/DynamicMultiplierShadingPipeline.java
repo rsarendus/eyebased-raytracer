@@ -1,6 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.shading.aggregation.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.configuration.SampleValueAccumulatorFactory;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.BounceContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValueAccumulator;
@@ -8,7 +9,6 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.WeightedShadingFilter;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
 
 import java.util.Objects;
 

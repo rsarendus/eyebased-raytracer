@@ -2,12 +2,12 @@ package ee.ristoseene.raytracer.eyebased.shading.emission.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.configuration.SampleValueFactory;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.BounceContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.helpers.ShadingTestingUtilities;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;

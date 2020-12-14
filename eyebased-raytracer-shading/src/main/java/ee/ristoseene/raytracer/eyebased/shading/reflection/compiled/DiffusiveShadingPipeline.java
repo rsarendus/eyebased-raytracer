@@ -1,5 +1,6 @@
 package ee.ristoseene.raytracer.eyebased.shading.reflection.compiled;
 
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.BounceContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingContext;
@@ -9,7 +10,6 @@ import ee.ristoseene.raytracer.eyebased.shading.common.HemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.common.compiled.AbstractColorMultiplyingBounceShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BounceSamplingProcessor;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BouncingRayProcessor;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
 

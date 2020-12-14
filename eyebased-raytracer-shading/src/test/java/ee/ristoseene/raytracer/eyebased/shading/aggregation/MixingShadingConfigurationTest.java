@@ -1,6 +1,9 @@
 package ee.ristoseene.raytracer.eyebased.shading.aggregation;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.aggregation.compiled.ConstantMultiplierShadingPipeline;
@@ -10,9 +13,6 @@ import ee.ristoseene.raytracer.eyebased.shading.aggregation.compiled.DynamicRati
 import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfigurationTest;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.helpers.ShadingTestingUtilities;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

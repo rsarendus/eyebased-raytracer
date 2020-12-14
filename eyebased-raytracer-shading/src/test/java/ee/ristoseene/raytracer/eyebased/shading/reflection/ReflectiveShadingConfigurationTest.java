@@ -1,13 +1,13 @@
 package ee.ristoseene.raytracer.eyebased.shading.reflection;
 
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfigurationTest;
 import ee.ristoseene.raytracer.eyebased.shading.common.AdjustableHemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.RoughSurfaceReflectiveShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.SimpleReflectiveShadingPipeline;
 import ee.ristoseene.vecmath.Vector3;

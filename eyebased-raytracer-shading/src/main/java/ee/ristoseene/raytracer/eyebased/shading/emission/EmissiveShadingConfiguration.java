@@ -1,13 +1,13 @@
 package ee.ristoseene.raytracer.eyebased.shading.emission;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.DynamicColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantValueProvider;
 import ee.ristoseene.vecmath.Vector3;
 
 import java.util.Optional;

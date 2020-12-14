@@ -1,6 +1,8 @@
 package ee.ristoseene.raytracer.eyebased.demo.scene.scenery;
 
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.core.transformation.transforms.RotationMatrixAndPositionTransform;
 import ee.ristoseene.raytracer.eyebased.demo.impl.Constants;
@@ -18,8 +20,6 @@ import ee.ristoseene.raytracer.eyebased.geometry.primitives.Disk;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.Sphere;
 import ee.ristoseene.raytracer.eyebased.shading.aggregation.MixingShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantValueProvider;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.DiffusiveShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.ReflectiveShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.transparency.TransparentShadingConfiguration;

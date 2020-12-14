@@ -3,6 +3,8 @@ package ee.ristoseene.raytracer.eyebased.shading.transparency.compiled;
 import ee.ristoseene.raytracer.eyebased.core.configuration.SampleValueFactory;
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.BounceContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
@@ -16,8 +18,6 @@ import ee.ristoseene.raytracer.eyebased.shading.configuration.BounceSampleResolv
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BounceSamplingProcessor;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BounceShadingFilter;
 import ee.ristoseene.raytracer.eyebased.shading.configuration.BouncingRayProcessor;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
 

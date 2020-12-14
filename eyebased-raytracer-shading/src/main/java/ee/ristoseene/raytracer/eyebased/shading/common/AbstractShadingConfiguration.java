@@ -2,18 +2,22 @@ package ee.ristoseene.raytracer.eyebased.shading.common;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationUtils;
+import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantValueProvider;
+import ee.ristoseene.vecmath.Vector3;
 
 import java.util.Optional;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
 public abstract class AbstractShadingConfiguration implements ShadingConfiguration, Cloneable {
+
+    protected static final ConstantValueProvider<Vector3.Accessible> PROVIDER_VECTOR3_ONE_ONE_ONE = new ConstantValueProvider<>(Vectors.VECTOR3_ONE_ONE_ONE);
 
     @Override
     public ShadingPipeline compile(final Optional<CompilationCache> compilationCache) {

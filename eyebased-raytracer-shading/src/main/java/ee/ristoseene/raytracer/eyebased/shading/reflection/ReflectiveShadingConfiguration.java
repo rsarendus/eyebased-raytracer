@@ -2,18 +2,17 @@ package ee.ristoseene.raytracer.eyebased.shading.reflection;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.constants.Vectors;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableDoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.CompilableValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.DoubleValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.ValueProvider;
+import ee.ristoseene.raytracer.eyebased.core.providers.constant.ConstantDoubleValueProvider;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.utilities.VecMathExtended;
 import ee.ristoseene.raytracer.eyebased.shading.common.AbstractShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.shading.common.AdjustableHemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.common.compiled.CosineWeightedAdjustableHemisphericalSampler;
 import ee.ristoseene.raytracer.eyebased.shading.emission.compiled.ConstantColorShadingPipeline;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.CompilableValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.DoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.ValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.ConstantDoubleValueProvider;
-import ee.ristoseene.raytracer.eyebased.shading.providers.constant.VectorProviders;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.RoughSurfaceReflectiveShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.shading.reflection.compiled.SimpleReflectiveShadingPipeline;
 import ee.ristoseene.vecmath.Vector3;
@@ -73,7 +72,7 @@ public class ReflectiveShadingConfiguration extends AbstractShadingConfiguration
     @Override
     protected ShadingPipeline createCompiledPipeline(final Optional<CompilationCache> compilationCache) {
         final ValueProvider<Vector3.Accessible> reflectionColorProvider = (reflectionColor == null)
-                ? VectorProviders.PROVIDER_VECTOR3_ONE_ONE_ONE
+                ? PROVIDER_VECTOR3_ONE_ONE_ONE
                 : reflectionColor.compile(compilationCache);
 
         if (isConstantValue(reflectionColorProvider, rgb -> VecMathExtended.equal(rgb, Vectors.VECTOR3_ZERO_ZERO_ZERO))) {
