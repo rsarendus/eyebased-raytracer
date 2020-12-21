@@ -3,7 +3,6 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled;
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
 import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.AbstractRayTraceableGeometry;
 import ee.ristoseene.raytracer.eyebased.geometry.configuration.RaySurfaceIntersectionGeometryContextFactory;
@@ -25,7 +24,7 @@ public abstract class AbstractRayTraceablePrimitive extends AbstractRayTraceable
             final Configuration configuration, final double scale,
             final Function<Matrix4x4.Accessible, AABB> aabbResolver
     ) {
-        super(configuration);
+        super(Objects.requireNonNull(configuration, "Configuration not provided").getTransform());
 
         Matrix4x4.Accessible unitLocalToGlobalSpaceTransform;
         geometryContextFactory = Objects.requireNonNull(configuration.getGeometryContextFactory(), "Geometry context factory not provided");
@@ -60,18 +59,22 @@ public abstract class AbstractRayTraceablePrimitive extends AbstractRayTraceable
         return aabb;
     }
 
-    public static class Configuration extends AbstractRayTraceableGeometry.Configuration {
+    public static class Configuration {
 
+        private CompiledTransform transform;
         private RaySurfaceIntersectionGeometryContextFactory geometryContextFactory;
 
-        @Override
-        public Configuration withTransform(final CompiledTransform transform) {
-            return (Configuration) super.withTransform(transform);
+        public CompiledTransform getTransform() {
+            return transform;
         }
 
-        @Override
-        public Configuration withShadingPipeline(final ShadingPipeline shadingPipeline) {
-            return (Configuration) super.withShadingPipeline(shadingPipeline);
+        public void setTransform(final CompiledTransform transform) {
+            this.transform = transform;
+        }
+
+        public Configuration withTransform(final CompiledTransform transform) {
+            setTransform(transform);
+            return this;
         }
 
         public RaySurfaceIntersectionGeometryContextFactory getGeometryContextFactory() {
@@ -87,12 +90,10 @@ public abstract class AbstractRayTraceablePrimitive extends AbstractRayTraceable
             return this;
         }
 
-        @Override
-        public Configuration withConfiguration(final AbstractRayTraceableGeometry.Configuration configuration) {
-            if (configuration instanceof Configuration) {
-                setGeometryContextFactory(((Configuration) configuration).getGeometryContextFactory());
-            }
-            return (Configuration) super.withConfiguration(configuration);
+        public Configuration withConfiguration(final Configuration configuration) {
+            setTransform(configuration.getTransform());
+            setGeometryContextFactory(configuration.getGeometryContextFactory());
+            return this;
         }
 
     }

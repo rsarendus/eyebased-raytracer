@@ -9,6 +9,7 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTraceable;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Shadeable;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingProcessor;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleRay;
@@ -19,6 +20,7 @@ import ee.ristoseene.vecmath.immutable.ImmutableMatrix4x4;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 public abstract class AbstractShadeableRayTraceablePrimitiveTest extends AbstractRayTraceablePrimitiveTest {
@@ -26,8 +28,21 @@ public abstract class AbstractShadeableRayTraceablePrimitiveTest extends Abstrac
     protected static final Ray TEST_INTERSECTING_RAY = new SimpleRay(new ImmutableVector3(10.0, 0.0, 0.0), Axis.NEGATIVE_X);
     protected static final double TEST_RAY_INTERSECTION_DISTANCE = 9.0;
 
-    @Override
-    protected abstract AbstractShadeableRayTraceablePrimitive createInstanceWithConfiguration(AbstractShadeableRayTraceablePrimitive.Configuration configuration);
+    @Mock
+    protected ShadingPipeline shadingPipeline;
+
+    @Test
+    public void shadeableRayTraceablePrimitiveShouldNotAllowMissingShadingPipeline() {
+        AbstractShadeableRayTraceablePrimitive.Configuration configuration = createDefaultConfiguration()
+                .withShadingPipeline(null);
+
+        NullPointerException exception = Assertions.assertThrows(
+                NullPointerException.class,
+                () -> createInstanceWithConfiguration(configuration)
+        );
+
+        Assertions.assertEquals("Shading pipeline not provided", exception.getMessage());
+    }
 
     @Test
     public void shadeShouldRequestGeometryContextCreationAndReturnSampleValueCreatedByShadingProcessor() {
@@ -78,6 +93,20 @@ public abstract class AbstractShadeableRayTraceablePrimitiveTest extends Abstrac
         RayTraceable resultingRayTraceable = shadeableRayTraceablePrimitive.getSourceRayTraceable();
 
         Assertions.assertSame(shadeableRayTraceablePrimitive, resultingRayTraceable);
+    }
+
+    protected abstract AbstractShadeableRayTraceablePrimitive createInstanceWithConfiguration(AbstractShadeableRayTraceablePrimitive.Configuration configuration);
+
+    @Override
+    protected AbstractShadeableRayTraceablePrimitive createInstanceWithConfiguration(AbstractRayTraceablePrimitive.Configuration configuration) {
+        return createInstanceWithConfiguration(configuration != null ? createDefaultConfiguration().withConfiguration(configuration) : null);
+    }
+
+    @Override
+    protected AbstractShadeableRayTraceablePrimitive.Configuration createDefaultConfiguration() {
+        return new AbstractShadeableRayTraceablePrimitive.Configuration()
+                .withConfiguration(super.createDefaultConfiguration())
+                .withShadingPipeline(shadingPipeline);
     }
 
 }

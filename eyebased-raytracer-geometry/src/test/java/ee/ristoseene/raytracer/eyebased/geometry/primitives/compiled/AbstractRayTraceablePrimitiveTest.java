@@ -4,7 +4,7 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ray.SimpleTracingRayContext;
-import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.AbstractRayTraceableGeometry;
+import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
 import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.AbstractRayTraceableGeometryTest;
 import ee.ristoseene.raytracer.eyebased.geometry.configuration.RaySurfaceIntersectionGeometryContextFactory;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +19,16 @@ public abstract class AbstractRayTraceablePrimitiveTest extends AbstractRayTrace
 
     @Mock
     protected RaySurfaceIntersectionGeometryContextFactory geometryContextFactory;
+
+    @Test
+    public void rayTraceablePrimitiveShouldNotAllowMissingConfiguration() {
+        NullPointerException exception = Assertions.assertThrows(
+                NullPointerException.class,
+                () -> createInstanceWithConfiguration(null)
+        );
+
+        Assertions.assertEquals("Configuration not provided", exception.getMessage());
+    }
 
     @Test
     public void rayTraceablePrimitiveShouldNotAllowMissingGeometryContextFactory() {
@@ -52,13 +62,13 @@ public abstract class AbstractRayTraceablePrimitiveTest extends AbstractRayTrace
     protected abstract AbstractRayTraceablePrimitive createInstanceWithConfiguration(AbstractRayTraceablePrimitive.Configuration configuration);
 
     @Override
-    protected AbstractRayTraceableGeometry createInstanceWithConfiguration(AbstractRayTraceableGeometry.Configuration configuration) {
-        return createInstanceWithConfiguration((AbstractRayTraceablePrimitive.Configuration) configuration);
+    protected AbstractRayTraceablePrimitive createInstanceWithTransform(CompiledTransform transform) {
+        return createInstanceWithConfiguration(createDefaultConfiguration().withTransform(transform));
     }
 
     protected AbstractRayTraceablePrimitive.Configuration createDefaultConfiguration() {
         return new AbstractRayTraceablePrimitive.Configuration()
-                .withConfiguration(super.createDefaultConfiguration())
+                .withTransform(CompiledTransform.IDENTITY_TRANSFORM)
                 .withGeometryContextFactory(geometryContextFactory);
     }
 
