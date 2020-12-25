@@ -64,9 +64,9 @@ public class Disk extends AbstractFlatSurface {
 
         switch (getFacingOrDefault(Facing.FRONT_FACING)) {
             case DOUBLE_SIDED:
-                return new DoubleSidedShadeableRayTraceableDisk(getNormal(), configuration, diameter);
+                return new DoubleSidedShadeableRayTraceableDisk(getNormal(), configuration, getDiameter());
             default:
-                return new FrontFacingShadeableRayTraceableDisk(getNormal(), configuration, diameter);
+                return new FrontFacingShadeableRayTraceableDisk(getNormal(), configuration, getDiameter());
         }
     }
 

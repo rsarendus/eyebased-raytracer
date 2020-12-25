@@ -59,11 +59,11 @@ public class Sphere extends AbstractClosedSurface {
 
         switch (getFacingOrDefault(Facing.OUTWARD_FACING)) {
             case DOUBLE_SIDED:
-                return new DoubleSidedShadeableRayTraceableSphere(configuration, diameter);
+                return new DoubleSidedShadeableRayTraceableSphere(configuration, getDiameter());
             case INWARD_FACING:
-                return new InwardFacingShadeableRayTraceableSphere(configuration, diameter);
+                return new InwardFacingShadeableRayTraceableSphere(configuration, getDiameter());
             default:
-                return new OutwardFacingShadeableRayTraceableSphere(configuration, diameter);
+                return new OutwardFacingShadeableRayTraceableSphere(configuration, getDiameter());
         }
     }
 

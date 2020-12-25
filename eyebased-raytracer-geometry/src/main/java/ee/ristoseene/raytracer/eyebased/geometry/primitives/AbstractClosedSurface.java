@@ -46,7 +46,7 @@ public abstract class AbstractClosedSurface extends AbstractPrimitive {
     }
 
     protected Facing getFacingOrDefault(final Facing defaultFacing) {
-        return (facing != null) ? facing : defaultFacing;
+        return (getFacing() != null) ? getFacing() : defaultFacing;
     }
 
 }

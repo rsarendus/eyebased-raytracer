@@ -22,8 +22,8 @@ public abstract class Transformable implements Cloneable {
     }
 
     protected CompiledTransform getCompiledParentTransform(final Optional<CompilationCache> compilationCache) {
-        if (parentTransform != null) {
-            return parentTransform.compile(compilationCache);
+        if (getParentTransform() != null) {
+            return getParentTransform().compile(compilationCache);
         } else {
             return CompiledTransform.IDENTITY_TRANSFORM;
         }

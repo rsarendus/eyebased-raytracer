@@ -2,14 +2,11 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTraceable;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracingResult;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.SampleValue;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.Shadeable;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingProcessor;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.TypedAttribute;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
+import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.ShadeableRayTraceable;
 import ee.ristoseene.raytracer.eyebased.geometry.configuration.RaySurfaceIntersectionGeometryContextFactory;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.Vector3;
@@ -17,7 +14,7 @@ import ee.ristoseene.vecmath.Vector3;
 import java.util.Objects;
 import java.util.function.Function;
 
-public abstract class AbstractShadeableRayTraceablePrimitive extends AbstractRayTraceablePrimitive implements RayTracingResult, Shadeable {
+public abstract class AbstractShadeableRayTraceablePrimitive extends AbstractRayTraceablePrimitive implements ShadeableRayTraceable {
 
     protected final ShadingPipeline shadingPipeline;
 
@@ -38,21 +35,6 @@ public abstract class AbstractShadeableRayTraceablePrimitive extends AbstractRay
                 rayIntersectionContext,
                 shadingPipeline
         );
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getAttributeValue(final TypedAttribute<T> key) {
-        if (Shadeable.KEY.equals(key) || key.getValueType().isInstance(this)) {
-            return (T) this;
-        } else {
-            return key.getDefaultValue();
-        }
-    }
-
-    @Override
-    public RayTraceable getSourceRayTraceable() {
-        return this;
     }
 
     public ShadingPipeline getShadingPipeline() {

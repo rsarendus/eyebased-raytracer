@@ -67,12 +67,12 @@ public abstract class AbstractFlatSurface extends AbstractPrimitive {
 
     @Override
     public CompiledGeometry compile(final Optional<CompilationCache> compilationCache) {
-        Objects.requireNonNull(normal, "Surface normal not provided");
+        Objects.requireNonNull(getNormal(), "Surface normal not provided");
         return super.compile(compilationCache);
     }
 
     protected Facing getFacingOrDefault(final Facing defaultFacing) {
-        return (facing != null) ? facing : defaultFacing;
+        return (getFacing() != null) ? getFacing() : defaultFacing;
     }
 
 }

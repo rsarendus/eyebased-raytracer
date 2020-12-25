@@ -1,6 +1,7 @@
 package ee.ristoseene.raytracer.eyebased.geometry.common;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
+import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
 import ee.ristoseene.raytracer.eyebased.core.transformation.TransformableTest;
 import ee.ristoseene.raytracer.eyebased.geometry.CompiledGeometry;
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +14,25 @@ public abstract class AbstractGeometryTest extends TransformableTest {
 
     @Override
     protected abstract AbstractGeometry createDefaultInstance();
+
+    @Test
+    public void setShadingConfigurationShouldSetTheShadingConfiguration() {
+        ShadingConfiguration shadingConfiguration = Mockito.mock(ShadingConfiguration.class);
+        AbstractGeometry geometry = createDefaultInstance();
+
+        geometry.setShadingConfiguration(shadingConfiguration);
+
+        Assertions.assertSame(shadingConfiguration, geometry.getShadingConfiguration());
+    }
+
+    @Test
+    public void withShadingConfigurationShouldSetTheShadingConfigurationAndReturnItself() {
+        ShadingConfiguration shadingConfiguration = Mockito.mock(ShadingConfiguration.class);
+        AbstractGeometry geometry = createDefaultInstance();
+
+        Assertions.assertSame(geometry, geometry.withShadingConfiguration(shadingConfiguration));
+        Assertions.assertSame(shadingConfiguration, geometry.getShadingConfiguration());
+    }
 
     @Test
     public void compileShouldReturnNewGeometryIfCompilationCacheNotPresent() {
@@ -45,10 +65,13 @@ public abstract class AbstractGeometryTest extends TransformableTest {
     @SuppressWarnings("unchecked")
     protected <T> T cloneShouldCreateValidCopyOfItself(T original) {
         AbstractGeometry originalGeometry = (AbstractGeometry) original;
+        ShadingConfiguration shadingConfiguration = Mockito.mock(ShadingConfiguration.class);
+        originalGeometry.setShadingConfiguration(shadingConfiguration);
 
         AbstractGeometry clonedGeometry = super.cloneShouldCreateValidCopyOfItself(originalGeometry);
 
         Assertions.assertNotSame(originalGeometry, clonedGeometry);
+        Assertions.assertSame(shadingConfiguration, clonedGeometry.getShadingConfiguration());
 
         return (T) clonedGeometry;
     }

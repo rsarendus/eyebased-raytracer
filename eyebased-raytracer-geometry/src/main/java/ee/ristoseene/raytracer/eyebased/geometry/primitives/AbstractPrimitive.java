@@ -2,7 +2,6 @@ package ee.ristoseene.raytracer.eyebased.geometry.primitives;
 
 import ee.ristoseene.raytracer.eyebased.core.compilation.CompilationCache;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingConfiguration;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.ShadingPipeline;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompilableTransform;
 import ee.ristoseene.raytracer.eyebased.geometry.common.AbstractGeometry;
 import ee.ristoseene.raytracer.eyebased.geometry.configuration.RaySurfaceIntersectionGeometryContextFactory;
@@ -13,7 +12,6 @@ import java.util.Optional;
 public abstract class AbstractPrimitive extends AbstractGeometry {
 
     private RaySurfaceIntersectionGeometryContextFactory geometryContextFactory;
-    private ShadingConfiguration shadingConfiguration;
 
     public RaySurfaceIntersectionGeometryContextFactory getGeometryContextFactory() {
         return geometryContextFactory;
@@ -28,22 +26,14 @@ public abstract class AbstractPrimitive extends AbstractGeometry {
         return this;
     }
 
-    public ShadingConfiguration getShadingConfiguration() {
-        return shadingConfiguration;
-    }
-
-    public void setShadingConfiguration(final ShadingConfiguration shadingConfiguration) {
-        this.shadingConfiguration = shadingConfiguration;
-    }
-
-    public AbstractPrimitive withShadingConfiguration(final ShadingConfiguration shadingConfiguration) {
-        setShadingConfiguration(shadingConfiguration);
-        return this;
-    }
-
     @Override
     public AbstractPrimitive withParentTransform(final CompilableTransform parentTransform) {
         return (AbstractPrimitive) super.withParentTransform(parentTransform);
+    }
+
+    @Override
+    public AbstractPrimitive withShadingConfiguration(final ShadingConfiguration shadingConfiguration) {
+        return (AbstractPrimitive) super.withShadingConfiguration(shadingConfiguration);
     }
 
     @Override
@@ -51,25 +41,17 @@ public abstract class AbstractPrimitive extends AbstractGeometry {
         return (AbstractPrimitive) super.clone();
     }
 
-    protected AbstractShadeableRayTraceablePrimitive.Configuration createConfiguration(Optional<CompilationCache> compilationCache) {
+    protected AbstractShadeableRayTraceablePrimitive.Configuration createConfiguration(final Optional<CompilationCache> compilationCache) {
         return new AbstractShadeableRayTraceablePrimitive.Configuration()
-                .withGeometryContextFactory(getGeometryContextFactoryOrNoOp())
+                .withTransform(getCompiledParentTransform(compilationCache))
                 .withShadingPipeline(getCompiledShadingPipeline(compilationCache))
-                .withTransform(getCompiledParentTransform(compilationCache));
-    }
-
-    protected ShadingPipeline getCompiledShadingPipeline(final Optional<CompilationCache> compilationCache) {
-        if (getShadingConfiguration() != null) {
-            return getShadingConfiguration().compile(compilationCache);
-        } else {
-            return ShadingPipeline.NO_OP_INSTANCE;
-        }
+                .withGeometryContextFactory(getGeometryContextFactoryOrNoOp());
     }
 
     protected RaySurfaceIntersectionGeometryContextFactory getGeometryContextFactoryOrNoOp() {
-        return (geometryContextFactory == null)
+        return (getGeometryContextFactory() == null)
                 ? RaySurfaceIntersectionGeometryContextFactory.NO_OP_INSTANCE
-                : geometryContextFactory;
+                : getGeometryContextFactory();
     }
 
 }
