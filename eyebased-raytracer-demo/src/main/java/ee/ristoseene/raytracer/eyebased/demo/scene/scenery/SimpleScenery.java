@@ -127,7 +127,7 @@ public class SimpleScenery implements Scenery, RefractiveConstants {
         ground = new Disk()
                 .withDiameter(4.0)
                 .withNormal(Constants.ORIENTATION.getUpAxis())
-                .withGeometryContextFactory(Constants.GEOMETRY_CONTEXT_FACTORY)
+                .withGeometryContextFactory(Constants.SIMPLE_GEOMETRY_CONTEXT_FACTORY)
                 .withShadingConfiguration(new DiffusiveShadingConfiguration()
                         .withDiffuseColor(new ConstantValueProvider<>(sRGBtoLINEAR_FACTORY.create(0.5, 0.5, 0.5))));
     }
@@ -164,7 +164,7 @@ public class SimpleScenery implements Scenery, RefractiveConstants {
                 .withFacing(facing)
                 .withDiameter(radius * 2)
                 .withShadingConfiguration(shadingConfiguration)
-                .withGeometryContextFactory(Constants.GEOMETRY_CONTEXT_FACTORY)
+                .withGeometryContextFactory(Constants.SIMPLE_GEOMETRY_CONTEXT_FACTORY)
                 .withParentTransform(new RotationMatrixAndPositionTransform()
                         .withPosition(positionBuilder
                                 .build(Factories.FACTORY_CONST_VECTOR3_xyz)));

@@ -1,7 +1,11 @@
 package ee.ristoseene.raytracer.eyebased.demo.gui;
 
 import ee.ristoseene.raytracer.eyebased.demo.scene.SceneHolder;
+import ee.ristoseene.raytracer.eyebased.demo.scene.Scenery;
+import ee.ristoseene.raytracer.eyebased.demo.scene.interfaces.MeshShading;
+import ee.ristoseene.raytracer.eyebased.demo.scene.interfaces.VertexSourcing;
 import ee.ristoseene.raytracer.eyebased.demo.scene.scenery.SimpleScenery;
+import ee.ristoseene.raytracer.eyebased.demo.scene.scenery.SuzanneScenery;
 import ee.ristoseene.raytracer.eyebased.rasterization.processors.SingleSamplePixelProcessor;
 import ee.ristoseene.raytracer.eyebased.rasterization.processors.UniformGridMultisamplingPixelProcessor;
 
@@ -11,8 +15,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class GuiMenu extends JMenuBar {
@@ -27,11 +33,14 @@ public class GuiMenu extends JMenuBar {
     private final JRadioButtonMenuItem[] gridMultisamplingItems;
 
     private final JMenu sceneMenu;
+    private final JMenu sceneConfigMenu;
     private final JRadioButtonMenuItem simpleScenery;
+    private final JRadioButtonMenuItem suzanneScenery;
 
     GuiMenu(final SceneHolder sceneHolder) {
-        ResourceBundle rb = ResourceBundle.getBundle("gui");
+        ResourceBundle rb = resourceBundle();
 
+        // Render
         renderMenu = createMenuItem(rb, "menu.render", JMenu::new);
         add(renderMenu);
 
@@ -62,14 +71,49 @@ public class GuiMenu extends JMenuBar {
             buttonGroup.add(gridMultisampling.add(gridMultisamplingItems[i]));
         }
 
+        // Scene
         sceneMenu = createMenuItem(rb, "menu.scene", JMenu::new);
         add(sceneMenu);
 
         buttonGroup = new ButtonGroup();
 
         simpleScenery = createMenuItem(rb, "menu.scene.simple-scenery", JRadioButtonMenuItem::new);
-        simpleScenery.addActionListener(e -> sceneHolder.setScenery(new SimpleScenery()));
+        simpleScenery.addActionListener(e -> switchScene(sceneHolder, new SimpleScenery()));
         buttonGroup.add(sceneMenu.add(simpleScenery));
+
+        suzanneScenery = createMenuItem(rb, "menu.scene.suzanne-scenery", JRadioButtonMenuItem::new);
+        suzanneScenery.addActionListener(e -> switchScene(sceneHolder, new SuzanneScenery()));
+        buttonGroup.add(sceneMenu.add(suzanneScenery));
+
+        sceneMenu.addSeparator();
+        sceneConfigMenu = createMenuItem(rb, "menu.scene.config", JMenu::new);
+        sceneConfigMenu.setEnabled(false);
+        sceneMenu.add(sceneConfigMenu);
+    }
+
+    private void switchScene(final SceneHolder sceneHolder, final Scenery newScene) {
+        sceneHolder.setScenery(newScene);
+
+        sceneConfigMenu.setEnabled(false);
+        sceneConfigMenu.removeAll();
+
+        String key = "menu.scene.config";
+
+        if (newScene instanceof MeshShading) {
+            final MeshShading meshShading = (MeshShading) newScene;
+            addRadioButtonsToMenu(sceneConfigMenu, key + ".mesh-shading", MeshShading.MeshShadingMode.values(), (item, mode) -> {
+                item.setSelected(meshShading.getMeshShadingMode().equals(mode));
+                item.addActionListener(e -> meshShading.setMeshShadingMode(mode));
+            });
+        }
+
+        if (newScene instanceof VertexSourcing) {
+            final VertexSourcing vertexSourcing = (VertexSourcing) newScene;
+            addRadioButtonsToMenu(sceneConfigMenu, key + ".vertex-sourcing", VertexSourcing.VertexSourceMode.values(), (item, mode) -> {
+                item.setSelected(vertexSourcing.getVertexSourceMode().equals(mode));
+                item.addActionListener(e -> vertexSourcing.setVertexSourceMode(mode));
+            });
+        }
     }
 
     private static <T extends JMenuItem> T createMenuItem(ResourceBundle rb, String key, Function<String, T> factory) {
@@ -81,12 +125,35 @@ public class GuiMenu extends JMenuBar {
         return menuItem;
     }
 
+    private static <T> void addRadioButtonsToMenu(JMenu menu, String key, T[] values, BiConsumer<JRadioButtonMenuItem, T> configurator) {
+        ButtonGroup buttonGroup = new ButtonGroup();
+        ResourceBundle rb = resourceBundle();
+        key += ".";
+
+        if (menu.getItemCount() > 0) {
+            menu.addSeparator();
+        }
+
+        for (T value : values) {
+            String itemKey = key + value.toString().toLowerCase().replace('_', '-');
+            JRadioButtonMenuItem item = createMenuItem(rb, itemKey, JRadioButtonMenuItem::new);
+            configurator.accept(item, value);
+            buttonGroup.add(menu.add(item));
+        }
+
+        menu.setEnabled(true);
+    }
+
     private static Optional<String> getStringResource(ResourceBundle resourceBundle, String key) {
         return resourceBundle.containsKey(key) ? Optional.of(resourceBundle.getString(key)) : Optional.empty();
     }
 
     private static Optional<Character> getCharacterResource(ResourceBundle resourceBundle, String key) {
         return getStringResource(resourceBundle, key).filter(str -> str.length() > 0).map(str -> str.charAt(0));
+    }
+
+    private static ResourceBundle resourceBundle() {
+        return ResourceBundle.getBundle("gui");
     }
 
 
@@ -114,8 +181,11 @@ public class GuiMenu extends JMenuBar {
         return sceneMenu;
     }
 
-    public JRadioButtonMenuItem getSimpleScenery() {
-        return simpleScenery;
+    public Map<Class<? extends Scenery>, JRadioButtonMenuItem> getSceneItems() {
+        return Map.of(
+                SimpleScenery.class, simpleScenery,
+                SuzanneScenery.class, suzanneScenery
+        );
     }
 
 }

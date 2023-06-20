@@ -5,6 +5,7 @@ import ee.ristoseene.raytracer.eyebased.demo.wireframe.WireframeRenderer;
 import ee.ristoseene.raytracer.eyebased.demo.wireframe.debug.AabbWireframeRenderer;
 import ee.ristoseene.raytracer.eyebased.demo.wireframe.mappers.CircularMapper;
 import ee.ristoseene.raytracer.eyebased.demo.wireframe.mappers.SphericalMapper;
+import ee.ristoseene.raytracer.eyebased.demo.wireframe.meshes.TriangleMeshWireframeRenderer;
 import ee.ristoseene.raytracer.eyebased.demo.wireframe.primitives.PrimitiveDiskWireframeRenderer;
 import ee.ristoseene.raytracer.eyebased.demo.wireframe.primitives.PrimitiveSphereWireframeRenderer;
 import ee.ristoseene.raytracer.eyebased.geometry.CompilableGeometry;
@@ -19,8 +20,10 @@ public final class WireframeRenderers {
     public static final PrimitiveDiskWireframeRenderer PRIMITIVE_DISK_RENDERER = new PrimitiveDiskWireframeRenderer(CIRCULAR_MAPPER);
     public static final PrimitiveSphereWireframeRenderer PRIMITIVE_SPHERE_RENDERER = new PrimitiveSphereWireframeRenderer(SPHERICAL_MAPPER);
 
+    public static final TriangleMeshWireframeRenderer TRIANGLE_MESH_RENDERER = new TriangleMeshWireframeRenderer();
+
     public static final WireframeRenderer<CompilableGeometry> GEOMETRY_RENDERER = new MultiTypeWireframeRenderer<>(CompilableGeometry.class, Set.of(
-            PRIMITIVE_DISK_RENDERER, PRIMITIVE_SPHERE_RENDERER
+            PRIMITIVE_DISK_RENDERER, PRIMITIVE_SPHERE_RENDERER, TRIANGLE_MESH_RENDERER
     ));
 
     public static final AabbWireframeRenderer AABB_RENDERER = new AabbWireframeRenderer();

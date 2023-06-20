@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class EmptyRayTraceableGroup implements RayTraceableGroup {
+public class EmptyRayTraceableGroup implements EmptyRayTraceable, RayTraceableGroup {
 
     public static final EmptyRayTraceableGroup INSTANCE = new EmptyRayTraceableGroup();
 

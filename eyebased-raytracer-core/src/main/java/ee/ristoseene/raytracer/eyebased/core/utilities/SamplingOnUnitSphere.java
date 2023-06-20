@@ -6,8 +6,8 @@ public final class SamplingOnUnitSphere {
 
     public static final double PIx2 = Math.PI * 2.0;
 
-    public static Vector3.Accessible mapToPointOnUnitSphere(
-            final Vector3.Accessible direction, final double theta, final double phi, final Vector3.Factory<Vector3.Accessible> resultFactory
+    public static <R> R mapToPointOnUnitSphere(
+            final Vector3.Accessible direction, final double theta, final double phi, final Vector3.Factory<R> resultFactory
     ) {
         // Direction vector (x, y, z)
         final double directionX = direction.x();

@@ -2,6 +2,7 @@ package ee.ristoseene.raytracer.eyebased.demo.wireframe.geometry;
 
 import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompilableTransform;
+import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
 import ee.ristoseene.raytracer.eyebased.core.transformation.Transformable;
 import ee.ristoseene.raytracer.eyebased.demo.wireframe.WireframeRenderer;
 import ee.ristoseene.vecmath.Matrix4x4;
@@ -18,6 +19,15 @@ public interface TransformableWireframeRenderer<T extends Transformable> extends
             return VecMath.multiply(projection, compiledTransform, Factories.FACTORY_CONST_MATRIX4x4_XYZTxyzw);
         } else {
             return projection;
+        }
+    }
+
+    static CompiledTransform getTransform(final Transformable transformable) {
+        final CompilableTransform parentTransform = transformable.getParentTransform();
+        if (parentTransform != null) {
+            return parentTransform.compile(Optional.empty());
+        } else {
+            return CompiledTransform.IDENTITY_TRANSFORM;
         }
     }
 

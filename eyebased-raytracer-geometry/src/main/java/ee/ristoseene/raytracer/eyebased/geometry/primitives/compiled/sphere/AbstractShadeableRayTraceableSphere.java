@@ -4,12 +4,12 @@ import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
+import ee.ristoseene.raytracer.eyebased.core.utilities.NormalMatrixExtraction;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.compiled.AbstractShadeableRayTraceablePrimitive;
 import ee.ristoseene.raytracer.eyebased.geometry.primitives.utilities.AABBFactory;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.VecMath;
 import ee.ristoseene.vecmath.Vector3;
-import ee.ristoseene.vecmath.mutable.MutableMatrix4x4;
 
 public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadeableRayTraceablePrimitive {
 
@@ -18,10 +18,10 @@ public abstract class AbstractShadeableRayTraceableSphere extends AbstractShadea
     protected AbstractShadeableRayTraceableSphere(final Configuration configuration, final double diameter) {
         super(configuration, diameter * 0.5, AABBFactory::createUnitSphereAABB);
 
-        final Matrix4x4.AccessibleAndMutable normalMatrix = new MutableMatrix4x4(1.0, 1.0, 1.0, 1.0);
-        normalMatrix.XYZxyz(globalToUnitLocalSpaceTransform.const$xyzXYZ());
-
-        intersectionPointToNormalTransform = VecMath.multiply(normalMatrix, globalToUnitLocalSpaceTransform, Factories.FACTORY_CONST_MATRIX4x4_XYZTxyzw);
+        final Matrix4x4.Accessible normalMatrix = NormalMatrixExtraction
+                .getNormalMatrixFromInverse(globalToUnitLocalSpaceTransform, Factories.FACTORY_CONST_MATRIX4x4_XYZxyz_IDENTITY);
+        intersectionPointToNormalTransform = VecMath
+                .multiply(normalMatrix, globalToUnitLocalSpaceTransform, Factories.FACTORY_CONST_MATRIX4x4_XYZTxyzw);
     }
 
     protected <R> R transformIntersectionPointToNormal(final RayIntersectionContext rayIntersectionContext, final Vector3.Factory<R> resultFactory) {

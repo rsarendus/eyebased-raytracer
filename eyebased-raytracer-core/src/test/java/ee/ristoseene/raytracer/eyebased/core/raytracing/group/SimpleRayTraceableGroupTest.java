@@ -8,7 +8,6 @@ import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTraceable;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTraceableGroup;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.aabb.BoundlessAABB;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.aabb.TraceableAABB;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
@@ -25,7 +24,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -34,19 +32,18 @@ import java.util.stream.Stream;
 public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
-    public void noRayTraceablesShouldResultInEmptySimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
-        SimpleRayTraceableGroup simpleRayTraceableGroup = constructorCall.apply(rayTraceables());
+    @MethodSource("allConstructorCalls")
+    public void noRayTraceablesShouldFailWithEmptyGroupException(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
+        EmptyGroupException caughtException = Assertions.assertThrows(
+                EmptyGroupException.class,
+                () -> constructorCall.apply(rayTraceables())
+        );
 
-        Stream<RayTraceable> contentStream = simpleRayTraceableGroup.contents();
-        AABB groupAABB = simpleRayTraceableGroup.getAABB();
-
-        Assertions.assertEquals(0L, contentStream.count());
-        Assertions.assertTrue(groupAABB instanceof BoundlessAABB);
+        Assertions.assertEquals(SimpleRayTraceableGroup.class.getSimpleName() + " cannot be empty", caughtException.getMessage());
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("allConstructorCalls")
     public void singleRayTraceableShouldResultInSingleElementSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
         AABB aabb = Mockito.mock(AABB.class);
         RayTraceable rayTraceable = createRayTraceableMockWithAABB(aabb);
@@ -60,32 +57,38 @@ public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("publicConstructorCalls")
     public void nullRayTraceableShouldBeCulledFromSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
-        SimpleRayTraceableGroup simpleRayTraceableGroup = constructorCall.apply(rayTraceables((RayTraceable) null));
-
-        Stream<RayTraceable> contentStream = simpleRayTraceableGroup.contents();
-        AABB groupAABB = simpleRayTraceableGroup.getAABB();
-
-        Assertions.assertEquals(0L, contentStream.count());
-        Assertions.assertTrue(groupAABB instanceof BoundlessAABB);
+        Assertions.assertThrows(
+                EmptyGroupException.class,
+                () -> constructorCall.apply(rayTraceables((RayTraceable) null))
+        );
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("publicConstructorCalls")
+    public void emptyRayTraceableShouldBeCulledFromSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
+        RayTraceable emptyRayTraceable = Mockito.mock(EmptyRayTraceable.class);
+
+        Assertions.assertThrows(
+                EmptyGroupException.class,
+                () -> constructorCall.apply(rayTraceables(emptyRayTraceable))
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("publicConstructorCalls")
     public void emptyRayTraceableGroupShouldBeCulledFromSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
         RayTraceable emptyRayTraceableGroup = EmptyRayTraceableGroup.INSTANCE;
-        SimpleRayTraceableGroup simpleRayTraceableGroup = constructorCall.apply(rayTraceables(emptyRayTraceableGroup));
 
-        Stream<RayTraceable> contentStream = simpleRayTraceableGroup.contents();
-        AABB groupAABB = simpleRayTraceableGroup.getAABB();
-
-        Assertions.assertEquals(0L, contentStream.count());
-        Assertions.assertTrue(groupAABB instanceof BoundlessAABB);
+        Assertions.assertThrows(
+                EmptyGroupException.class,
+                () -> constructorCall.apply(rayTraceables(emptyRayTraceableGroup))
+        );
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("publicConstructorCalls")
     public void singletonRayTraceableGroupShouldBeFlattenedInSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
         AABB aabb = Mockito.mock(AABB.class);
         RayTraceable rayTraceable = createRayTraceableMockWithAABB(aabb);
@@ -100,7 +103,7 @@ public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("publicConstructorCalls")
     public void recursiveSingletonRayTraceableGroupShouldBeFlattenedInSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
         AABB aabb = Mockito.mock(AABB.class);
         RayTraceable rayTraceable = createRayTraceableMockWithAABB(aabb);
@@ -116,7 +119,7 @@ public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("publicConstructorCalls")
     public void recurringRayTraceablesShouldBeCulledFromSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
         AABB aabb = Mockito.mock(AABB.class);
         RayTraceable rayTraceable = createRayTraceableMockWithAABB(aabb);
@@ -130,7 +133,7 @@ public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleArgumentConstructorCalls")
+    @MethodSource("publicConstructorCalls")
     public void multipleRayTraceablesShouldResultInMultipleElementSimpleRayTraceableGroup(final String constructorSignature, final Function<RayTraceable[], SimpleRayTraceableGroup> constructorCall) {
         AABB aabb1 = new TraceableAABB(new ImmutableVector3(1.0), new ImmutableVector3(1.0));
         RayTraceable rayTraceable1 = createRayTraceableMockWithAABB(aabb1);
@@ -146,57 +149,28 @@ public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
         VecMathAssertions.assertEquals(aabb2.getMaximum(), groupAABB.getMaximum(), 0.0);
     }
 
-    static Stream<Arguments> singleArgumentConstructorCalls() {
-        final Comparator<AABB> noOpSorter = createAabbSorterMock();
+    static Stream<Arguments> publicConstructorCalls() {
         return Stream.of(
                 Arguments.of("(Stream<RayTraceable>)",
                         (Function<RayTraceable[], SimpleRayTraceableGroup>) (rayTraceables -> new SimpleRayTraceableGroup(Arrays.stream(rayTraceables)))
                 ),
                 Arguments.of("(Collection<RayTraceable>)",
                         (Function<RayTraceable[], SimpleRayTraceableGroup>) (rayTraceables -> new SimpleRayTraceableGroup(Arrays.asList(rayTraceables)))
-                ),
-                Arguments.of("(Stream<RayTraceable>, Comparator<AABB>)",
-                        (Function<RayTraceable[], SimpleRayTraceableGroup>) (rayTraceables -> new SimpleRayTraceableGroup(Arrays.stream(rayTraceables), noOpSorter))
-                ),
-                Arguments.of("(Collection<RayTraceable>, Comparator<AABB>)",
-                        (Function<RayTraceable[], SimpleRayTraceableGroup>) (rayTraceables -> new SimpleRayTraceableGroup(Arrays.asList(rayTraceables), noOpSorter))
                 )
         );
     }
 
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("doubleArgumentConstructorCalls")
-    public void multipleRayTraceablesShouldResultInMultipleElementSimpleRayTraceableGroup(final String constructorSignature, final BiFunction<RayTraceable[], Comparator<AABB>, SimpleRayTraceableGroup> constructorCall) {
-        AABB aabb1 = new TraceableAABB(new ImmutableVector3(1.0), new ImmutableVector3(1.0));
-        RayTraceable rayTraceable1 = createRayTraceableMockWithAABB(aabb1);
-        AABB aabb2 = new TraceableAABB(new ImmutableVector3(2.0), new ImmutableVector3(2.0));
-        RayTraceable rayTraceable2 = createRayTraceableMockWithAABB(aabb2);
-        Comparator<AABB> sorter = createAabbSorterMock();
-        Mockito.doReturn(+1).when(sorter).compare(aabb1, aabb2);
-        Mockito.doReturn(-1).when(sorter).compare(aabb2, aabb1);
-        SimpleRayTraceableGroup simpleRayTraceableGroup = constructorCall.apply(rayTraceables(rayTraceable1, rayTraceable2), sorter);
-
-        List<RayTraceable> contentStreamList = simpleRayTraceableGroup.contents().collect(Collectors.toList());
-        AABB groupAABB = simpleRayTraceableGroup.getAABB();
-
-        Assertions.assertEquals(List.of(rayTraceable2, rayTraceable1), contentStreamList);
-        VecMathAssertions.assertEquals(aabb1.getMinimum(), groupAABB.getMinimum(), 0.0);
-        VecMathAssertions.assertEquals(aabb2.getMaximum(), groupAABB.getMaximum(), 0.0);
-    }
-
-    static Stream<Arguments> doubleArgumentConstructorCalls() {
-        return Stream.of(
-                Arguments.of("(Stream<RayTraceable>, Comparator<AABB>)",
-                        (BiFunction<RayTraceable[], Comparator<AABB>, SimpleRayTraceableGroup>) ((rayTraceables, sorter) -> new SimpleRayTraceableGroup(Arrays.stream(rayTraceables), sorter))
-                ),
-                Arguments.of("(Collection<RayTraceable>, Comparator<AABB>)",
-                        (BiFunction<RayTraceable[], Comparator<AABB>, SimpleRayTraceableGroup>) ((rayTraceables, sorter) -> new SimpleRayTraceableGroup(Arrays.asList(rayTraceables), sorter))
-                )
+    static Stream<Arguments> allConstructorCalls() {
+        return Stream.concat(
+                Stream.of(Arguments.of("(RayTraceable[]])",
+                        (Function<RayTraceable[], SimpleRayTraceableGroup>) SimpleRayTraceableGroup::new
+                )),
+                publicConstructorCalls()
         );
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 5, 10})
+    @ValueSource(ints = {1, 2, 5, 10})
     public void cullShouldReturnEmptyRayTraceableGroupWhenNoContentsPassFiltering(int contentCount) {
         AABB[] aabbs = new AABB[contentCount];
         RayTraceable[] rayTraceables = new RayTraceable[contentCount];
@@ -218,7 +192,7 @@ public class SimpleRayTraceableGroupTest extends AbstractRayTraceableGroupTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 5, 10})
+    @ValueSource(ints = {1, 2, 5, 10})
     public void cullShouldReturnEquivalentRayTraceableGroupWhenAllContentsPassFiltering(int contentCount) {
         AABB[] aabbs = new AABB[contentCount];
         RayTraceable[] rayTraceables = new RayTraceable[contentCount];

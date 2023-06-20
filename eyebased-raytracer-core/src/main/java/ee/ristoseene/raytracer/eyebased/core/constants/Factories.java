@@ -4,15 +4,22 @@ import ee.ristoseene.raytracer.eyebased.core.utilities.VecMathExtended;
 import ee.ristoseene.vecmath.Matrix3x3;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.Quaternion;
+import ee.ristoseene.vecmath.Vector2;
 import ee.ristoseene.vecmath.Vector3;
 import ee.ristoseene.vecmath.Vector4;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix3x3;
 import ee.ristoseene.vecmath.immutable.ImmutableMatrix4x4;
 import ee.ristoseene.vecmath.immutable.ImmutableQuaternion;
+import ee.ristoseene.vecmath.immutable.ImmutableVector2;
 import ee.ristoseene.vecmath.immutable.ImmutableVector3;
 import ee.ristoseene.vecmath.immutable.ImmutableVector4;
 
 public interface Factories {
+
+    Vector2.Factory<Vector2.Accessible> FACTORY_CONST_VECTOR2_xy = ImmutableVector2::new;
+    Vector2.Factory<Vector2.Accessible> FACTORY_CONST_VECTOR2_NEGATED_xy = (x, y) -> FACTORY_CONST_VECTOR2_xy.create(-x, -y);
+    Vector2.Factory<Vector2.Accessible> FACTORY_CONST_VECTOR2_NORMALIZED_xy = (x, y) -> VecMathExtended.normalize(x, y, FACTORY_CONST_VECTOR2_xy);
+    Vector2.Factory<Vector2.Accessible> FACTORY_CONST_VECTOR2_NORMALIZED_NEGATED_xy = (x, y) -> FACTORY_CONST_VECTOR2_NORMALIZED_xy.create(-x, -y);
 
     Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_xyz = ImmutableVector3::new;
     Vector3.Factory<Vector3.Accessible> FACTORY_CONST_VECTOR3_NEGATED_xyz = (x, y, z) -> FACTORY_CONST_VECTOR3_xyz.create(-x, -y, -z);

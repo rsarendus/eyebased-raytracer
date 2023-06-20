@@ -3,6 +3,7 @@ package ee.ristoseene.raytracer.eyebased.demo.gui;
 import ee.ristoseene.raytracer.eyebased.demo.gui.listener.ConfigurableMouseListener;
 import ee.ristoseene.raytracer.eyebased.demo.rendering.Render;
 import ee.ristoseene.raytracer.eyebased.demo.scene.SceneHolder;
+import ee.ristoseene.raytracer.eyebased.demo.scene.scenery.SimpleScenery;
 import ee.ristoseene.raytracer.eyebased.demo.threading.BackgroundExecutor;
 import ee.ristoseene.raytracer.eyebased.rasterization.PixelLocation;
 import ee.ristoseene.raytracer.eyebased.rasterization.RenderTarget;
@@ -54,7 +55,11 @@ public final class GuiFrame extends JFrame {
         this.menuBar.getStopRender().setEnabled(false);
 
         this.menuBar.getSingleSampling().doClick();
-        this.menuBar.getSimpleScenery().doClick();
+        this.menuBar.getSceneItems().get(SimpleScenery.class).doClick();
+
+        this.menuBar.getSceneItems().values().forEach(item -> item.addActionListener(e -> {
+            stopRender(true); contentPane.repaint();
+        }));
 
         this.contentPane.addMouseWheelListener(e -> stopRender(true));
         this.contentPane.addMouseListener(new ConfigurableMouseListener()

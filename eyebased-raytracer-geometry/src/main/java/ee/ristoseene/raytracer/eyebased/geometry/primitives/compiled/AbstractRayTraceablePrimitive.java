@@ -4,7 +4,7 @@ import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.Ray;
 import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
-import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.AbstractRayTraceableGeometry;
+import ee.ristoseene.raytracer.eyebased.geometry.common.compiled.CompilableRayTraceableGeometry;
 import ee.ristoseene.raytracer.eyebased.geometry.configuration.RaySurfaceIntersectionGeometryContextFactory;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.VecMath;
@@ -14,8 +14,9 @@ import ee.ristoseene.vecmath.immutable.ImmutableMatrix4x4;
 import java.util.Objects;
 import java.util.function.Function;
 
-public abstract class AbstractRayTraceablePrimitive extends AbstractRayTraceableGeometry {
+public abstract class AbstractRayTraceablePrimitive implements CompilableRayTraceableGeometry {
 
+    protected final CompiledTransform transform;
     protected final Matrix4x4.Accessible globalToUnitLocalSpaceTransform;
     protected final RaySurfaceIntersectionGeometryContextFactory geometryContextFactory;
     protected final AABB aabb;
@@ -24,9 +25,10 @@ public abstract class AbstractRayTraceablePrimitive extends AbstractRayTraceable
             final Configuration configuration, final double scale,
             final Function<Matrix4x4.Accessible, AABB> aabbResolver
     ) {
-        super(Objects.requireNonNull(configuration, "Configuration not provided").getTransform());
+        Objects.requireNonNull(configuration, "Configuration not provided");
 
         Matrix4x4.Accessible unitLocalToGlobalSpaceTransform;
+        transform = Objects.requireNonNull(configuration.getTransform(), "Transform not provided");
         geometryContextFactory = Objects.requireNonNull(configuration.getGeometryContextFactory(), "Geometry context factory not provided");
         Objects.requireNonNull(aabbResolver, "AABB resolver not provided");
 
@@ -48,6 +50,10 @@ public abstract class AbstractRayTraceablePrimitive extends AbstractRayTraceable
 
     protected Vector3.Accessible localizeRayDirection(final Ray ray) {
         return VecMath.transformDirection(globalToUnitLocalSpaceTransform, ray.getDirection(), Factories.FACTORY_CONST_VECTOR3_xyz);
+    }
+
+    public CompiledTransform getTransform() {
+        return transform;
     }
 
     public RaySurfaceIntersectionGeometryContextFactory getGeometryContextFactory() {

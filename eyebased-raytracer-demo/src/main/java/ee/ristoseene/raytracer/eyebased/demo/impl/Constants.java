@@ -32,7 +32,8 @@ public final class Constants {
     public static final SampleValueFactory SAMPLE_VALUE_FACTORY = (shadingContext, red, green, blue, alpha) -> new
             SampleValueImpl(red, green, blue, shadingContext.getRayIntersectionContext().getRayIntersectionDistance());
 
-    public static final RaySurfaceIntersectionGeometryContextFactory GEOMETRY_CONTEXT_FACTORY = SimpleGeometryContextImpl::new;
+    public static final RaySurfaceIntersectionGeometryContextFactory SIMPLE_GEOMETRY_CONTEXT_FACTORY = (rayIntersectionContext, surfaceNormal, transform) -> new
+            SimpleGeometryContextImpl(rayIntersectionContext.getRayIntersectionPoint(), surfaceNormal);
 
     public static final Vector3.Factory<Vector3.Accessible> sRGBtoLINEAR_FACTORY = (r, g, b) -> StandardRGB
             .sRGBToLinear(r, g, b, Factories.FACTORY_CONST_VECTOR3_xyz);

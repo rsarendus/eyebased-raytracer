@@ -1,8 +1,6 @@
 package ee.ristoseene.raytracer.eyebased.demo.impl.raytracer;
 
 import ee.ristoseene.raytracer.eyebased.core.raytracing.GeometryContext;
-import ee.ristoseene.raytracer.eyebased.core.raytracing.RayIntersectionContext;
-import ee.ristoseene.raytracer.eyebased.core.transformation.CompiledTransform;
 import ee.ristoseene.vecmath.Vector3;
 
 public class SimpleGeometryContextImpl implements GeometryContext {
@@ -10,8 +8,8 @@ public class SimpleGeometryContextImpl implements GeometryContext {
     private final Vector3.Accessible position;
     private final Vector3.Accessible surfaceNormal;
 
-    public SimpleGeometryContextImpl(final RayIntersectionContext rayIntersectionContext, final Vector3.Accessible surfaceNormal, final CompiledTransform transform) {
-        this.position = rayIntersectionContext.getRayIntersectionPoint();
+    public SimpleGeometryContextImpl(final Vector3.Accessible position, final Vector3.Accessible surfaceNormal) {
+        this.position = position;
         this.surfaceNormal = surfaceNormal;
     }
 

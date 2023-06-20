@@ -5,6 +5,7 @@ import ee.ristoseene.raytracer.eyebased.core.constants.Factories;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.AABB;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.RayTracedState;
 import ee.ristoseene.raytracer.eyebased.core.raytracing.TracingRayContext;
+import ee.ristoseene.raytracer.eyebased.core.utilities.NormalMatrixExtraction;
 import ee.ristoseene.vecmath.Matrix3x3;
 import ee.ristoseene.vecmath.Matrix4x4;
 import ee.ristoseene.vecmath.VecMath;
@@ -25,7 +26,7 @@ public abstract class AbstractShadeableRayTraceableFlatSurface extends AbstractS
         super(configuration, scale, matrix -> aabbResolver.apply(flattenTransform(matrix, normalAxis)));
         this.normalAxis = Objects.requireNonNull(normalAxis, "Normal axis not provided");
 
-        final Matrix3x3.Accessible normalMatrix = globalToUnitLocalSpaceTransform.const$xyzXYZ();
+        final Matrix3x3.Accessible normalMatrix = NormalMatrixExtraction.getNormalMatrixFromInverse(globalToUnitLocalSpaceTransform);
         this.transformedNormal = VecMath.multiply(normalMatrix, normalAxis, Factories.FACTORY_CONST_VECTOR3_NORMALIZED_xyz);
     }
 
